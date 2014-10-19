@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+
+<p>The node is: {{ node.name }}<BR>
+node desc is: {{ node.desc }}</p>
+<p>Node has: 
+<BR>
+{%for child in node.node_set.all%}
+<BR>
+	Name: <a href="../{{child.pk}}">{{child.name}}</a><BR>
+	Desc: {{child.desc}}<BR>
+
+{%endfor%}
+
+</p>
+
+
+
+{%endblock%}

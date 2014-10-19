@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'core/css/tablestyle.css' %}" />
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+
+
+{% if latest_node_list %}
+    <ul>
+    {% for node in latest_node_list %}
+        <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No nodes are available.</p>
+{% endif %}
+
+
+{%endblock%}

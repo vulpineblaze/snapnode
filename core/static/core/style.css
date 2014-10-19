@@ -1,0 +1,235 @@
+a {
+    color: green;
+}
+body {
+/*     background: white url("images/background.gif") no-repeat right bottom;*/
+    
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    padding: 2px;
+}
+
+h1{
+    font-size: 28px;
+    font-weight:bold;
+}
+h3{
+    font-size: 18px;
+}
+
+*.unselectable {
+   -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+   /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.toggled_div {
+    background:#B0E0E6;
+    cursor:pointer;
+}
+#table_toggle{
+    
+    border: 1px solid black;
+    border-radius:25px;
+    text-align:left;
+    padding: 6px 8px 6px 8px;
+}
+#toggle_item{
+    
+    border: 1px solid green;
+    border-radius:25px;
+    float: left;
+    padding: 2px 6px 2px 6px;
+    cursor:pointer;
+}
+
+#button_styled {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+#header {
+    font-size: 1em;
+    background-color: #eee;
+}
+
+#container{
+/*     background:#0080CC;
+ */    overflow: hidden;
+ 
+}
+
+#content-block{
+    /* background:white; */
+    overflow: hidden;
+    border-left: 80px solid #0080CC;
+}
+#sidebar{
+    /* background:0080CC; ######  */
+    background-color: #0080CC;
+    overflow: hidden;
+    margin-right: -80px;
+    display: inline;
+    text-align:center;
+}
+#centered_link{
+    /* background:0080CC;   */
+    
+    margin:auto auto auto 0;
+    text-align:center;
+}
+#template_content{
+    /* background:0080CC; #  */
+    border-radius:25px;
+    min-height:250px;
+    
+}
+#detail_main_box{
+    /* background:0080CC; #  */
+    border: 1px solid black;
+    border-radius:25px;
+    
+    text-align:left;
+    
+}
+#detail_note_box{
+    /* background:0080CC;   */
+    border: 2px solid #aaa;
+    border-radius:25px;
+    
+    text-align:left;
+    
+}
+#form_field_container{
+
+    padding: 6px 8px 6px 8px;
+    
+}
+#form_field_save_button{
+
+    padding: 6px 8px 6px 8px;
+    margin-left: 600px;
+    
+}
+#detail_main_top_row{
+    /* background:0080CC; ### ### */
+/*     text-decoration:underline; */    
+    font-weight:bold;
+    
+}
+#detail_note_top_row{
+    /* background:0080CC; ##  */
+/*     text-decoration:underline; */    
+    /* font-weight:bold; */
+    margin-left: 30px;
+    margin-bottom: 10px;
+    
+}
+#detail_note_tag{
+    /* background:0080CC; ###  */
+/*     text-decoration:underline; */    
+    /* font-weight:bold; */
+    margin-left: 30px;
+    margin-bottom: 10px;
+    border: 1px solid #aaa;
+    border-radius:25px;
+    padding-left: 10px;
+    
+}
+#detail_note_body{
+    /* background:0080CC; #### */
+/*     text-decoration:underline; */    
+    /* font-weight:bold; */
+    margin-left: 20px;
+    margin-bottom: 10px;
+    
+}
+#left_col {
+    /* background: red; */
+    width: 110px;
+    float: left;
+    font-weight:bold;
+}
+#right_col {
+    /* background: green; */
+    width: 160px;
+    margin-left: 110px;
+}
+
+#display_header_button_box {
+    float:right;
+    padding:2px 15px 0px 8px; /* top  right  bottom  left  */
+    display:block;
+    text-align:right;
+}
+
+
+.grid_override_display_header_button_box {
+    background:green;
+    float:right;
+    margin-top:30px; /* ### ### */
+    margin-left:30px;
+    margin-right:3px;
+    padding:6px 80px 60px 8px;
+    width:100%;
+    display:block;
+}
+
+
+.img_with_max_size {
+    max-width: 500px;
+    max-height: 500px;
+}
+
+/* ##########  FAR TABLE ########### */
+
+table.fixed {
+    table-layout:fixed; 
+    width:700px;
+    border:2px solid black;
+}
+table.fixed th {
+    border:1px solid #aaa;
+}
+table.fixed td {
+    overflow: hidden;
+    width:20%;
+    border:1px solid #aaa;
+}
+
+td#label {
+    background:#eee; 
+}
+td#heading {
+    border:2px solid black;
+    background:#aaa; 
+    text-align:center;
+    font-size: 14px;
+    font-weight:bold;
+}
+
+/* ##########  end  FAR TABLE ############ */
