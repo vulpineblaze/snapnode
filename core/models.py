@@ -14,6 +14,7 @@ class Node(models.Model):
         return str(self.name)
 
 
+<<<<<<< HEAD
 class Glue(models.Model):
     parent = models.ForeignKey("parent")
     child = models.ForeignKey("child")
@@ -22,6 +23,8 @@ class Glue(models.Model):
     date_updated = models.DateTimeField('date updated',auto_now=True)
     def __unicode__(self):              # __unicode__ on Python 2
         return str(self.name)
+=======
+>>>>>>> 9ffd7e2b0eb73d2d5ab19ad634beddf7c840cbb8
 
   
   
