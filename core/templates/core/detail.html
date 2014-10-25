@@ -20,7 +20,28 @@ node desc is: {{ node.desc }}</p>
 {%endfor%}
 
 </p>
+<p>
+Glue:<BR>
 
+{%for glue in node.node_parent.all%}
+
+	Name: {{glue.name}}<BR>
+	Parent: <a href="../{{glue.parent.pk}}">{{glue.parent.name}} (aka *this)</a><BR>
+	Child: <a href="../{{glue.child.pk}}">{{glue.child.name}}</a><BR>
+
+{%endfor%}	
+
+
+{%for glue in node.node_child.all%}
+
+	Name: {{glue.name}}<BR>
+	Parent: <a href="../{{glue.parent.pk}}">{{glue.parent.name}}</a><BR>
+	Child: <a href="../{{glue.child.pk}}">{{glue.child.name}} (aka *this)</a><BR>
+
+{%endfor%}	
+
+
+</p>
 
 
 {%endblock%}

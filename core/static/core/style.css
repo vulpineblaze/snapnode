@@ -86,11 +86,11 @@ h3{
 #content-block{
     /* background:white; */
     overflow: hidden;
-    border-left: 80px solid #0080CC;
+    border-left: 80px solid #CDA000;
 }
 #sidebar{
     /* background:0080CC; ######  */
-    background-color: #0080CC;
+    background-color: #CDA000;
     overflow: hidden;
     margin-right: -80px;
     display: inline;
