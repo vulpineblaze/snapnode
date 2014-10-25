@@ -82,7 +82,7 @@ def new_node(request):
     else:
         form = NodeForm()
 
-    return render(request, 'core/new_node.html', {'form': form})
+    return render(request, 'ops/new.html', {'form': form})
 
 
 
