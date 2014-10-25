@@ -1,4 +1,5 @@
 from django.contrib import admin
+from core.model import *
 
 # Register your models here.
 
