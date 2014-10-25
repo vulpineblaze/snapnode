@@ -14,11 +14,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 def home(request):
+    """ """
     context = {}
     return render(request, 'core/home.html', context)
 
 
 def index(request):
+    """ """
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     template = loader.get_template('core/index.html')
@@ -48,6 +50,7 @@ def index(request):
     
 
 def detail(request, node_id):
+    """ """
 
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'core/detail.html', {'node': node})
@@ -61,13 +64,25 @@ def detail(request, node_id):
     # return HttpResponse("You're looking at node %s." % node_id)
 
 def results(request, node_id):
+    """ """
     response = "You're looking at the results of node %s."
     return HttpResponse(response % node_id)
 
 def vote(request, node_id):
+    """ """
     return HttpResponse("You're voting on node %s." % node_id)
 
 
+def new_node(request):
+    """ """
+    if request.method == 'POST':
+        form = NodeForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/index/')
+    else:
+        form = NodeForm()
+
+    return render(request, 'core/new_node.html', {'form': form})
 
 
 

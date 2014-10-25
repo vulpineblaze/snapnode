@@ -8,7 +8,12 @@ from django.contrib.auth.models import User
 
 from core.models import *
 
-
+ 
+class NodeForm(forms.ModelForm):
+    """ Creates a Form for the base Node """
+    class Meta:
+        model = Node
+        fields = ('parent', 'name', 'desc')
                                            
 class UserForm(forms.ModelForm):
     """ 
