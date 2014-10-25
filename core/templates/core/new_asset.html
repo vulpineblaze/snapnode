@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+
+
+
+
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'new_asset' %}" method="post">
+{% csrf_token %}
+{% for field in form %}
+    {{field.label}}{{field}}<BR>
+
+{% endfor %} --><!-- 
+{{form.name.label}}{{form.name}}<BR>
+{{form.desc.label}}{{form.desc}}<BR>
+{{form.sub_name.label}}{{form.sub_name}}<BR>
+{{form.sub_desc.label}}{{form.sub_desc}}<BR>
+<input type="submit" value="Save" />
+</form>
+
+
+
+
+{%endblock%}

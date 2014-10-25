@@ -87,10 +87,50 @@ def new_node(request):
     else:
         form = NodeForm()
 
-    return render(request, 'ops/new.html', {'form': form})
+    return render(request, 'core/new_node.html', {'form': form})
 
 
 
+
+
+def new_asset(request):
+    """ """
+    if request.method == 'POST':
+        form = GenericAssetForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+
+            asset_node = Node.objects.create()
+            property_node = Node.objects.create()
+            flags_node = Node.objects.create()
+
+            # record.save()
+            asset_node.name = form.cleaned_data['name']
+            asset_node.desc = form.cleaned_data['desc']
+
+            asset_node.save()
+
+            property_node.parent = asset_node
+            property_node.name = form.cleaned_data['sub_name']
+            property_node.desc = form.cleaned_data['sub_desc']
+
+            property_node.save()
+
+            flags_node.parent = asset_node
+            flags_node.name = "flags"
+            flags_node.desc = "|Asset|"
+
+            flags_node.save()
+
+            # form.save()
+            return HttpResponseRedirect('../index/')
+    else:
+        form = GenericAssetForm()
+
+    return render(request, 'core/new_asset.html', {'form': form})
 
 
 
