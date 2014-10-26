@@ -9,6 +9,14 @@ from django.contrib.auth.models import User
 from core.models import *
 
  
+class SubNodeForm(forms.ModelForm):
+    """ Creates a Form for the sub-nodes for assets """
+
+    class Meta:
+        model = Node
+        fields = ('name', 'desc')
+
+
 
 class GenericAssetForm(forms.ModelForm):
     """ Creates a Form for the generic top-level assets """

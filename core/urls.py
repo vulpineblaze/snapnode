@@ -14,7 +14,8 @@ urlpatterns = patterns('',
     url(r'^index/$', views.index, name='index'), # ADD NEW PATTERN!
 
     url(r'^new_node/$', views.new_node, name='new_node'), # 
-    url(r'^new_asset/$', views.new_asset, name='new_asset'), # 
+    url(r'^new_asset/$', views.new_asset, name='new_asset'), # new_asset
+    url(r'^(?P<node_id>\d+)/new_sub_node/$', views.new_sub_node, name='new_sub_node'), # new_sub_node
 
 
     url(r'^register/$', views.register, name='register'), # ADD NEW PATTERN!
