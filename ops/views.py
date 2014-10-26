@@ -31,8 +31,10 @@ def new(request):
     if request.method == 'POST':
         form = NodeForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/index/')
+            return HttpResponseRedirect('../index/')
     else:
         form = NodeForm()
 
     return render(request, 'ticket/new.html', {'form': form})
+
+
