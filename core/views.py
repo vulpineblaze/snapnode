@@ -144,15 +144,10 @@ def new_sub_node(request, node_id):
             # change the stuffs here
             # node_data = {parent:None, name:"", desc:"" }
 
-
-
-       
             record.parent = get_object_or_404(Node, pk=node_id)
 
 
             record.save()
-
-
           
 
             # form.save()

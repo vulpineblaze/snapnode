@@ -4,7 +4,8 @@ from ops import views ###
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^new/$', views.new, name='new'),
+    url(r'^new/$', views.new_node, name='new_node'),
+    url(r'^(?P<node_id>\d+)/new_sub_node/$', views.new_sub_node, name='new_sub_node'),
     # # ex: /polls/5/
     # url(r'^(?P<node_id>\d+)/$', views.detail, name='detail'),
     # # ex: /polls/5/results/

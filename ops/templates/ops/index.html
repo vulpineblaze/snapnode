@@ -1,8 +1,16 @@
-<li><a href="/ops/new/">New Customer</a></li>
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+<ul><a href="/ops/new/">Create New Customer</a></ul>
 
 {% if latest_node_list %}
-
-    <ul>
+    <ul><p>Customers:</p>
     {% for node in latest_node_list %}
         <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
     {% endfor %}
@@ -10,3 +18,8 @@
 {% else %}
     <p>No nodes are available.</p>
 {% endif %}
+
+
+<!--  -->
+
+{%endblock%}
