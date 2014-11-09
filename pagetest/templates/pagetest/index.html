@@ -1,0 +1,55 @@
+{% extends "pagetest/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/static/pagetest/css/style.css' %}" />
+<!--<link rel="stylesheet" type="text/css" href="{% static 'core/css/tablestyle.css' %}" />-->
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+
+	<!-- Begin Content -->
+	<div id="content">
+	<h1 class="title">Welcome</h1>
+	<div class="line"></div>
+    <a style="display:block" href="tickets/index.html">
+      <div class="one-half">
+      <center><h3><img src="/static/pagetest/images/icon-tickets.png" alt="" />TICKETS</h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="ops/index.html">
+      <div class="one-half last">
+      <center><h3><img src="/static/pagetest/images/icon-ops.png" alt="" />OPS</h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <a style="display:block" href="finance/index.html">
+      <div class="one-half">
+      <center><h3><img src="/static/pagetest/images/icon-finance.png" alt="" />FINANCE</h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="admin/index.html">
+      <div class="one-half last">
+      <center><h3><img src="/static/pagetest/images/icon-admin.png" alt="" />ADMIN</h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <div class="line"></div>
+	<!-- End Content -->
+
+{%endblock%}

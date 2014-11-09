@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^ticket/', include('ticket.urls')),
     url(r'^ops/', include('ops.urls')),
     url(r'^finance/', include('finance.urls')),
+    url(r'^pagetest/', include('pagetest.urls')),
 )
