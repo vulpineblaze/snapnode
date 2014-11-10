@@ -17,39 +17,17 @@
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 
-	<!-- Begin Content -->
-	<div id="content">
-	<h1 class="title">Welcome</h1>
-	<div class="line"></div>
-    <a style="display:block" href="tickets/index.html">
-      <div class="one-half">
-      <center><h3><img src="/static/pagetest/images/icon-tickets.png" alt="" />TICKETS</h3></center>
-      </div>
-    </a>
-    
-    <a style="display:block" href="ops/index.html">
-      <div class="one-half last">
-      <center><h3><img src="/static/pagetest/images/icon-ops.png" alt="" />OPS</h3></center>
-      </div>
-    </a>
-    
-    <div class="clear"></div>
-    
-    <a style="display:block" href="finance/index.html">
-      <div class="one-half">
-      <center><h3><img src="/static/pagetest/images/icon-finance.png" alt="" />FINANCE</h3></center>
-      </div>
-    </a>
-    
-    <a style="display:block" href="admin/index.html">
-      <div class="one-half last">
-      <center><h3><img src="/static/pagetest/images/icon-admin.png" alt="" />ADMIN</h3></center>
-      </div>
-    </a>
-    
-    <div class="clear"></div>
-    
-    <div class="line"></div>
-	<!-- End Content -->
+<P>Create a <a href="../new_node">New Node</a></P>
+<P>Create a <a href="../new_asset">New Generic Asset</a></P>
+
+{% if latest_node_list %}
+    <ul>
+    {% for node in latest_node_list %}
+        <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No nodes are available.</p>
+{% endif %}
 
 {%endblock%}

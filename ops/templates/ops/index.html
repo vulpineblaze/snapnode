@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% extends "pagetest/base.html" %}
 
 {% block content %}
 
@@ -7,19 +7,36 @@
 
 {% csrf_token %}
 
-<ul><a href="/ops/new/">Create New Customer</a></ul>
+<link rel="stylesheet" type="text/css" href="{% static 'pagetest/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/tablestyle.css' %}" />
 
-{% if latest_node_list %}
-    <ul><p>Customers:</p>
-    {% for node in latest_node_list %}
-        <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No nodes are available.</p>
-{% endif %}
+<div id="content">
+	<ul><a href="/ops/new/">Create New Customer</a></ul>
 
-
+	<h2>Customers</h2>
+	{% if latest_node_list %}
+		<table>
+			<tr>
+	          <th><h4>Ticket Name</h4></th>
+	          <th><h4>Client</h4></th>
+	          <th><h4>Date</h4></th>
+	          <th><h4>Priority</h4></th>
+	        </tr>
+	    {% for node in latest_node_list %}
+	        <tr>
+	              <td><a href="/core/{{ node.id }}/">{{ node.name }}</a></td>
+	              <td>Client 1</td>
+	              <td>11/09/14</td>
+	              <td>MED</td>
+	        </tr>
+	    {% endfor %}
+		</table>
+		<br />
+	      <div class="line"></div>
+	{% else %}
+	    <p>No customers available.</p>
+	{% endif %}
+</div>
 <!--  -->
 
 {%endblock%}
