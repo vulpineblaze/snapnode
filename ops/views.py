@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.template import RequestContext, loader
+from core.forms import *
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -22,4 +24,15 @@ def index(request):
     latest_node_list = queryset   
 
     context = {'latest_node_list': latest_node_list}
-    return render(request, 'ticket/index.html', context)
+    return render(request, 'ops/index.html', context)
+
+def new(request):
+    """ """
+    if request.method == 'POST':
+        form = NodeForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/index/')
+    else:
+        form = NodeForm()
+
+    return render(request, 'ticket/new.html', {'form': form})

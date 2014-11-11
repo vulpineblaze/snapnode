@@ -14,17 +14,6 @@ class Node(models.Model):
         return str(self.name)
 
 
-<<<<<<< HEAD
-class Glue(models.Model):
-    parent = models.ForeignKey("parent")
-    child = models.ForeignKey("child")
-    name = models.CharField(max_length=160)
-    date_created = models.DateTimeField('date created',auto_now_add=True)
-    date_updated = models.DateTimeField('date updated',auto_now=True)
-    def __unicode__(self):              # __unicode__ on Python 2
-        return str(self.name)
-=======
->>>>>>> 9ffd7e2b0eb73d2d5ab19ad634beddf7c840cbb8
 
 class Glue(models.Model):
     parent = models.ForeignKey("Node", related_name="node_parent")

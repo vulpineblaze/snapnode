@@ -14,11 +14,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 def home(request):
+    """ """
     context = {}
     return render(request, 'core/home.html', context)
 
 
 def index(request):
+    """ """
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     template = loader.get_template('core/index.html')
@@ -48,6 +50,7 @@ def index(request):
     
 
 def detail(request, node_id):
+    """ """
 
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'core/detail.html', {'node': node})
@@ -61,11 +64,103 @@ def detail(request, node_id):
     # return HttpResponse("You're looking at node %s." % node_id)
 
 def results(request, node_id):
+    """ """
     response = "You're looking at the results of node %s."
     return HttpResponse(response % node_id)
 
 def vote(request, node_id):
+    """ """
     return HttpResponse("You're voting on node %s." % node_id)
+
+
+def new_node(request):
+    """ """
+    if request.method == 'POST':
+        form = NodeForm(request.POST)
+        if form.is_valid():
+            record = form.save(commit = False)
+            # change the stuffs here
+
+            record.save()
+            # form.save()
+            return HttpResponseRedirect('../index/')
+    else:
+        form = NodeForm()
+
+    return render(request, 'core/new_node.html', {'form': form,'action':'new_node'})
+
+
+
+
+
+def new_asset(request):
+    """ """
+    if request.method == 'POST':
+        form = GenericAssetForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+
+            asset_node = Node.objects.create()
+            property_node = Node.objects.create()
+            flags_node = Node.objects.create()
+
+            # record.save()
+            asset_node.name = form.cleaned_data['name']
+            asset_node.desc = form.cleaned_data['desc']
+
+            asset_node.save()
+
+            property_node.parent = asset_node
+            property_node.name = form.cleaned_data['sub_name']
+            property_node.desc = form.cleaned_data['sub_desc']
+
+            property_node.save()
+
+            flags_node.parent = asset_node
+            flags_node.name = "flags"
+            flags_node.desc = "|Asset|"
+
+            flags_node.save()
+
+            # form.save()
+            return HttpResponseRedirect('../index/')
+    else:
+        form = GenericAssetForm()
+
+    return render(request, 'core/new_asset.html', {'form': form,'action':'new_asset'})
+
+
+
+
+def new_sub_node(request, node_id):
+    """ """
+    if request.method == 'POST':
+        form = SubNodeForm(request.POST)
+        if form.is_valid():
+            record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+
+
+       
+            record.parent = get_object_or_404(Node, pk=node_id)
+
+
+            record.save()
+
+
+          
+
+            # form.save()
+            return HttpResponseRedirect('../')
+    else:
+        form = SubNodeForm()
+
+    return render(request, 'core/new_node.html', {'form': form, 'action':'../new_sub_node/'})
 
 
 

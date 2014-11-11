@@ -18,8 +18,12 @@ node desc is: {{ node.desc }}</p>
 	Desc: {{child.desc}}<BR>
 
 {%endfor%}
+<Br><BR>
+Add a <a href="new_sub_node/">New Property</a>
 
 </p>
+
+
 <p>
 Glue:<BR>
 
@@ -39,6 +43,7 @@ Glue:<BR>
 	Child: <a href="../{{glue.child.pk}}">{{glue.child.name}} (aka *this)</a><BR>
 
 {%endfor%}	
+
 
 
 </p>
