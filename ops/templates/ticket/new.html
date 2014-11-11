@@ -1,5 +1,37 @@
+<<<<<<< HEAD
 <form action="/new/" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
 </form>
+=======
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+
+
+
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/ops/" method="post">
+{% csrf_token %}
+{% for field in form %}
+    {{field.label}}{{field}}<BR>
+
+{% endfor %}
+<input type="submit" value="Save" />
+</form>
+
+
+<!--  -->
+
+{%endblock%}
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d

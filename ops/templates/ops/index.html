@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p>testing index changes</p>
 
 {% if latest_node_list %}
@@ -10,3 +11,47 @@
 {% else %}
     <p>No nodes are available.</p>
 {% endif %}
+=======
+{% extends "pagetest/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'pagetest/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/tablestyle.css' %}" />
+
+<div id="content">
+	<ul><a href="/ops/new/">Create New Customer</a></ul>
+
+	<h2>Customers</h2>
+	{% if latest_node_list %}
+		<table>
+			<tr>
+	          <th><h4>Ticket Name</h4></th>
+	          <th><h4>Client</h4></th>
+	          <th><h4>Date</h4></th>
+	          <th><h4>Priority</h4></th>
+	        </tr>
+	    {% for node in latest_node_list %}
+	        <tr>
+	              <td><a href="/core/{{ node.id }}/">{{ node.name }}</a></td>
+	              <td>Client 1</td>
+	              <td>11/09/14</td>
+	              <td>MED</td>
+	        </tr>
+	    {% endfor %}
+		</table>
+		<br />
+	      <div class="line"></div>
+	{% else %}
+	    <p>No customers available.</p>
+	{% endif %}
+</div>
+<!--  -->
+
+{%endblock%}
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d

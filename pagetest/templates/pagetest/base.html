@@ -1,0 +1,129 @@
+{% load staticfiles %}
+{% load static %}
+
+
+
+{% csrf_token %}
+<html lang="en-US">
+<meta charset="UTF-8">
+
+    <Title>
+        SnapNode: Test
+    </title>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/pagetest/js/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript" src="/static/pagetest/js/ddsmoothmenu.js"></script>
+    <script>
+        //~ setInterval(function() {
+                  //~ window.location.reload();
+                //~ }, 900000); 
+    </script>
+		
+	<!--<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/demo.css' %}" media="screen" />-->
+	<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/style.css' %}" />
+	<!--<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/reset.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/text.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/960.css' %}" />-->
+
+	<link href='http://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+	
+<!--
+	<meta http-equiv="refresh" content="900">
+-->
+    
+  </head>
+
+  <!DOCTYPE HTML>
+
+
+</head>
+
+<body>
+
+<!-- Begin Wrapper -->
+<div id="wrapper">
+	<!-- Begin Sidebar -->
+	<div id="sidebar">
+		 <div id="logo"><a href="index.html"><img src="/static/pagetest/images/logo.png" alt="Snapnode" /></a></div>
+
+	<!-- Begin Menu -->
+    <div id="menu" class="menu-v">
+      <ul>
+        <li><a href="home.html" class="active">Home</a>
+        </li>
+        <li><a href="/tickets/">Tickets</a>
+        	<ul>
+        		<li><a href="/tickets/">Browse Tickets</a></li>
+        		<li><a href="/tickets/new.html">New Ticket</a></li>
+        	</ul>
+        </li>
+        <li><a href="/ops/">Customers</a>
+        	<ul>
+        		<li><a href="/ops/">Browse Customers</a></li>
+        		<li><a href="/ops/new.html">New Customer</a></li>
+        	</ul>
+        </li>
+        <li><a href="/finances/">Finances</a>
+        	<ul>
+        		<li><a href="finances/documentation.html">Documentation</a></li>
+        		<li><a href="finances/invoices.html">Invoices</a></li>
+        	</ul>
+        </li>
+      </ul>
+    </div>
+    <!-- End Menu -->
+
+    <div class="grid_6 prefix_3">    
+        {% block user_zone %}
+        {% endblock %}
+        {% if user.is_authenticated %}
+            <h1>Welcome, {{ user.first_name }}.</h1>
+            Your last login was: {{ user.last_login}}
+            <a href="/pagetest/logout/">Logout</a>
+        {%elif  display_type == "Login" %}
+        {% else %}
+            <h1>Welcome, Guest!</h1>
+            <p>Please ..
+                <a href="/pagetest/register/" id="id_register">|Register|</a> or 
+                <a href="/pagetest/login/" id="id_login">|Login|</a>
+            </p>
+        {% endif %}
+    </div>
+    
+	</div>
+	<!-- End Sidebar -->
+        <div id="content-block">
+            
+            <BR>
+            
+            {% if user.is_authenticated or  display_type == "Register" %}
+                {% block content %}
+                {% endblock %}
+            {%elif  display_type == "Login" %}
+            {% else %}
+                <div id="content">
+                <h1>Guest Accounts are not authorized for access.</h1>
+                <p>Please ..
+                    <a href="/pagetest/register/" id="id_register">|Register|</a> or 
+                    <a href="/pagetest/login/" id="id_login">|Login|</a>
+                </p>
+                </div>
+            {% endif %}
+        </div>
+        
+        
+    
+    <div class="clear"></div>
+    
+    <div class="line"></div>
+	<!-- End Content -->
+	
+</div>
+<!-- End Wrapper -->
+<div class="clear"></div>
+<script type="text/javascript" src="/static/pagetest/js/scripts.js"></script>
+
+</body>
+</html>

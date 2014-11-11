@@ -15,10 +15,17 @@
 
 <form action="{% url 'new_asset' %}" method="post">
 {% csrf_token %}
+<<<<<<< HEAD
 <!-- {% for field in form %}
     {{field.label}}{{field}}<BR>
 
 {% endfor %} -->
+=======
+{% for field in form %}
+    {{field.label}}{{field}}<BR>
+
+{% endfor %} --><!-- 
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d
 {{form.name.label}}{{form.name}}<BR>
 {{form.desc.label}}{{form.desc}}<BR>
 {{form.sub_name.label}}{{form.sub_name}}<BR>

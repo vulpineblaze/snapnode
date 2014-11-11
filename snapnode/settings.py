@@ -39,7 +39,8 @@ INSTALLED_APPS = (
     'core',
     'finance',
     'ops',
-    'ticket'
+    'ticket',
+    'pagetest'
 )
 
 MIDDLEWARE_CLASSES = (
