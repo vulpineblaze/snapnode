@@ -22,4 +22,4 @@ def index(request):
     latest_node_list = queryset   
 
     context = {'latest_node_list': latest_node_list}
-    return render(request, 'ticket/index.html', context)
+    return render(request, 'finance/index.html', context)

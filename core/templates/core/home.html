@@ -7,9 +7,6 @@
 
 {% csrf_token %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'core/css/tablestyle.css' %}" />
-
 <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">
 <!-- jQuery -->
@@ -17,34 +14,40 @@
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 
-<!-- 
-{% if latest_node_list %}
-    <ul>
-    {% for node in latest_node_list %}
-        <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No nodes are available.</p>
-{% endif %} -->
-
-
-<a href="../finance/">Finance</a>
-<BR>
-<a href="../ops/">Business Development</a>
-<BR>
-
-<a href="../ticket/">Ticket</a>
-<BR>
-
-<BR>
-<BR>
-<BR>
-<BR>
-
-
-<a href="index/">...development index</a>
-<BR>
+	<!-- Begin Content -->
+	<div id="content">
+	<h1 class="title">Welcome</h1>
+	<div class="line"></div>
+    <a style="display:block" href="tickets/index.html">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/icon-tickets.png" alt="" />TICKETS</h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="ops/index.html">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/icon-ops.png" alt="" />OPS</h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <a style="display:block" href="finance/index.html">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/icon-finance.png" alt="" />FINANCE</h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="admin/index.html">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/icon-admin.png" alt="" />ADMIN</h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <div class="line"></div>
+	<!-- End Content -->
 
 
 

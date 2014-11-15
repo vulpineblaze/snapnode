@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     # ex: /polls/5/vote/
     url(r'^(?P<node_id>\d+)/vote/$', views.vote, name='vote'),
 
-    url(r'^index/$', views.index, name='index'), # ADD NEW PATTERN!
+    url(r'^$', views.index, name='index'), # ADD NEW PATTERN!
 
     url(r'^new_node/$', views.new_node, name='new_node'), # 
     url(r'^new_asset/$', views.new_asset, name='new_asset'), # new_asset
