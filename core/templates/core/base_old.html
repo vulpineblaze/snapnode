@@ -1,0 +1,119 @@
+{% load staticfiles %}
+{% load static %}
+
+
+
+{% csrf_token %}
+<html>
+
+    <Title>
+        SnapNode: Core
+    </title>
+
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        //~ setInterval(function() {
+                  //~ window.location.reload();
+                //~ }, 900000); 
+    </script>
+		
+	<link rel="stylesheet" type="text/css" href="{% static 'core/css/demo.css' %}" media="screen" />
+	<link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'core/css/reset.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'core/css/text.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'core/css/960.css' %}" />
+	
+<!--
+	<meta http-equiv="refresh" content="900">
+-->
+    
+  </head>
+
+<body>
+    
+
+<div class="container_12">
+
+	<div class="grid_1">
+    <p></p>
+	</div><!-- end .grid_1 -->
+	<div class="grid_2">
+	<br><a href="{% url 'index'%}">
+        <img src="{% static 'core/images/logo_test4_161x60.png'%}" align="left" height="60"/>
+           </a>
+	</div><!-- end .grid_2 -->
+	<div class="grid_6 prefix_3">    
+        {% block user_zone %}
+        {% endblock %}
+        {% if user.is_authenticated %}
+            <h1>Welcome, {{ user.first_name }}.</h1>
+            Your last login was: {{ user.last_login}}
+            <a href="/core/logout/">Logout</a>
+        {%elif  display_type == "Login" %}
+        {% else %}
+            <h1>Welcome, Guest!</h1>
+            <p>Please ..
+                <a href="/core/register/" id="id_register">|Register|</a> or 
+                <a href="/core/login/" id="id_login">|Login|</a>
+            </p>
+        {% endif %}
+    </div>
+	<div class="clear"></div><!-- end upper menu bar -->
+	
+	<div class="grid_12">
+	<div style="background:#CDA000;"><br></div> 
+	</div><div class="clear"></div><!-- end blue bar -->
+	
+	<div id="container"  class="grid_12"><!--wrapper div-->
+		
+		<div id="sidebar" class="grid_1" >
+		<!-- <div style="background:#0080CC;"><br> -->
+		<div id="centered_link">
+			<a href="{% url 'index' %}" id="base_list" title="Index">
+				<img src="{% static 'core/images/Icon_list.png'%}"/></a>
+			<BR>
+			<a href="{% url 'index' %}" id="base_new" title="Create New">
+				<img src="{% static 'core/images/Icon_new.png'%}"/></a>
+			<BR>
+			<a href="{% url 'index' %}" id="base_reports" title="Reports">
+				<img src="{% static 'core/images/Icon_reports.png'%}"/></a>
+			<BR>
+			<a href="{% url 'index' %}" id="base_user_settings" title="User Settings">
+				<img src="{% static 'core/images/Icon_user_settings.png'%}"/></a> 
+			<BR>
+		</div>
+		</div>
+		
+	
+		
+		<div id="content-block">
+		
+			
+			<BR>
+			<div id="template_content" class="grid_10">
+            
+            {% if user.is_authenticated or  display_type == "Register" %}
+                {% block content %}
+                {% endblock %}
+            {%elif  display_type == "Login" %}
+            {% else %}
+                <h1>Guest Accounts are not authorized for access.</h1>
+                <p>Please ..
+                    <a href="/core/register/" id="id_register">|Register|</a> or 
+                    <a href="/core/login/" id="id_login">|Login|</a>
+                </p>
+            {% endif %}
+			
+<BR>
+			</div><!-- end .grid_1 -->
+		
+		
+		</div>
+	<div><!--endwrapper div-->
+	<div class="clear"></div><!-- end content block  ######    --> 
+	
+</div><!-- end .container_12 -->
+
+</body>
+</html>

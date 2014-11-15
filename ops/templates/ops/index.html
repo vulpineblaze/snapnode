@@ -1,4 +1,4 @@
-{% extends "pagetest/base.html" %}
+{% extends "core/base.html" %}
 
 {% block content %}
 
@@ -7,27 +7,18 @@
 
 {% csrf_token %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'pagetest/style.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/tablestyle.css' %}" />
-
 <div id="content">
-	<ul><a href="/ops/new/">Create New</a></ul>
+	<ul><a href="/ops/new/">Create New Customer</a></ul>
 
-	<!--<h2>Customers</h2>-->
+	<h2>Customers</h2>
 	{% if latest_node_list %}
 		<table>
 			<tr>
-	          <th><h4>Ticket Name</h4></th>
-	          <th><h4>Client</h4></th>
-	          <th><h4>Date</h4></th>
-	          <th><h4>Priority</h4></th>
+	          <th><h4>Customer Name</h4></th>
 	        </tr>
 	    {% for node in latest_node_list %}
 	        <tr>
 	              <td><a href="/core/{{ node.id }}/">{{ node.name }}</a></td>
-	              <td>CLIENT</td>
-	              <td>{{ node.date_create }}</td>
-	              <td>PRIORITY</td>
 	        </tr>
 	    {% endfor %}
 		</table>

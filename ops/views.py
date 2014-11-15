@@ -28,10 +28,6 @@ def index(request):
 
 def new(request):
 
-    return render(request, 'ticket/new.html', {'form': form})
-
-def new_node(request):
-    """ """
     if request.method == 'POST':
         form = NodeForm(request.POST)
         if form.is_valid():
@@ -44,29 +40,7 @@ def new_node(request):
     else:
         form = NodeForm()
 
-    return render(request, 'ticket/new.html', {'form': form})
+    return render(request, 'ops/new.html', {'form': form})
 
-def new_sub_node(request, node_id):
-    """ """
-    if request.method == 'POST':
-        form = SubNodeForm(request.POST)
-        if form.is_valid():
-            record = form.save(commit = False)
-            # change the stuffs here
-            # node_data = {parent:None, name:"", desc:"" }
-
-       
-            record.parent = get_object_or_404(Node, pk=node_id)
-
-
-            record.save()
-
-
-            # form.save()
-            return HttpResponseRedirect('../')
-    else:
-        form = SubNodeForm()
-
-    return render(request, 'ticket/new.html', {'form': form})
 
 

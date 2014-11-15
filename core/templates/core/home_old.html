@@ -6,20 +6,18 @@
 {% load staticfiles %}
 
 {% csrf_token %}
-<!--
+
 <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'core/css/tablestyle.css' %}" />
 
+<!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css">
-
+<!-- jQuery -->
 <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-
+<!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 
-
-<P>Create a <a href="../new_node">New Node</a></P>
-<P>Create a <a href="../new_asset">New Generic Asset</a></P>
-
+<!-- 
 {% if latest_node_list %}
     <ul>
     {% for node in latest_node_list %}
@@ -28,7 +26,26 @@
     </ul>
 {% else %}
     <p>No nodes are available.</p>
-{% endif %}
+{% endif %} -->
 
 
-{%endblock%}-->
+<a href="../finance/">Finance</a>
+<BR>
+<a href="../ops/">Business Development</a>
+<BR>
+
+<a href="../ticket/">Ticket</a>
+<BR>
+
+<BR>
+<BR>
+<BR>
+<BR>
+
+
+<a href="index/">...development index</a>
+<BR>
+
+
+
+{%endblock%}
