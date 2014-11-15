@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-<p>testing index changes</p>
-
-{% if latest_node_list %}
-    more testing because this should really work
-    <ul>
-    {% for node in latest_node_list %}
-        <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No nodes are available.</p>
-{% endif %}
-=======
 {% extends "pagetest/base.html" %}
 
 {% block content %}
@@ -25,9 +11,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'pagetest/css/tablestyle.css' %}" />
 
 <div id="content">
-	<ul><a href="/ops/new/">Create New Customer</a></ul>
+	<ul><a href="/ops/new/">Create New</a></ul>
 
-	<h2>Customers</h2>
+	<!--<h2>Customers</h2>-->
 	{% if latest_node_list %}
 		<table>
 			<tr>
@@ -39,9 +25,9 @@
 	    {% for node in latest_node_list %}
 	        <tr>
 	              <td><a href="/core/{{ node.id }}/">{{ node.name }}</a></td>
-	              <td>Client 1</td>
-	              <td>11/09/14</td>
-	              <td>MED</td>
+	              <td>CLIENT</td>
+	              <td>{{ node.date_create }}</td>
+	              <td>PRIORITY</td>
 	        </tr>
 	    {% endfor %}
 		</table>
@@ -51,7 +37,6 @@
 	    <p>No customers available.</p>
 	{% endif %}
 </div>
-<!--  -->
+ 
 
 {%endblock%}
->>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d
