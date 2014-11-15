@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+<p>testing index changes</p>
+
+{% if latest_node_list %}
+    more testing because this should really work
+    <ul>
+    {% for node in latest_node_list %}
+        <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No nodes are available.</p>
+{% endif %}
+=======
 {% extends "pagetest/base.html" %}
 
 {% block content %}
@@ -40,3 +54,4 @@
 <!--  -->
 
 {%endblock%}
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d

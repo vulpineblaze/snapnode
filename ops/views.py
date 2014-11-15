@@ -26,21 +26,31 @@ def index(request):
     context = {'latest_node_list': latest_node_list}
     return render(request, 'ops/index.html', context)
 
+<<<<<<< HEAD
+def new(request):
+=======
 def new_node(request):
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d
     """ """
     if request.method == 'POST':
         form = NodeForm(request.POST)
         if form.is_valid():
+<<<<<<< HEAD
+            return HttpResponseRedirect('/index/')
+=======
             record = form.save(commit = False)
             # change the stuffs here
 
             record.save()
             # form.save()
             return HttpResponseRedirect('../index/')
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d
     else:
         form = NodeForm()
 
     return render(request, 'ticket/new.html', {'form': form})
+<<<<<<< HEAD
+=======
 
 def new_sub_node(request, node_id):
     """ """
@@ -66,3 +76,4 @@ def new_sub_node(request, node_id):
     return render(request, 'ticket/new.html', {'form': form})
 
 
+>>>>>>> d5e93c8afc58392903d19e578a9afcad6216bd7d
