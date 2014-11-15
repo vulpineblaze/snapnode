@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+
+<P>This is the contents of the rendered generic page from views.py:<P>
+
+{{ generic_html_dump | safe }}
+
+
+{%endblock%}
