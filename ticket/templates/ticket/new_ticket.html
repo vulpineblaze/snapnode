@@ -13,13 +13,17 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'new_asset' %}" method="post">
+<form action="{% url 'new_ticket' %}" method="post">
 {% csrf_token %}
 
 {{form.name.label}}{{form.name}}<BR>
 {{form.desc.label}}{{form.desc}}<BR>
-{{form.sub_name.label}}{{form.sub_name}}<BR>
-{{form.sub_desc.label}}{{form.sub_desc}}<BR>
+{{form.priority.label}}
+{% for choice in form.priority %}
+	{{ choice }}
+{% endfor %}
+<BR>
+
 <input type="submit" value="Save" />
 </form>
 

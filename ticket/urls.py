@@ -11,7 +11,8 @@ urlpatterns = patterns('',
     
     url(r'^new_ticket/$', views.new_ticket, name='new_ticket'),
     
-    url(r'^detail/$', views.detail, name='detail'),
+    url(r'^detail/(?P<node_id>\d+)/$', views.detail, name='detail'),
+
     
     url(r'^edit/$', views.edit, name='edit'),
     
