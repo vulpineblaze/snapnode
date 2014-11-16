@@ -9,18 +9,20 @@ from core.models import Node, UserProfile
 from ticket.forms import *
 
 
-
 def index(request):
     """  Front page for hot/new tickets. """
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     # template = loader.get_template('core/index.html')
 
+
     for node in latest_node_list:
         for child in node.node_set.all():
             if(child.name == "flags"):
             	if "|TICKET|" in child.desc:
                 	node_list.append(node.pk)
+
+
 
     queryset = Node.objects.filter(pk__in=node_list) 
     latest_node_list = queryset   
