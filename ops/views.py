@@ -50,10 +50,8 @@ def home(request):
     generic_html_dump = ""
 
     generic_html_dump += "<P> In home.html </P>"
-    generic_html_dump += "<a href=\"customer\" >INDEX</a><BR>"
+    generic_html_dump += "<a href=\"customer\" >BROWSE CUSTOMERS</a><BR>"
     generic_html_dump += "<a href=\"customer/new_customer\" >NEW CUSTOMER</a><BR>"
-    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
-    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
 
     context = {'generic_html_dump': generic_html_dump}
 
