@@ -1,0 +1,85 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+
+{% csrf_token %}
+<h1 class="title">Ticket Info</h1>
+	<div class="line"></div>
+
+	<div class="one-side"><h4>Ticket Name: </h4>
+		<div class="name-box">{{ node.name }}</div>
+	</div>
+	
+	<div class="one-side last"><h4>Priority: </h4>
+		<div class="name-box">
+			{%for child in node.node_set.all%}
+				{% if child.name == "priority" %}
+					{{child.desc}}
+				{% endif %}
+
+			{%endfor%}
+		</div>
+	</div>
+
+
+	<div class="one-side"><h4>Customer Name: </h4>
+		{%for glue in node.node_child.all%}
+			<div class="name-box"><a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a></div>
+		{%endfor%}
+	</div>
+
+	<div class="one-side last"><h4>Status: </h4>
+		<div class="name-box">Status goes here.</div>
+	</div>
+
+
+	<div class="one-side"><p><h4>Desc:</h4> 
+		<div class="desc-box">{{ node.desc }}</div>
+	</div>
+
+	<div class="one-side last"><h4>Date Created: </h4>
+		<div class="name-box righthand">{{ node.date_created }}</div>
+	</div>
+
+
+	<div class="whole"><br><br><h4>Assets: </h4>
+			<div class="tabbed-content">
+		        <ul class="tabs">
+		          <li><a href="#tab1">One</a></li>
+		          <li><a href="#tab2">Two</a></li>
+		          <li><a href="#tab3">Three</a></li>
+		        </ul>
+		        <div class="tab_container">
+		          <div style="display: none;" id="tab1" class="tab_content">
+		            <h4>One</h4>
+		            <p>This will display assets that are attached to ticket.</p>
+		          </div>
+		          <div style="display: none;" id="tab2" class="tab_content">
+		            <h4>Two</h4>
+		            <p>Not sure how exactly they are attached at the moment.</p>
+		          </div>
+		          <div style="display: none;" id="tab3" class="tab_content">
+		            <h4>Three</h4>
+		            <p>I will figure out when less tired. Also I should figure out if there is a way to hide each of these tabs like the toggles.</p>
+		          </div>
+		        </div>
+		      </div>
+
+	<h4>SubEvents: </h4>
+	    <div class="toggle">
+	        <h2 class="trigger">+ SubEvent Title</h2>
+	        <div class="togglebox">
+	          <div>
+	            <h4>Include SubEvent Details</h4>
+	            <p>Yada yada.</p>
+	          </div>
+	        </div>
+	    </div>	
+	</div>	
+
+
+{%endblock%}
