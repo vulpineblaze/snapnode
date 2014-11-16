@@ -1,3 +1,5 @@
+from django.shortcuts import render , get_object_or_404, render_to_response
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext, loader
 from core.forms import *
@@ -41,6 +43,73 @@ def new(request):
         form = NodeForm()
 
     return render(request, 'ops/new.html', {'form': form})
+
+def home(request):
+    """  Starting page where User chooses what to do. """
+    
+    generic_html_dump = ""
+
+    generic_html_dump += "<P> In home.html </P>"
+    generic_html_dump += "<a href=\"index\" >INDEX</a><BR>"
+    generic_html_dump += "<a href=\"new_customer\" >NEW CUSTOMER</a><BR>"
+    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
+
+
+def new_customer(request):
+    """  Page for making new customers. """
+
+    
+    generic_html_dump = ""
+
+    generic_html_dump += "<P> In new_customer </P>"
+    generic_html_dump += "fake <a href=\"../detail\" >SUBMIT</a>"
+    generic_html_dump += " to pretend we just made a customer<BR>"
+
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
+
+
+
+
+def detail(request):
+    """  Page for viewing all aspects of a customer. """
+
+    
+    generic_html_dump = ""
+
+    generic_html_dump += "<P> In detail </P>"
+    generic_html_dump += "<a href=\"../edit\" >EDIT</a><BR>"
+
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
+
+def node_page(request, node_id):
+    """ """
+
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'core/detail.html', {'node': node})
+
+
+def edit(request):
+    """  Page for editing all aspects of a customer. """
+
+    
+    generic_html_dump = ""
+
+    generic_html_dump += "<P> In edit </P>"
+    generic_html_dump += "fake <a href=\"../detail\" >SUBMIT</a>"
+    generic_html_dump += " to pretend we just updated a customer<BR>"
+
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
 
 
 

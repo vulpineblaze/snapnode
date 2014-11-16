@@ -7,7 +7,7 @@
 
 {% csrf_token %}
 
-<div id="content">
+
 	<ul><a href="/ops/new/">Create New Customer</a></ul>
 
 	<h2>Customers</h2>
@@ -18,7 +18,7 @@
 	        </tr>
 	    {% for node in latest_node_list %}
 	        <tr>
-	              <td><a href="/core/{{ node.id }}/">{{ node.name }}</a></td>
+	              <td><a href="/ops/customer/detail/{{ node.id }}/">{{ node.name }}</a></td>
 	        </tr>
 	    {% endfor %}
 		</table>
@@ -27,7 +27,7 @@
 	{% else %}
 	    <p>No customers available.</p>
 	{% endif %}
-</div>
+
  
 
 {%endblock%}
