@@ -7,9 +7,9 @@ urlpatterns = patterns('',
     #url(r'^$', views.index, name='index'),
     #url(r'^new/$', views.new, name='new'),
 
-    url(r'^customer/index/$', views.index, name='index'),
+    url(r'^customer/$', views.index, name='index'),
 
-    url(r'^customer/$', views.home, name='home'),
+    url(r'^$', views.home, name='home'),
     url(r'^customer/new_customer/$', views.new_customer, name='new_customer'),
     url(r'^customer/detail/$', views.detail, name='detail'),
     url(r'^customer/detail/(?P<node_id>\d+)/$', views.node_page, name='node_page'),
