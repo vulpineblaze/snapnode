@@ -17,6 +17,7 @@
 {% csrf_token %}
 
 {{form.name.label}}{{form.name}}<BR>
+{{form.customer.label}}{{form.customer}}<BR>
 {{form.desc.label}}{{form.desc}}<BR>
 {{form.priority.label}}
 {% for choice in form.priority %}

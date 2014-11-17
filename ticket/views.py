@@ -19,13 +19,13 @@ def index(request):
     for node in latest_node_list:
         for child in node.node_set.all():
             if(child.name == "flags"):
-            	if "|TICKET|" in child.desc:
-                	node_list.append(node.pk)
+              if "|TICKET|" in child.desc:
+                  node_list.append(node.pk)
 
 
 
-    queryset = Node.objects.filter(pk__in=node_list) 
-    latest_node_list = queryset   
+    queryset = Node.objects.filter(pk__in=node_list)
+    latest_node_list = queryset
 
     context = {'latest_node_list': latest_node_list}
     return render(request, 'ticket/index.html', context)
@@ -34,7 +34,7 @@ def index(request):
 
 def home(request):
     """  Starting page where User chooses what to do. """
-    
+
     generic_html_dump = ""
 
     generic_html_dump += "<P> In home.html </P>"
@@ -62,6 +62,8 @@ def new_ticket(request):
             ticket_node = Node.objects.create()
             priority_node = Node.objects.create()
             flags_node = Node.objects.create()
+            customer_node = Node.objects.create()
+            customer_glue = Glue.objects.create()
 
             # record.save()
             ticket_node.name = form.cleaned_data['name']
@@ -81,6 +83,16 @@ def new_ticket(request):
 
             flags_node.save()
 
+            customer_node.name = form.cleaned_data['customer']
+            customer_node.parent = ticket_node
+
+            customer_node.save()
+
+            customer_glue.parent = ticket_node
+            customer_glue.child = customer_node
+
+            customer_glue.save()
+
             # form.save()
             return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
     else:
@@ -94,7 +106,7 @@ def new_ticket(request):
 def detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
 
-    
+
     generic_html_dump = ""
 
     generic_html_dump += "<P> In detail </P>"
@@ -110,7 +122,7 @@ def detail(request, node_id):
 def edit(request):
     """  Page for editing all aspects of a ticket. """
 
-    
+
     generic_html_dump = ""
 
     generic_html_dump += "<P> In edit </P>"
@@ -126,7 +138,7 @@ def edit(request):
 def new_event(request):                         ###
     """  Log a new event under a ticket. """
 
-    
+
     generic_html_dump = ""
 
     generic_html_dump += "<P> In new_event </P>"
