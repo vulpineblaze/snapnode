@@ -70,7 +70,17 @@ class NewTicketForm(forms.ModelForm):
         fields = ('name', 'customer', 'desc','priority')
 
 
+class NewEventForm(forms.ModelForm):
+    """ Creates a Form for the generic top-level assets """
+    # sub_name = forms.CharField(label="Property Name")
+    hours = forms.DecimalField(label="Hours Worked"
+                                    ,min_value=0.0
+                                    ,max_value=12.0)
 
+
+    class Meta:
+        model = Node
+        fields = ('name', 'desc','hours')
 
 
 
