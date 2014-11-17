@@ -8,13 +8,13 @@
 {% csrf_token %}
 
 
-	<ul><a href="/ticket/new_ticket/">Create New Ticket</a></ul>
+	<ul><a href="/ticket/new_ticket/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Ticket" /></a></ul><br><br><br><br>
 	<h2>Ticket</h2>
 	{% if latest_node_list %}
 		<table>
 			<tr>
 	          <th><h4>Ticket Name</h4></th>
-	          <th><h4>Client</h4></th>
+	          <th><h4>Customer</h4></th>
 	          <th><h4>Date</h4></th>
 	          <th><h4>Priority</h4></th>
 	        </tr>

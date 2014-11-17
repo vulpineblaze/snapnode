@@ -3,27 +3,27 @@ from django.conf.urls import patterns, url
 from ticket import views ###
 
 urlpatterns = patterns('',
-    url(r'^$', views.home, name='home'),    
+    url(r'^$', views.home, name='home'),
 
     # url(r'^home/$', views.home, name='home'),
-    
+
     url(r'^index/$', views.index, name='index'),
-    
+
     url(r'^new_ticket/$', views.new_ticket, name='new_ticket'),
-    
+
     url(r'^detail/(?P<node_id>\d+)/$', views.detail, name='detail'),
 
-    
-    url(r'^edit/$', views.edit, name='edit'),
-    
-    url(r'^new_event/$', views.new_event, name='new_event'),
-    
+
+    url(r'^edit/(?P<node_id>\d+)/$', views.edit, name='edit'),
+
+    url(r'^new_event/(?P<node_id>\d+)/$', views.new_event, name='new_event'),
+
     # url(r'^index/$', views.index, name='index'),
-    
+
     # url(r'^index/$', views.index, name='index'),
-    
+
     # url(r'^index/$', views.index, name='index'),
-    
+
     # url(r'^index/$', views.index, name='index'),
 
     # # # ex: /polls/5/

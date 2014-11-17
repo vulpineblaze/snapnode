@@ -1,14 +1,14 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory
-from django.contrib.admin import widgets   
+from django.contrib.admin import widgets
 from django.forms import TextInput, Textarea
 
 from django.contrib.auth.models import User
 
 from core.models import *
 
- 
+
 class SubNodeForm(forms.ModelForm):
     """ Creates a Form for the sub-nodes for assets """
 
@@ -22,7 +22,7 @@ class GenericAssetForm(forms.ModelForm):
     """ Creates a Form for the generic top-level assets """
     sub_name = forms.CharField(label="Property Name")
     sub_desc = forms.CharField(widget=forms.Textarea
-                                ,label="Property Desc") 
+                                ,label="Property Desc")
 
     class Meta:
         model = Node
@@ -61,23 +61,34 @@ TICKET_PRIORITY_CHOICES = (('1','1 - High'),
 class NewTicketForm(forms.ModelForm):
     """ Creates a Form for the generic top-level assets """
     # sub_name = forms.CharField(label="Property Name")
+    customer = forms.CharField(label="Customer Name")
     priority = forms.ChoiceField(label="Priority"
-                                ,choices=TICKET_PRIORITY_CHOICES) 
+                                ,choices=TICKET_PRIORITY_CHOICES)
 
     class Meta:
         model = Node
-        fields = ('name', 'desc','priority')
+        fields = ('name', 'customer', 'desc','priority')
+
+
+class NewEventForm(forms.ModelForm):
+    """ Creates a Form for the generic top-level assets """
+    # sub_name = forms.CharField(label="Property Name")
+    hours = forms.DecimalField(label="Hours Worked"
+                                    ,min_value=0.0
+                                    ,max_value=12.0)
+
+
+    class Meta:
+        model = Node
+        fields = ('name', 'desc','hours')
 
 
 
 
 
-
-
-                                           
 class UserForm(forms.ModelForm):
-    """ 
-    Creates a Form for the User/UserProfile model 
+    """
+    Creates a Form for the User/UserProfile model
     Also has required confirm fields with supporting clean/error methods
     """
 
@@ -91,12 +102,12 @@ class UserForm(forms.ModelForm):
         label="Confirm Password",
         required=True,
     )
-    
+
     class Meta:
         """ Overrides Meta property to user User model and defines and orders fields  """
         model = User
         fields = ('username','first_name' ,'last_name', 'email', 'confirm_email', 'password', 'confirm_password' )
-        
+
     def __init__(self, *args, **kwargs):
 
         if kwargs.get('instance'):
@@ -106,7 +117,7 @@ class UserForm(forms.ModelForm):
             kwargs.setdefault('initial', {})['confirm_password'] = password
 
         return super(UserForm, self).__init__(*args, **kwargs)
-    
+
     def clean(self):
         """ Overrides cleam method to support confirm fields """
         valid_text = ""
@@ -130,7 +141,3 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('website', 'picture')
 #formset = MySpecialFormset(instance=rma) #add request.POST and request.FILES if used on the POST cycle
-
-
-        
-        

@@ -17,12 +17,10 @@
 {% csrf_token %}
 
 {{form.name.label}}{{form.name}}<BR>
-{{form.customer.label}}{{form.customer}}<BR>
+{{form.hours.label}}{{form.hours}}<BR>
 {{form.desc.label}}{{form.desc}}<BR>
-{{form.priority.label}}
-{% for choice in form.priority %}
-	{{ choice }}
-{% endfor %}
+
+
 <BR>
 
 <input type="submit" value="Save" />

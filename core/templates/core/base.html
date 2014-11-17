@@ -48,6 +48,22 @@
 	<div id="sidebar">
 		 <div id="logo"><a href="/"><img src="/static/core/images/logo.png" alt="Snapnode" /></a></div>
 
+        <div id="log-box">
+        {% block user_zone %}
+        {% endblock %}
+        {% if user.is_authenticated %}
+            <h1><font color="#c9731f">Welcome, {{ user.first_name }}.</font></h1>
+            Your last login was: {{ user.last_login}}
+            <a href="/core/logout/">Logout</a>
+        {%elif  display_type == "Login" %}
+        {% else %}
+            <h1><font color="#c9731f">Welcome, Guest!</font></h1>
+            <p>Please ..
+                <a href="/core/register/" id="id_register">|Register|</a> or 
+                <a href="/core/login/" id="id_login">|Login|</a>
+            </p>
+        {% endif %}</div>
+
 	<!-- Begin Menu -->
     <div id="menu" class="menu-v">
       <ul>
@@ -76,24 +92,6 @@
       </ul>
     </div>
     <!-- End Menu -->
-
-    <div class="grid_6 prefix_3">    
-        {% block user_zone %}
-        {% endblock %}
-        {% if user.is_authenticated %}
-            <h1>Welcome, {{ user.first_name }}.</h1>
-            Your last login was: {{ user.last_login}}
-            <a href="/core/logout/">Logout</a>
-        {%elif  display_type == "Login" %}
-        {% else %}
-            <h1>Welcome, Guest!</h1>
-            <p>Please ..
-                <a href="/core/register/" id="id_register">|Register|</a> or 
-                <a href="/core/login/" id="id_login">|Login|</a>
-            </p>
-        {% endif %}
-    </div>
-    
 	</div>
 	<!-- End Sidebar -->
         <div id="content">
@@ -119,7 +117,7 @@
     
     <div class="clear"></div>
     
-    <div class="line"></div>
+    
 	<!-- End Content -->
 	
 </div>
