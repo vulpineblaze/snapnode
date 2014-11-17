@@ -9,6 +9,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from core.models import Node, UserProfile
 from ticket.forms import *
 
+import itertools
+
 
 def index(request):
     """  Front page for hot/new tickets. """
@@ -89,8 +91,8 @@ def new_ticket(request):
 
             customer_node.save()
 
-            customer_glue.parent = ticket_node
-            customer_glue.child = customer_node
+            customer_glue.child = ticket_node
+            customer_glue.parent = customer_node
 
             customer_glue.save()
 
@@ -106,23 +108,12 @@ def new_ticket(request):
 
 def detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
+    iterator=itertools.count() ###
 
-<<<<<<< HEAD
 
-    generic_html_dump = ""
 
-    generic_html_dump += "<P> In detail </P>"
-    generic_html_dump += "<P> node id "+str(node_id)+" </P>"
-    generic_html_dump += "<a href=\"../edit\" >EDIT</a><BR>"
-    generic_html_dump += "<a href=\"../new_event\" >NEW_EVENT</a><BR>"
-
-    context = {'generic_html_dump': generic_html_dump}
-
-    return render(request, 'core/generic.html', context)
-=======
     node = get_object_or_404(Node, pk=node_id)
-    return render(request, 'ticket/detail.html', {'node': node})
->>>>>>> 0f6aff017bde6bc2ca11dcf857969b2b8825f9e4
+    return render(request, 'ticket/detail.html', {'node': node, 'iterator':iterator})
 
 
 def edit(request):

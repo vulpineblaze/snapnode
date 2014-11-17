@@ -47,6 +47,30 @@
 
 
 	<div class="whole"><br><br><h4>Assets: </h4>
+<!-- 	BEGIN TEST CODE //
+ -->		{%for glue in node.node_parent.all%}
+			<!-- {{ glue.name }} ; -->
+        	{% for node in glue.child.node_set.all %}
+        		<!-- {{ node.name }}|{{node.desc}}, -->
+        		{% if node.name == "flags" and "|ASSET|" in node.desc %}
+        			
+			            <h4>{{ node.parent.name }}</h4>
+			            <p>
+			            	{{ node.parent.desc }} <BR> 
+			            	{{ node.desc }} <BR> 
+			            	count: {{ iterator.next }}<BR>
+			            	All his babbys are below:<BR>
+			            </p>
+			            {%for asset_child in node.parent.node_set.all %}
+			            	Name: {{asset_child.name}}  --and--  
+			            	Desc: {{asset_child.desc}}<BR>
+			            {%endfor%}
+			           
+        		{% endif %}
+        	{% endfor %}	
+		{%endfor%}
+
+
 			<div class="tabbed-content">
 		        <ul class="tabs">
 		          <li><a href="#tab1">One</a></li>
@@ -69,15 +93,34 @@
 		        </div>
 		      </div>
 
-	<h4>SubEvents: </h4>
+	<h4>Events: </h4>
 	    <div class="toggle">
-	        <h2 class="trigger">+ SubEvent Title</h2>
+	        
+
+
+	        
+	          {%for child in node.node_set.all%}  <!-- {{child.name}}:child<BR> -->
+	          	{%for grandchild in child.node_set.all%}   <!-- {{grandchild.name}}{{grandchild.desc}}:grandchild<BR> -->
+		          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
+		          <h2 class="trigger">+ {{ grandchild.parent.name }}</h2>
 	        <div class="togglebox">
 	          <div>
-	            <h4>Include SubEvent Details</h4>
-	            <p>Yada yada.</p>
+		          	{{ grandchild.parent.desc }}<BR>
+		          	{%for event in grandchild.parent.node_set.all%}
+		          		Name: {{event.name}}  --and--  
+			            Desc: {{event.desc}}<BR>
+		          	{%endfor%}
+
+	          
 	          </div>
 	        </div>
+		          {%endif%}
+		        {%endfor%}
+	          {%endfor%}
+
+
+
+
 	    </div>	
 	</div>	
 

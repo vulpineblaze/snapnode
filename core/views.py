@@ -121,7 +121,7 @@ def new_asset(request):
 
             flags_node.parent = asset_node
             flags_node.name = "flags"
-            flags_node.desc = "|Asset|"
+            flags_node.desc = "|ASSET|"
 
             flags_node.save()
 
