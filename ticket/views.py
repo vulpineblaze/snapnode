@@ -110,10 +110,15 @@ def detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
     iterator=itertools.count() ###
 
+<<<<<<< HEAD
 
 
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'ticket/detail.html', {'node': node, 'iterator':iterator})
+=======
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'ticket/detail.html', {'node': node})
+>>>>>>> 722485603d53d1ea4ed4a2cd4fc9df21303f3e52
 
 
 def edit(request):

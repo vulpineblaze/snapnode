@@ -370,6 +370,12 @@ pre {
 	color:#4783b7;
 }
 
+#log-box{
+	float: center;
+	padding: 15px 15px 13px 15px;
+	color: #ffffff;
+}
+
 .searchform input {
 	background: transparent url(/static/pagetest/images/search.png) no-repeat top right;
 	width: 180px;
@@ -621,8 +627,7 @@ pre {
 }
 .one-half {
 	width:48%;
-	height: 160px;
-	padding: 100px 0 0 0;
+	padding: 21px 0 22px 0;
 }
 .one-side {
 	width:48%;
