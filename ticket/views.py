@@ -1,3 +1,4 @@
+from django.shortcuts import render , get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.template import RequestContext, loader
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -106,6 +107,7 @@ def new_ticket(request):
 def detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
 
+<<<<<<< HEAD
 
     generic_html_dump = ""
 
@@ -117,6 +119,10 @@ def detail(request, node_id):
     context = {'generic_html_dump': generic_html_dump}
 
     return render(request, 'core/generic.html', context)
+=======
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'ticket/detail.html', {'node': node})
+>>>>>>> 0f6aff017bde6bc2ca11dcf857969b2b8825f9e4
 
 
 def edit(request):

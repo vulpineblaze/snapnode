@@ -1,15 +1,3 @@
-/*
-Theme Name:  Caprice
-Theme URI: http://elemisdesign.com/demos/caprice/
-Author: elemis
-Author URI: http://iki-bir.com
-Version: 1.0
-*/
-
-/*-----------------------------------------------------------------------------------*/
-/*	RESET
-/*-----------------------------------------------------------------------------------*/
-
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
 	margin:0;
 	padding:0;
@@ -368,32 +356,18 @@ pre {
 	border: 1px solid #dbdbdb;
 }
 
-.download-box, .warning-box, .info-box, .note-box {
+.name-box, .desc-box{
 	clear:both;
+	width: 300px;
 	margin: 10px 0px;
 	text-shadow: none;
 	padding: 15px 15px 13px 15px;
 	line-height: 17px;
 }
-.info-box {
-	background:#c2ddf9;
+.desc-box {
+	background:#ffffff;
 	border:1px solid #80bbef;
 	color:#4783b7;
-}
-.warning-box {
-	background:#ffcccc;
-	border:1px solid #ff9999;
-	color:#c31b00;
-}
-.download-box {
-	background:#d1f7b6;
-	border:1px solid #8bca61;
-	color:#5e9537;
-}
-.note-box {
-	background:#fdebae;
-	border:1px solid #e6c555;
-	color:#9e660d;
 }
 
 .searchform input {
@@ -642,10 +616,15 @@ pre {
 /*	COLUMNS
 /*-----------------------------------------------------------------------------------*/
 
+.whole{
+	width:100%;
+}
 .one-half {
 	width:48%;
-	height: 160px;
-	padding: 100px 0 0 0;
+	padding: 21px 0 22px 0;
+}
+.one-side {
+	width:48%;
 }
 .one-third {
 	width:30.66%;
@@ -677,7 +656,7 @@ pre {
 .five-sixth {
 	width:82.67%;
 }
-.one-half, .one-third, .two-third, .three-fourth, .one-fourth, .one-fifth, .two-fifth, .three-fifth, .four-fifth, .one-sixth, .five-sixth {
+.whole, .one-half, .one-side, .one-third, .two-third, .three-fourth, .one-fourth, .one-fifth, .two-fifth, .three-fifth, .four-fifth, .one-sixth, .five-sixth {
 	position:relative;
 	margin-right:4%;
 	float:left;

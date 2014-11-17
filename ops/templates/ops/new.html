@@ -10,18 +10,15 @@
 
 
 
-<h1>{{ question.question_text }}</h1>
-
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<form action="/ops/" method="post">
-{% csrf_token %}
-{% for field in form %}
-    {{field.label}}{{field}}<BR>
-
-{% endfor %}
-<input type="submit" value="Save" />
-</form>
+      <div class="toggle">
+        <h2 class="trigger">+ Subevents</h2>
+        <div class="togglebox">
+          <div>
+            <h4>Subevent Name</h4>
+            <p>Subevent Info</p>
+          </div>
+        </div>
+      </div>
 
 <!--  -->
 
