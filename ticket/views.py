@@ -69,7 +69,6 @@ def new_ticket(request):
             flags_node = Node.objects.create()
             status_node = Node.objects.create()
             # customer_node = Node.objects.create()
-            # customer_glue = Glue.objects.create()
 
             # record.save()
             ticket_node.name = form.cleaned_data['name']
@@ -95,15 +94,15 @@ def new_ticket(request):
 
             status_node.save()
 
-            # customer_node.name = form.cleaned_data['customer']
-            # customer_node.parent = ticket_node
 
-            # customer_node.save()
+            customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
+                                                child=ticket_node,
+                                                name="CUSTOMER has TICKET")
 
+            # customer_glue.parent = form.cleaned_data['customer']
             # customer_glue.child = ticket_node
-            # customer_glue.parent = customer_node
 
-            # customer_glue.save()
+            customer_glue.save()
 
             # form.save()
             return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
@@ -130,11 +129,11 @@ def edit(request, node_id):
     form_action = "/ticket/edit/" + str(node_id)
 
     ticket_node = get_object_or_404(Node, pk=node_id)
-    priority_node = Node.objects.filter(parent=ticket_node,name='priority')[0]
-    status_node = Node.objects.filter(parent=ticket_node,name='status')[0]
+    priority_node = Node.objects.get(parent=ticket_node,name='priority')
+    status_node = Node.objects.get(parent=ticket_node,name='status')
 
     #this is wrong, but works cuz the working bits are wrong tooo
-    customer_node = Node.objects.filter(parent=ticket_node,name='customer')[0]
+    customer_node = Glue.objects.get(child=ticket_node,name='CUSTOMER has TICKET').parent
 
     if request.method == 'POST':
         form = NewTicketForm(request.POST)
@@ -171,7 +170,7 @@ def edit(request, node_id):
 
         form = NewTicketForm( initial = { 'name':ticket_node.name,
                                             'desc':ticket_node.desc,
-                                            'customer':customer_node.name,
+                                            'customer':customer_node,
                                             'priority':priority_node.desc,
                                             'status':status_node.desc,
             } )
