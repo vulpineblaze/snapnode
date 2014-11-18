@@ -7,8 +7,13 @@
 
 
 {% csrf_token %}
-<h1 class="title">Ticket Info</h1>
-	<div class="line"></div>
+ <form action="{{ form_action }}" method="post">
+
+<div class="one-side"><h1 class="title">Ticket Info</h1></div>  
+
+	 <div class="one-side last"><h1> <a href="/ticket/edit/{{node.id}}">Edit</a> this ticket</h1></div>	
+
+	<div class="whole"><div class="line"></div></div>
 
 	<div class="one-side"><h4>Ticket Name: </h4>
 		<div class="name-box">
@@ -25,6 +30,9 @@
 				{% endif %}
 
 			{%endfor%}
+			{%for choice in form.priority %}
+				{{ choice }}
+			{% endfor %}
 		</div>
 	</div>
 
@@ -33,6 +41,7 @@
 		{%for glue in node.node_child.all%}
 			<div class="name-box"><a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a></div>
 		{%endfor%}
+		{{form.customer}}
 	</div>
 
 	<div class="one-side last"><h4>Status: </h4>
@@ -42,22 +51,28 @@
 					{{child.desc}}
 				{% endif %}
 
-			{%endfor%}
-
+			{% endfor %}
+			{% for choice in form.status %}
+  				{{ choice }}
+			{% endfor %}
 		</div>
 	</div>
 
 
 	<div class="one-side"><p><h4>Desc:</h4>
-		<div class="desc-box">{{ node.desc }}</div>
+		<div class="desc-box">
+			{{ node.desc }}
+			{{ form.desc }}
+		</div>
 	</div>
 
 	<div class="one-side last"><h4>Date Created: </h4>
-		<div class="name-box righthand">{{ node.date_created }}</div>
+		<div class="name-box righthand">
+			{{ node.date_created }}
+		</div>
 	</div>
 
-<h1><a href="/ticket/edit/{{node.id}}">Edit</a> this ticket</h1>
-
+<input type="submit" value="Save" />
 
 	<div class="whole"><br><br><h4>Assets: </h4>
 <!-- 	BEGIN TEST CODE //
@@ -131,6 +146,6 @@
 
 	    </div>
 	</div>
-
+</form>
 
 {%endblock%}
