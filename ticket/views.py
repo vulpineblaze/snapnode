@@ -69,7 +69,6 @@ def new_ticket(request):
             flags_node = Node.objects.create()
             status_node = Node.objects.create()
             # customer_node = Node.objects.create()
-            # customer_glue = Glue.objects.create()
 
             # record.save()
             ticket_node.name = form.cleaned_data['name']
@@ -95,15 +94,15 @@ def new_ticket(request):
 
             status_node.save()
 
-            # customer_node.name = form.cleaned_data['customer']
-            # customer_node.parent = ticket_node
 
-            # customer_node.save()
+            customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
+                                                child=ticket_node,
+                                                name="CUSTOMER has TICKET")
 
+            # customer_glue.parent = form.cleaned_data['customer']
             # customer_glue.child = ticket_node
-            # customer_glue.parent = customer_node
 
-            # customer_glue.save()
+            customer_glue.save()
 
             # form.save()
             return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
