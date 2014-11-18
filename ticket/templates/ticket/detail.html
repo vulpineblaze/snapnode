@@ -6,13 +6,18 @@
 {% load staticfiles %}
 
 
-{% csrf_token %}
  <form action="{{ form_action }}" method="post">
 
+{% csrf_token %}
+
 <div class="one-side"><h1 class="title">Ticket Info</h1></div>  
-
-	 <div class="one-side last"><h1> <a href="/ticket/edit/{{node.id}}">Edit</a> this ticket</h1></div>	
-
+	
+	<div class="one-side last">
+		{% if node %}
+			<h1> <a href="/ticket/edit/{{node.id}}">Edit</a> this ticket</h1>
+		{% endif %}
+	</div>
+	 
 	<div class="whole"><div class="line"></div></div>
 
 	<div class="one-side"><h4>Ticket Name: </h4>
@@ -70,9 +75,13 @@
 		<div class="name-box righthand">
 			{{ node.date_created }}
 		</div>
-	</div>
+	
 
-<input type="submit" value="Save" />
+	{% if form  %}	
+		<input type="submit" value="Save" />
+	{% endif %}
+
+	</div>
 
 	<div class="whole"><br><br><h4>Assets: </h4>
 <!-- 	BEGIN TEST CODE //
