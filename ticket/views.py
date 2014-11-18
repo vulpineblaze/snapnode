@@ -109,7 +109,7 @@ def new_ticket(request):
     else:
         form = NewTicketForm()
 
-    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
+    return render(request, 'ticket/detail.html', {'form': form,'action':'new_ticket'})
 
 
 
@@ -175,7 +175,7 @@ def edit(request, node_id):
                                             'status':status_node.desc,
             } )
 
-    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
+    return render(request, 'ticket/detail.html', {'form': form,'action':'new_ticket'})
 
 
 
@@ -184,7 +184,7 @@ def edit(request, node_id):
 def new_event(request, node_id):                         ###
     """  Log a new event under a ticket. """
 
-    form_action = "/ticket/new_event/" + str(node_id)
+    form_action = "/ticket/new_event/" + str(node_id) +"/"
     if request.method == 'POST':
         form = NewEventForm(request.POST)
         if form.is_valid():
@@ -220,7 +220,7 @@ def new_event(request, node_id):                         ###
 
 
             # form.save()
-            return HttpResponseRedirect('/ticket/detail/'+str(node_id))
+            return HttpResponseRedirect('/ticket/detail/'+str(node_id)+"/" )
     else:
         form = NewEventForm()
 
