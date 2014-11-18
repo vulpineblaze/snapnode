@@ -99,6 +99,8 @@ def new_ticket(request):
                                                 child=ticket_node,
                                                 name="CUSTOMER has TICKET")
 
+            # asset_set = form.cleaned_data['assets']
+
             # customer_glue.parent = form.cleaned_data['customer']
             # customer_glue.child = ticket_node
 
@@ -109,7 +111,7 @@ def new_ticket(request):
     else:
         form = NewTicketForm()
 
-    return render(request, 'ticket/detail.html', {'form': form,'action':'new_ticket'})
+    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
 
 
 
@@ -126,14 +128,24 @@ def detail(request, node_id):
 def edit(request, node_id):
     """  Page for editing all aspects of a ticket. """
 
+    latest_node_list = Node.objects.order_by('-date_updated')
+    node_list = []
+
     form_action = "/ticket/edit/" + str(node_id)
 
     ticket_node = get_object_or_404(Node, pk=node_id)
     priority_node = Node.objects.get(parent=ticket_node,name='priority')
     status_node = Node.objects.get(parent=ticket_node,name='status')
 
-    #this is wrong, but works cuz the working bits are wrong tooo
     customer_node = Glue.objects.get(child=ticket_node,name='CUSTOMER has TICKET').parent
+
+    for index_node in latest_node_list:
+        for child in index_node.node_set.all():
+            if(child.name == "flags"):
+              if "|ASSET|" in child.desc:
+                  node_list.append(index_node.pk)
+
+    asset_set = Node.objects.filter(pk__in=node_list)
 
     if request.method == 'POST':
         form = NewTicketForm(request.POST)
@@ -166,16 +178,16 @@ def edit(request, node_id):
             # form.save()
             return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
     else:
-        node = get_object_or_404(Node, pk=node_id)
 
         form = NewTicketForm( initial = { 'name':ticket_node.name,
                                             'desc':ticket_node.desc,
                                             'customer':customer_node,
                                             'priority':priority_node.desc,
                                             'status':status_node.desc,
-            } )
+                                            'assets':asset_set
+                                } )
 
-    return render(request, 'ticket/detail.html', {'form': form,'action':'new_ticket'})
+    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'edit'})
 
 
 

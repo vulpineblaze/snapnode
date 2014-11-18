@@ -62,28 +62,55 @@ TICKET_STATUS_CHOICES = (('Not Started','Not Started'),
                          ('In Progress','In Progress'),
                          ('Pending','Pending'),
                          ('Completed','Completed'))
+
+
 class NewTicketForm(forms.ModelForm):
     """ Creates a Form for the generic top-level assets """
     # sub_name = forms.CharField(label="Property Name")
     # customer = forms.CharField(label="Customer Name")
 
-    node_list = []
+
+    cust_list = []
+    asset_list = []
+    cust_asset_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
-    # template = loader.get_template('core/index.html')
+    latest_glue_list = Glue.objects.order_by('-date_updated')
+
+    # template = loader.get_template('core/index.html') 
 
     for node in latest_node_list:
         for child in node.node_set.all():
             if(child.name == "flags"):
               if "|CUSTOMER|" in child.desc:
-                  node_list.append(node.pk)
+                  cust_list.append(node.pk)
 
-    queryset = Node.objects.filter(pk__in=node_list)
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+              if "|ASSET|" in child.desc:
+                  asset_list.append(node.pk)
 
 
+    cust_queryset = Node.objects.filter(pk__in=cust_list)
 
-    customer = forms.ModelChoiceField(queryset=queryset, 
+    customer = forms.ModelChoiceField(queryset=cust_queryset, 
                                         empty_label="(Choose One)",
                                         to_field_name="name")
+
+    # test_var = dir(customer)
+    # second_var = dir(customer.choices) ##
+    # third_var = customer.choices.queryset
+    for glue in latest_glue_list:
+        if glue.parent is customer and glue.child.pk in asset_list:
+            cust_asset_list.append(glue.child.pk)
+
+    
+
+    asset_queryset = Node.objects.filter(pk__in=cust_asset_list)
+
+    assets = forms.ModelMultipleChoiceField(queryset=asset_queryset, 
+                                        to_field_name="name",
+                                        required=False)
 
     priority = forms.ChoiceField(label="Priority"
                                 ,choices=TICKET_PRIORITY_CHOICES)
@@ -92,7 +119,7 @@ class NewTicketForm(forms.ModelForm):
 
     class Meta:
         model = Node
-        fields = ('name', 'desc','priority','status', 'customer')
+        fields = ('name', 'desc','priority','status', 'customer','assets')
 
 
 class NewEventForm(forms.ModelForm):
