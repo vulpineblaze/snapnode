@@ -33,7 +33,13 @@
 	              <td>
 					{%for child in node.node_set.all%}
 						{% if child.name == "priority" %}
-							{{child.desc}}
+                                        		{% if child.desc == "1" %}
+                                                		LOW
+                                        		{% elif child.desc == "2" %}
+                                                		MEDIUM
+                                        		{% elif child.desc == "3" %}
+                                                		HIGH
+                                        		{% endif %}
 						{% endif %}
 
 					{%endfor%}
