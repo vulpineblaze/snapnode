@@ -58,16 +58,22 @@ class NodeForm(forms.ModelForm):
 TICKET_PRIORITY_CHOICES = (('1','1 - High'),
                             ('2','2 - Medium'),
                             ('3','3 - Low'))
+TICKET_STATUS_CHOICES = (('Not Started','Not Started'),
+                         ('In Progress','In Progress'),
+                         ('Pending','Pending'),
+                         ('Completed','Completed'))
 class NewTicketForm(forms.ModelForm):
     """ Creates a Form for the generic top-level assets """
     # sub_name = forms.CharField(label="Property Name")
     customer = forms.CharField(label="Customer Name")
     priority = forms.ChoiceField(label="Priority"
                                 ,choices=TICKET_PRIORITY_CHOICES)
+    status = forms.ChoiceField(label="Status"
+                              ,choices=TICKET_STATUS_CHOICES)
 
     class Meta:
         model = Node
-        fields = ('name', 'customer', 'desc','priority')
+        fields = ('name', 'customer', 'desc','priority','status')
 
 
 class NewEventForm(forms.ModelForm):

@@ -54,7 +54,7 @@ def home(request):
 def new_ticket(request):
     """  Page for making new tickets. """
 
-    form_action = "/ticket/new_ticket/" 
+    form_action = "/ticket/new_ticket/"
 
     if request.method == 'POST':
         form = NewTicketForm(request.POST)
@@ -67,6 +67,7 @@ def new_ticket(request):
             ticket_node = Node.objects.create()
             priority_node = Node.objects.create()
             flags_node = Node.objects.create()
+            status_node = Node.objects.create()
             customer_node = Node.objects.create()
             customer_glue = Glue.objects.create()
 
@@ -87,6 +88,12 @@ def new_ticket(request):
             flags_node.desc = "|TICKET|"
 
             flags_node.save()
+
+            status_node.parent = ticket_node
+            status_node.name = "status"
+            status_node.desc = form.cleaned_data['status']
+
+            status_node.save()
 
             customer_node.name = form.cleaned_data['customer']
             customer_node.parent = ticket_node
@@ -124,6 +131,7 @@ def edit(request, node_id):
 
     ticket_node = get_object_or_404(Node, pk=node_id)
     priority_node = Node.objects.filter(parent=ticket_node,name='priority')[0]
+    status_node = Node.objects.filter(parent=ticket_node,name='status')[0]
 
     #this is wrong, but works cuz the working bits are wrong tooo
     customer_node = Node.objects.filter(parent=ticket_node,name='customer')[0]
@@ -136,9 +144,9 @@ def edit(request, node_id):
             # node_data = {parent:None, name:"", desc:"" }
 
 
-            
 
-            
+
+
 
             # record.save()
             ticket_node.name = form.cleaned_data['name']
@@ -149,6 +157,10 @@ def edit(request, node_id):
             priority_node.desc = form.cleaned_data['priority']
 
             priority_node.save()
+
+            status_node.desc = form.cleaned_data['status']
+
+            status_node.save()
 
 
 
@@ -161,6 +173,7 @@ def edit(request, node_id):
                                             'desc':ticket_node.desc,
                                             'customer':customer_node.name,
                                             'priority':priority_node.desc,
+                                            'status':status_node.desc,
             } )
 
     return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
@@ -184,7 +197,7 @@ def new_event(request, node_id):                         ###
             flags_node = Node.objects.create()
             hours_node = Node.objects.create()
 
-            # record.save()            
+            # record.save()
             event_node.parent = get_object_or_404(Node, pk=node_id)
             event_node.name = form.cleaned_data['name']
             event_node.desc = form.cleaned_data['desc']
@@ -217,5 +230,3 @@ def new_event(request, node_id):                         ###
                 'form_action':form_action}
 
     return render(request, 'ticket/new_event.html', context)
-
-

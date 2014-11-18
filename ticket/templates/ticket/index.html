@@ -17,6 +17,7 @@
 	          <th><h4>Customer</h4></th>
 	          <th><h4>Date</h4></th>
 	          <th><h4>Priority</h4></th>
+						<th><h4>Status</h4></th>
 	        </tr>
 	    {% for node in latest_node_list %}
 	        <tr>
@@ -26,7 +27,7 @@
 
 						<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
 
-					{%endfor%}	
+					{%endfor%}
 	              </td>
 	              <td>{{ node.date_created }}</td>
 	              <td>
@@ -37,6 +38,14 @@
 
 					{%endfor%}
 	              </td>
+								<td>
+									{%for child in node.node_set.all%}
+										{% if child.name == "status" %}
+											{{child.desc}}
+										{% endif %}
+
+									{%endfor%}
+								</td>
 	        </tr>
 	    {% endfor %}
 		</table>
