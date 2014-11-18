@@ -54,6 +54,8 @@ def home(request):
 def new_ticket(request):
     """  Page for making new tickets. """
 
+    form_action = "/ticket/new_ticket/" 
+
     if request.method == 'POST':
         form = NewTicketForm(request.POST)
         if form.is_valid():
@@ -110,36 +112,115 @@ def detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
     iterator=itertools.count() ###
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> e104d068f26d70be2d74be45988bb0878268dc0c
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'ticket/detail.html', {'node': node, 'iterator':iterator})
 
 
-def edit(request):
+
+def edit(request, node_id):
     """  Page for editing all aspects of a ticket. """
 
+    form_action = "/ticket/edit/" + str(node_id)
 
-    generic_html_dump = ""
+    ticket_node = get_object_or_404(Node, pk=node_id)
+    priority_node = Node.objects.filter(parent=ticket_node,name='priority')[0]
 
-    generic_html_dump += "<P> In edit </P>"
-    generic_html_dump += "fake <a href=\"../detail\" >SUBMIT</a>"
-    generic_html_dump += " to pretend we just updated a ticket<BR>"
+    #this is wrong, but works cuz the working bits are wrong tooo
+    customer_node = Node.objects.filter(parent=ticket_node,name='customer')[0]
 
-    context = {'generic_html_dump': generic_html_dump}
+    if request.method == 'POST':
+        form = NewTicketForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
 
-    return render(request, 'core/generic.html', context)
+
+            
+
+            
+
+            # record.save()
+            ticket_node.name = form.cleaned_data['name']
+            ticket_node.desc = form.cleaned_data['desc']
+
+            ticket_node.save()
+
+            priority_node.desc = form.cleaned_data['priority']
+
+            priority_node.save()
 
 
 
-def new_event(request):                         ###
+            # form.save()
+            return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
+    else:
+        node = get_object_or_404(Node, pk=node_id)
+
+        form = NewTicketForm( initial = { 'name':ticket_node.name,
+                                            'desc':ticket_node.desc,
+                                            'customer':customer_node.name,
+                                            'priority':priority_node.desc,
+            } )
+
+    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
+
+
+
+
+
+def new_event(request, node_id):                         ###
     """  Log a new event under a ticket. """
 
+    form_action = "/ticket/new_event/" + str(node_id)
+    if request.method == 'POST':
+        form = NewEventForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
 
-    generic_html_dump = ""
+            event_node = Node.objects.create()
+            flags_node = Node.objects.create()
+            hours_node = Node.objects.create()
 
-    generic_html_dump += "<P> In new_event </P>"
-    generic_html_dump += "fake <a href=\"../detail\" >SUBMIT</a>"
-    generic_html_dump += " to pretend we just added an event to a ticket<BR>"
+            # record.save()            
+            event_node.parent = get_object_or_404(Node, pk=node_id)
+            event_node.name = form.cleaned_data['name']
+            event_node.desc = form.cleaned_data['desc']
 
-    context = {'generic_html_dump': generic_html_dump}
+            event_node.save()
 
-    return render(request, 'core/generic.html', context)
+
+            flags_node.parent = event_node
+            flags_node.name = "flags"
+            flags_node.desc = "|EVENT|"
+
+            flags_node.save()
+
+
+            hours_node.parent = event_node
+            hours_node.name = "hours"
+            hours_node.desc = form.cleaned_data['hours']
+
+            hours_node.save()
+
+
+
+            # form.save()
+            return HttpResponseRedirect('/ticket/detail/'+str(node_id))
+    else:
+        form = NewEventForm()
+
+    context = {'form': form,
+                'action':'new_event',
+                'form_action':form_action}
+
+    return render(request, 'ticket/new_event.html', context)
+
+
