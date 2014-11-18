@@ -75,23 +75,18 @@
 
 			<div class="tabbed-content">
 		        <ul class="tabs">
-		          <li><a href="#tab1">One</a></li>
-		          <li><a href="#tab2">Two</a></li>
-		          <li><a href="#tab3">Three</a></li>
+			        {%for asset_child in node.parent.node_set.all %}
+			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
+			        {%endfor%}
 		        </ul>
 		        <div class="tab_container">
-		          <div style="display: none;" id="tab1" class="tab_content">
-		            <h4>One</h4>
-		            <p>This will display assets that are attached to ticket.</p>
-		          </div>
-		          <div style="display: none;" id="tab2" class="tab_content">
-		            <h4>Two</h4>
-		            <p>Not sure how exactly they are attached at the moment.</p>
-		          </div>
-		          <div style="display: none;" id="tab3" class="tab_content">
-		            <h4>Three</h4>
-		            <p>I will figure out when less tired. Also I should figure out if there is a way to hide each of these tabs like the toggles.</p>
-		          </div>
+		        	{%for asset_child in node.parent.node_set.all %}
+			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
+				        <div style="display: none;" id="{{asset_child.name}}" class="tab_content">
+				        	<h4>{{asset_child.name}}</h4>
+				            <p>{{asset_child.desc}}</p>
+				        </div>			        	
+			        {%endfor%}
 		        </div>
 		      </div>
 
