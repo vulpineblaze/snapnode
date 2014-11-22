@@ -54,7 +54,7 @@ def home(request):
 def new_ticket(request):
     """  Page for making new tickets. """
 
-    form_action = "/ticket/new_ticket/" 
+    form_action = "/ticket/new_ticket/"
 
     if request.method == 'POST':
         form = NewTicketForm(request.POST)
@@ -67,8 +67,8 @@ def new_ticket(request):
             ticket_node = Node.objects.create()
             priority_node = Node.objects.create()
             flags_node = Node.objects.create()
-            customer_node = Node.objects.create()
-            customer_glue = Glue.objects.create()
+            status_node = Node.objects.create()
+            # customer_node = Node.objects.create()
 
             # record.save()
             ticket_node.name = form.cleaned_data['name']
@@ -88,13 +88,21 @@ def new_ticket(request):
 
             flags_node.save()
 
-            customer_node.name = form.cleaned_data['customer']
-            customer_node.parent = ticket_node
+            status_node.parent = ticket_node
+            status_node.name = "status"
+            status_node.desc = form.cleaned_data['status']
 
-            customer_node.save()
+            status_node.save()
 
-            customer_glue.child = ticket_node
-            customer_glue.parent = customer_node
+
+            customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
+                                                child=ticket_node,
+                                                name="CUSTOMER has TICKET")
+
+            # asset_set = form.cleaned_data['assets']
+
+            # customer_glue.parent = form.cleaned_data['customer']
+            # customer_glue.child = ticket_node
 
             customer_glue.save()
 
@@ -112,8 +120,6 @@ def detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
     iterator=itertools.count() ###
 
-
-
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'ticket/detail.html', {'node': node, 'iterator':iterator})
 
@@ -122,13 +128,24 @@ def detail(request, node_id):
 def edit(request, node_id):
     """  Page for editing all aspects of a ticket. """
 
+    latest_node_list = Node.objects.order_by('-date_updated')
+    node_list = []
+
     form_action = "/ticket/edit/" + str(node_id)
 
     ticket_node = get_object_or_404(Node, pk=node_id)
-    priority_node = Node.objects.filter(parent=ticket_node,name='priority')[0]
+    priority_node = Node.objects.get(parent=ticket_node,name='priority')
+    status_node = Node.objects.get(parent=ticket_node,name='status')
 
-    #this is wrong, but works cuz the working bits are wrong tooo
-    customer_node = Node.objects.filter(parent=ticket_node,name='customer')[0]
+    customer_node = Glue.objects.get(child=ticket_node,name='CUSTOMER has TICKET').parent
+
+    for index_node in latest_node_list:
+        for child in index_node.node_set.all():
+            if(child.name == "flags"):
+              if "|ASSET|" in child.desc:
+                  node_list.append(index_node.pk)
+
+    asset_set = Node.objects.filter(pk__in=node_list)
 
     if request.method == 'POST':
         form = NewTicketForm(request.POST)
@@ -138,9 +155,9 @@ def edit(request, node_id):
             # node_data = {parent:None, name:"", desc:"" }
 
 
-            
 
-            
+
+
 
             # record.save()
             ticket_node.name = form.cleaned_data['name']
@@ -152,20 +169,25 @@ def edit(request, node_id):
 
             priority_node.save()
 
+            status_node.desc = form.cleaned_data['status']
+
+            status_node.save()
+
 
 
             # form.save()
             return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
     else:
-        node = get_object_or_404(Node, pk=node_id)
 
         form = NewTicketForm( initial = { 'name':ticket_node.name,
                                             'desc':ticket_node.desc,
-                                            'customer':customer_node.name,
+                                            'customer':customer_node,
                                             'priority':priority_node.desc,
-            } )
+                                            'status':status_node.desc,
+                                            'assets':asset_set
+                                } )
 
-    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
+    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'edit'})
 
 
 
@@ -174,7 +196,7 @@ def edit(request, node_id):
 def new_event(request, node_id):                         ###
     """  Log a new event under a ticket. """
 
-    form_action = "/ticket/new_event/" + str(node_id)
+    form_action = "/ticket/new_event/" + str(node_id) +"/"
     if request.method == 'POST':
         form = NewEventForm(request.POST)
         if form.is_valid():
@@ -186,7 +208,7 @@ def new_event(request, node_id):                         ###
             flags_node = Node.objects.create()
             hours_node = Node.objects.create()
 
-            # record.save()            
+            # record.save()
             event_node.parent = get_object_or_404(Node, pk=node_id)
             event_node.name = form.cleaned_data['name']
             event_node.desc = form.cleaned_data['desc']
@@ -210,7 +232,7 @@ def new_event(request, node_id):                         ###
 
 
             # form.save()
-            return HttpResponseRedirect('/ticket/detail/'+str(node_id))
+            return HttpResponseRedirect('/ticket/detail/'+str(node_id)+"/" )
     else:
         form = NewEventForm()
 
@@ -219,5 +241,3 @@ def new_event(request, node_id):                         ###
                 'form_action':form_action}
 
     return render(request, 'ticket/new_event.html', context)
-
-

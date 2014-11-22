@@ -9,10 +9,9 @@
 
 
 
-<h1>{{ question.question_text }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+{{form.errors}}
 <form action="{{ form_action }}" method="post">
 {% csrf_token %}
 
@@ -22,8 +21,19 @@
 {{form.priority.label}}
 {% for choice in form.priority %}
 	{{ choice }}
+{% endfor %}<BR>
+{{form.status.label}}
+{% for choice in form.status %}
+  {{ choice }}
 {% endfor %}
 <BR>
+
+{% if action == "edit" %}
+	{{ form.assets.name }}{{ form.assets }}
+	<BR>
+{% else %}
+	<div style="display:none;">{{ form.assets.name }}{{ form.assets }}</div>
+{%endif%}
 
 <input type="submit" value="Save" />
 </form>
