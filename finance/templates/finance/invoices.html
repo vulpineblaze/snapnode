@@ -1,0 +1,109 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+<!--enter form code here-->
+
+{% csrf_token %}
+<h1 class="title">Invoices</h1>
+
+
+<div class="line"></div>
+	<div class="tabbed-content">
+		<ul class="tabs">
+			<li><a href="#tab1">Invoices To Be Sent</a></li>
+			<li><a href="#tab2">Open Invoices</a></li>
+			<li><a href="#tab3">Sent Invoices</a></li>	
+		</ul>
+		<div class="tab_container">
+			<div style="display: none;" id="tab1" class="tab_content">
+				<!--list invoices that need to be reviewed and sent out-->
+			
+			      <table>
+			        <tr>
+			          <th><h4>Customer</h4></th>
+			          <th><h4>Date of Last Invoice</h4></th>
+			        </tr>
+			        <tr>
+			          <td>Client 1</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr class="even">
+			          <td>Client 2</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 3</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			      </table>
+
+			</div>
+
+			<div style="display: none;" id="tab2" class="tab_content">
+				<!--list invoices that have not been sent out and aren't immediately needed to be sent out-->
+				
+			      <table>
+			        <tr>
+			          <th><h4>Customer</h4></th>
+			          <th><h4>Date of Last Invoice</h4></th>
+			        </tr>
+			        <tr>
+			          <td>Client 4</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 5</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 6</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			      </table>
+
+			</div>
+
+			<div style="display: none;" id="tab3" class="tab_content">
+				<!--list invoices sent out up to a designated date-->
+				
+			      <table>
+			        <tr>
+			          <th><h4>Customer</h4></th>
+			          <th><h4>Date Sent</h4></th>
+			        </tr>
+			        <tr>
+			          <td>Client 1</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr class="even">
+			          <td>Client 2</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 3</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 4</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 5</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			        <tr>
+			          <td>Client 6</td>
+			          <td>MM/DD/YY</td>
+			        </tr>
+			      </table>
+
+			</div>
+		</div>
+	</div>
+
+<div class="line"></div>
+{% endblock %}

@@ -26,7 +26,7 @@ def index(request):
     return render(request, 'finance/index.html', context)
 
 def invoices(request):
-        """ """
+    """ """
     context = {}
     return render(request, 'finance/invoices.html', context)
 
