@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+  <div class="line"></div>
+    <a style="display:block" href="/ops/customer/">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/browse_cust.png" alt="BROWSE CUSTOMERS" /></h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="/ops/customer/new_customer/">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/new_cust.png" alt="NEW CUSTOMER" /></h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <div class="line"></div>
+  </div>
+  <!-- End Content -->
+
+
+
+{%endblock%}

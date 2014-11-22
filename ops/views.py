@@ -41,7 +41,7 @@ def home(request):
 
     context = {'generic_html_dump': generic_html_dump}
 
-    return render(request, 'core/generic.html', context)
+    return render(request, 'ops/home.html', context)
 
 
 def new_customer(request):

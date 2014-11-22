@@ -48,7 +48,7 @@ def home(request):
 
     context = {'generic_html_dump': generic_html_dump}
 
-    return render(request, 'core/generic.html', context)
+    return render(request, 'ticket/home.html', context)
 
 
 def new_ticket(request):
