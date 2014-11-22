@@ -36,7 +36,7 @@ def invoices(request):
                 cd['email'],
                 ['throwemailhere0@gmail.com'],
             )
-            return HttpResponseRedirect('/invoices/thanks/')
+            return HttpResponseRedirect('../invoices/thanks')
     else:
         form = InvoiceForm()
     return render(request, 'finance/invoices.html', {'form': form})
