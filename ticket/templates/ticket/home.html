@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+  <div class="line"></div>
+    <a style="display:block" href="/ticket/index/">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/browse_tickets.png" alt="BROWSE TICKETS" /></h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="/ticket/new_ticket/">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/new_tickets.png" alt="NEW TICKET" /></h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <div class="line"></div>
+  </div>
+  <!-- End Content -->
+
+
+
+{%endblock%}

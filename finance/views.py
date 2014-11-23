@@ -42,6 +42,11 @@ def home(request):
 
 
 def invoices(request):
+    """ """
+    context = {}
+    return render(request, 'finance/invoices.html', context)
+
+def contact(request):
     if request.method == 'POST':
         form = InvoiceForm(request.POST)
         if form.is_valid():
@@ -52,10 +57,10 @@ def invoices(request):
                 cd['email'],
                 ['throwemailhere0@gmail.com'],
             )
-            return HttpResponseRedirect('../invoices/thanks')
+            return HttpResponseRedirect('../contact/thanks')
     else:
         form = InvoiceForm()
-    return render(request, 'finance/invoices.html', {'form': form})
+    return render(request, 'finance/contact.html', {'form': form})
 
 def thanks(request):
     return HttpResponse("thanks\n")

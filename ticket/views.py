@@ -48,7 +48,7 @@ def home(request):
 
     context = {'generic_html_dump': generic_html_dump}
 
-    return render(request, 'core/generic.html', context)
+    return render(request, 'ticket/home.html', context)
 
 
 def new_ticket(request):
@@ -111,7 +111,7 @@ def new_ticket(request):
     else:
         form = NewTicketForm()
 
-    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'new_ticket'})
+    return render(request, 'ticket/detail.html', {'form': form,'action':'new_ticket'})
 
 
 
@@ -187,7 +187,7 @@ def edit(request, node_id):
                                             'assets':asset_set
                                 } )
 
-    return render(request, 'ticket/new_ticket.html', {'form': form,'action':'edit'})
+    return render(request, 'ticket/detail.html', {'form': form,'action':'edit'})
 
 
 
@@ -240,4 +240,4 @@ def new_event(request, node_id):                         ###
                 'action':'new_event',
                 'form_action':form_action}
 
-    return render(request, 'ticket/new_event.html', context)
+    return render(request, 'ticket/detail.html', context)

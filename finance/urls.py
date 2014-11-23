@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     # url(r'^login/$', views.user_login, name='login'),
     # url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^invoices/$', views.invoices),
-    url(r'^invoices/thanks$', views.thanks),
+    url(r'^contact/$', views.contact),
+    url(r'^contact/thanks$', views.thanks),
 )

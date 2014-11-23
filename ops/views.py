@@ -9,6 +9,8 @@ from django.http import HttpResponseRedirect
 
 from core.models import Node, UserProfile
 
+import itertools
+
 
 
 def index(request):
@@ -28,22 +30,6 @@ def index(request):
     context = {'latest_node_list': latest_node_list}
     return render(request, 'ops/index.html', context)
 
-def new(request):
-
-    if request.method == 'POST':
-        form = NodeForm(request.POST)
-        if form.is_valid():
-            record = form.save(commit = False)
-            # change the stuffs here
-
-            record.save()
-            # form.save()
-            return HttpResponseRedirect('../index/')
-    else:
-        form = NodeForm()
-
-    return render(request, 'ops/new.html', {'form': form})
-
 def home(request):
     """  Starting page where User chooses what to do. """
     
@@ -55,7 +41,7 @@ def home(request):
 
     context = {'generic_html_dump': generic_html_dump}
 
-    return render(request, 'core/generic.html', context)
+    return render(request, 'ops/home.html', context)
 
 
 def new_customer(request):
@@ -73,26 +59,12 @@ def new_customer(request):
     return render(request, 'core/generic.html', context)
 
 
-
-
-def detail(request):
+def detail(request, node_id):
     """  Page for viewing all aspects of a customer. """
-
-    
-    generic_html_dump = ""
-
-    generic_html_dump += "<P> In detail </P>"
-    generic_html_dump += "<a href=\"../edit\" >EDIT</a><BR>"
-
-    context = {'generic_html_dump': generic_html_dump}
-
-    return render(request, 'core/generic.html', context)
-
-def node_page(request, node_id):
-    """ """
+    iterator=itertools.count() ###
 
     node = get_object_or_404(Node, pk=node_id)
-    return render(request, 'core/detail.html', {'node': node})
+    return render(request, 'ops/detail.html', {'node': node, 'iterator':iterator})
 
 
 def edit(request):
