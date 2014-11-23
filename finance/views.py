@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.template import RequestContext, loader
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 
 # Create your views here.
 
 from core.models import Node, UserProfile
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, HttpResponse
 from finance.forms import *
 
 def index(request):
@@ -24,6 +24,22 @@ def index(request):
 
     context = {'latest_node_list': latest_node_list}
     return render(request, 'finance/index.html', context)
+
+def home(request):
+    """  Starting page where User chooses what to do. """
+
+    generic_html_dump = ""
+
+    generic_html_dump += "<P> In home.html </P>"
+    generic_html_dump += "<a href=\"index\" >INDEX</a><BR>"
+    generic_html_dump += "<a href=\"new_ticket\" >NEW TICKET</a><BR>"
+    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
+
 
 def invoices(request):
     if request.method == 'POST':

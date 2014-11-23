@@ -3,7 +3,9 @@ from django.conf.urls import patterns, url
 from finance import views ###
 
 urlpatterns = patterns('',
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.home, name='home'),
+
+    url(r'^index/$', views.index, name='index'),
     # # ex: /polls/5/
     # url(r'^(?P<node_id>\d+)/$', views.detail, name='detail'),
     # # ex: /polls/5/results/

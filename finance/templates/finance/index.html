@@ -1,11 +1,31 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+<!--<ul><a href="/finance/new_document/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Ticket" /></a></ul><br><br><br><br> creating new documents -->
+<h2>Financial Documents</h2>
 
 {% if latest_node_list %}
+    <table>
+         <tr>
+	   <th><h4>document Name</h4></th>
+	   <th><h4>Customer</h4></th>
+	   <th><h4>Date</h4></th>
+	   <th><h4>Priority</h4></th>     
     <ul>
     {% for node in latest_node_list %}
         <li><a href="/core/{{ node.id }}/">{{ node.name }}</a></li>
     {% endfor %}
     </ul>
+    </tr>
+    </table>
+    
 {% else %}
-    <p>No nodes are available.</p>
+    <p>No documents are available.</p>
 {% endif %}
-<li><a href="/finance/invoice/">send e-mail here</a></li>
+{%endblock%}
