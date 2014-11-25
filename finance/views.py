@@ -25,15 +25,33 @@ def index(request):
     context = {'latest_node_list': latest_node_list}
     return render(request, 'finance/index.html', context)
 
+
+def documentation(request):
+    generic_html_dump = ""
+    
+    generic_html_dump += "<a href=\"Bank_Deposit_Event\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"Expenditure_Event\" >Expenditure Event</a><BR>"
+    #generic_html_dump += "<a href=\"Contact_list\" >Documents</a><BR>"
+    generic_html_dump += "<a href=\"payment_received\" >Payments received</a><BR>"
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
+
+
+"""
+def new_document(request): #create new documents
+	form_action = "/finance/documentation/new_document
+
+"""
 def home(request):
     """  Starting page where User chooses what to do. """
 
     generic_html_dump = ""
 
     generic_html_dump += "<P> In home.html </P>"
-    generic_html_dump += "<a href=\"index\" >INDEX</a><BR>"
-    generic_html_dump += "<a href=\"new_ticket\" >NEW TICKET</a><BR>"
-    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+    generic_html_dump += "<a href=\"documentation\" >documentation</a><BR>"
+    generic_html_dump += "<a href=\"new_document\" >New document</a><BR>"
+    generic_html_dump += "<a href=\"invoices\" >invoices</a><BR>"
     generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
 
     context = {'generic_html_dump': generic_html_dump}
