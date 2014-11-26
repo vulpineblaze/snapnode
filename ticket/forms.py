@@ -30,17 +30,11 @@ class GenericAssetForm(forms.ModelForm):
 
 
 
-
 class NodeForm(forms.ModelForm):
     """ Creates a Form for the base Node """
     class Meta:
         model = Node
         fields = ('parent', 'name', 'desc')
-
-
-
-
-
 
 # from django import forms
 # from django.forms.extras.widgets import SelectDateWidget
