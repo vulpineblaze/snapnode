@@ -141,6 +141,7 @@
 		        <h2 class="trigger">+ {{glue.child.name}}</h2>
 	        <div class="togglebox">
 	          <div>
+
 		          	{{glue.child.desc}}<BR>
 		          	{%for child in glue.child.node_set.all%}
 						{% if child.name == "priority" %}
@@ -160,6 +161,8 @@
 						{% endif %}
 
 					{% endfor %}
+
+					<h4><a href="/ops/customer/detail/{{glue.child.pk}}">go to ticket</a></h4>
 
 				</br>
 	          </div>
