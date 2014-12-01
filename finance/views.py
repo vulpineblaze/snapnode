@@ -16,7 +16,7 @@ def index(request):
     for node in latest_node_list:
         for child in node.node_set.all():
             if(child.name == "flags"):
-            	if "|LINE ITEM|" in child.desc:
+            	if "|BDE|" in child.desc:
                 	node_list.append(node.pk)
 
     queryset = Node.objects.filter(pk__in=node_list) 
@@ -37,12 +37,112 @@ def documentation(request):
 
     return render(request, 'core/generic.html', context)
 
+def Bank_Deposit_Event_detail(request, node_id):
+    """  Page for viewing all aspects of a ticket. """
+    iterator=itertools.count() ###
+
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'finance/Bank_Deposit_Event/detail.html', {'node': node, 'iterator':iterator})
+
 
 """
 def new_document(request): #create new documents
 	form_action = "/finance/documentation/new_document
 
 """
+def Bank_Deposit_Event(request):
+    generic_html_dump = ""
+
+    generic_html_dump += "<a href=\"new_Bank_Deposit_Event\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"details\" >list of Bank Deposit Event</a><BR>"
+
+
+def new_Bank_Deposit_Event(request):
+   #   Page for making new Bank_Deposit_Event documents. 
+	#BDE = Bank Deposit Event
+    form_action = "/finance/Bank_Deposit_Event/new_Bank_Deposit_Event/"
+
+    if request.method == 'POST':
+        form = NewBankDepositEventForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+
+            BDE_node = Node.objects.create()
+            ID_node = Node.objects.create()
+            date_node = Node.objects.create()#date of event made
+            bank_node = Node.objects.create()
+            depositor_node = Node.objects.create()
+            amount_deposited_node = Node.objects.create()
+            # customer_node = Node.objects.create()
+
+            # record.save()
+            BDE_node.name = form.cleaned_data['name']
+            BDE_node.desc = form.cleaned_data['desc']
+
+            BDE_node.save()
+
+	#ID number of event
+            ID_node.parent = BDE_node
+            ID_node.name = "ID"
+            ID_node.desc = form.cleaned_data['ID']
+
+            ID_node.save()
+
+            flags_node.parent = BDE_node
+            flags_node.name = "flags"
+            flags_node.desc = "|BDE|"
+
+            flags_node.save()
+
+            date_node.parent = BDE_node
+            date_node.name = "date"
+            date_node.desc = from.cleaned_data['date']
+
+            date_node.save()
+
+            bank_node.parent = BDE_node
+            bank_node.name = "bank name"
+            bank_node.desc = form.cleaned_data['bank']
+
+            bank_node.save()
+
+            depositor_node.parent = BDE_node
+            depositor_node.name = "depositor"
+            depositor_node.desc = form.cleaned_data['bank']
+
+            depositor_node.save()
+
+            amount_deposited_node.parent = BDE_node
+            amount_deposited__node.name = "amount"
+            amount_deposited_node.desc = form.cleaned_data['bank']
+
+            amount_deposited_node.save()
+
+
+
+           # BDE_glue = Glue.objects.create(parent=form.cleaned_data['BDE'],
+           #                                     child=ticket_node,
+           #                                     name="BDE information")
+
+            # asset_set = form.cleaned_data['assets']
+
+            # customer_glue.parent = form.cleaned_data['customer']
+            # customer_glue.child = ticket_node
+
+            #BDE_glue.save()
+
+            form.save()
+            return HttpResponseRedirect('/finance/bank_deposit_event/detail/'+str(BDE_node.id))
+    else:
+        form = NewFormBankDepositEvent()
+
+    return render(request, 'bank_deposit_event/detail.html', {'form': form,'action':'new_BDE'})
+
+
+
 def home(request):
     """  Starting page where User chooses what to do. """
 

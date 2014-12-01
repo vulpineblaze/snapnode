@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     url(r'^invoices/$', views.invoices),
     url(r'^documentation/$', views.documentation),
     url(r'^contact/$', views.contact),
+    url(r'^documentation/bank_deposit_event/$', views.bank_deposit_event),
     url(r'^contact/thanks$', views.thanks),
 )
