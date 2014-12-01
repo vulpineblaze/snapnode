@@ -240,4 +240,4 @@ def new_event(request, node_id):                         ###
                 'action':'new_event',
                 'form_action':form_action}
 
-    return render(request, 'ticket/detail.html', context)
+    return render(request, 'ticket/new_event.html', context)

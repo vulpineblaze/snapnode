@@ -6,27 +6,46 @@
 {% load staticfiles %}
 
 
+ <form action="{{ form_action }}" method="post">
 
-
-
-<h1>{{ question.question_text }}</h1>
-
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<form action="{{ form_action }}" method="post">
 {% csrf_token %}
 
-{{form.name.label}}{{form.name}}<BR>
-{{form.hours.label}}{{form.hours}}<BR>
-{{form.desc.label}}{{form.desc}}<BR>
+<div class="one-side"><h1 class="title">Event Info</h1></div>  
+
+	 
+	<div class="whole"><div class="line"></div></div>
+
+	<div class="one-side"><h4>Event Name: </h4>
+		<div class="name-box">
+			{{ node.name }}
+			{{ form.name }}
+			</div>
+	</div>
+
+	<div class="one-side last"><h4>Hours Worked: </h4>
+		<div class="name-box">
+			{{ form.hours }}
+		</div>
+	</div>
 
 
-<BR>
+	<div class="one-side"><p><h4>Desc:</h4>
+		<div class="desc-box">
+			{{ node.desc }}
+			{{ form.desc }}
+		</div>
+	</div>
 
-<input type="submit" value="Save" />
+	<div class="one-side last">
+	{% if form  %}	
+		<br><br><br><br>&nbsp;&nbsp;&nbsp;<input type="submit" value="Save" /><br>
+	{% endif %}
+
+	</div>
+
+	<div class="whole"><div class="line"></div></div>
+
+	</div>
 </form>
-
-
-
 
 {%endblock%}

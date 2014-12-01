@@ -214,7 +214,7 @@ h3 img {
 }
 
 .line {
-	background: transparent url(/static/pagetest/images/line.png) repeat-x;
+	background: transparent url(/static/core/images/line.png) repeat-x;
 	height: 2px;
 	padding: 20px 0 0 0;
 	line-break: 0px;
@@ -237,7 +237,7 @@ blockquote p {
 	line-height: 24px;
 	margin-bottom: 20px;
 	padding-left: 30px;
-	background: transparent url(/static/pagetest/images/quote.png) no-repeat left 7px;
+	background: transparent url(/static/core/images/quote.png) no-repeat left 7px;
 }
 
 ul {
@@ -245,7 +245,7 @@ ul {
 	margin-bottom: 20px;
 }
 ul li {
-	background: transparent url(/static/pagetest/images/bullet.png) left 8px no-repeat;
+	background: transparent url(/static/core/images/bullet.png) left 8px no-repeat;
 	padding-left: 15px;
 }
 ol {
@@ -271,7 +271,7 @@ a.button,
 #filtering-nav li a, 
 ul.tabs li a, h2.trigger {
 	text-align: center;
-	background: #FFF url(/static/pagetest/images/button.png) repeat-x left top;
+	background: #FFF url(/static/core/images/button.png) repeat-x left top;
 	padding: 0 20px 0 20px;
 	height: 26px;
 	line-height: 26px;
@@ -350,7 +350,7 @@ pre {
 	padding: 0 10px 0px 10px;
 	display: block;
 	clear: both;
-	background: url(/static/pagetest/images/codebg.jpg) repeat;
+	background: url(/static/core/images/codebg.jpg) repeat;
 	line-height: 20px;
 	font-size: 12px;
 	border: 1px solid #dbdbdb;
@@ -377,7 +377,7 @@ pre {
 }
 
 .searchform input {
-	background: transparent url(/static/pagetest/images/search.png) no-repeat top right;
+	background: transparent url(/static/core/images/search.png) no-repeat top right;
 	width: 180px;
 	padding: 4px 10px 6px;
 	height: 21px;
@@ -405,7 +405,7 @@ pre {
 
 #sidebar {
 	width: 258px;
-	background: #1d5065 url(/static/pagetest/images/noize.png) repeat 100% 0;
+	background: #1d5065 url(/static/core/images/noize.png) repeat 100% 0;
 	-webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.15);
 	-moz-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.15);
 	box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.15);
@@ -467,7 +467,7 @@ pre {
 }
 
 #footer {
-	background: transparent url(/static/pagetest/images/footer-line.png) repeat-x top center;
+	background: transparent url(/static/core/images/footer-line.png) repeat-x top center;
 	overflow: hidden;
 	padding: 20px 0 0 0;
 	margin-top: 40px;
@@ -488,7 +488,7 @@ pre {
 	background: none;
 	padding: 15px 0 0 0;
 	line-height: 17px;
-	background: transparent url(/static/pagetest/images/line.png) repeat-x center top;
+	background: transparent url(/static/core/images/line.png) repeat-x center top;
 }
 .footer-box ul.popular-posts li:first-child, .secondary .sidebox ul.popular-posts li:first-child {
 	margin: 0;
@@ -546,13 +546,13 @@ pre {
 	padding: 0;
 	list-style-type: none;
 	width: 200px;
-	background: transparent url(/static/pagetest/images/menu-line.png) no-repeat center bottom;
+	background: transparent url(/static/core/images/menu-line.png) no-repeat center bottom;
 }
  
 .menu-v ul li{
 	position: relative;
 	padding-right: 5px;
-	background: transparent url(/static/pagetest/images/menu-line.png) no-repeat center top;
+	background: transparent url(/static/core/images/menu-line.png) no-repeat center top;
 	padding: 0;
 }
 
@@ -570,7 +570,7 @@ pre {
 
 .menu-v ul li a.active, .menu-v ul li a.selected, .menu-v ul li a:hover{
 	text-decoration: none;
-	background: transparent url(/static/pagetest/images/menu-hover.png) repeat-y left top;
+	background: transparent url(/static/core/images/menu-hover.png) repeat-y left top;
 	color: #fff;
 }
 
@@ -583,7 +583,7 @@ pre {
 	text-align: left;
 	padding: 0 15px 0 15px;
 	margin-left: 0;
-	background: #1d5065 url(/static/pagetest/images/noize.png) repeat top center;
+	background: #1d5065 url(/static/core/images/noize.png) repeat top center;
 	-webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.10);
 	-moz-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.10);
 	box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.10);
@@ -593,7 +593,7 @@ pre {
 }
 
 .menu-v ul li ul li{
-	background: transparent url(/static/pagetest/images/dropdown-line.png) repeat-x left top;
+	background: transparent url(/static/core/images/dropdown-line.png) repeat-x left top;
 }
 
 .menu-v ul li ul li:first-child {
@@ -760,7 +760,7 @@ html[xmlns] .slides {
 	width: 25px;
 	height: 25px;
 	display: block;
-	background: url(/static/pagetest/images/slider-controls.png) no-repeat 0 0;
+	background: url(/static/core/images/slider-controls.png) no-repeat 0 0;
 	position: absolute;
 	top: 50%;
 	margin-top: -12px;
@@ -802,7 +802,7 @@ html[xmlns] .slides {
 	width: 12px;
 	height: 12px;
 	display: block;
-	background: url(/static/pagetest/images/slider-navi.png) no-repeat 0 0;
+	background: url(/static/core/images/slider-navi.png) no-repeat 0 0;
 	cursor: pointer;
 	text-indent: 99999px;
 }
@@ -862,7 +862,7 @@ html[xmlns] .slides {
 
 #prev {
 	float: left;
-	background: #fff url(/static/pagetest/images/controls.png) no-repeat left top;
+	background: #fff url(/static/core/images/controls.png) no-repeat left top;
 	display: block;
   	cursor: pointer;
   	width:23px;
@@ -872,7 +872,7 @@ html[xmlns] .slides {
 #next {
 	float: right;
 	margin-left: 5px;
-	background: #fff url(/static/pagetest/images/controls.png) no-repeat right top;
+	background: #fff url(/static/core/images/controls.png) no-repeat right top;
 	display: block;
   	cursor: pointer;
   	width:23px;
@@ -894,7 +894,7 @@ html[xmlns] .slides {
 	position: relative;
   	margin-bottom: 30px;
   	padding-bottom: 10px;
-  	background: transparent url(/static/pagetest/images/line.png) repeat-x bottom;
+  	background: transparent url(/static/core/images/line.png) repeat-x bottom;
   	overflow: hidden;
 }
 
@@ -902,7 +902,7 @@ html[xmlns] .slides {
 	width: 470px;
 	float: left;
 	padding-right: 25px;
-	background: transparent url(/static/pagetest/images/line-v.png) repeat-y right;
+	background: transparent url(/static/core/images/line-v.png) repeat-y right;
 }
 
 .secondary {
@@ -980,7 +980,7 @@ h3.title a:hover {
 }
 
 .meta .comments {
-	background: transparent url(/static/pagetest/images/icon-comment.png) no-repeat left top;
+	background: transparent url(/static/core/images/icon-comment.png) no-repeat left top;
 	float: left;
 	margin-right: 20px;
 	padding-left: 20px;
@@ -994,7 +994,7 @@ h3.title a:hover {
 }
 
 .meta .tags {
-	background: transparent url(/static/pagetest/images/icon-cat.png) no-repeat left top;
+	background: transparent url(/static/core/images/icon-cat.png) no-repeat left top;
 	padding-left: 20px;
 	float: left;
 	font-family: 'Droid Serif', serif;
@@ -1033,7 +1033,7 @@ h3.title a:hover {
 	padding-top: 5px;
 	margin-right: 7px;
 	border: 1px solid #dbdbdb;
-	background: transparent url(/static/pagetest/images/page-navi.png) no-repeat left top;
+	background: transparent url(/static/core/images/page-navi.png) no-repeat left top;
 	color: #585858;
 	font-family: 'Amaranth', sans-serif;
 }
@@ -1314,14 +1314,14 @@ h3.title a:hover {
 }
 .zoom, .play, .details {
 	position: absolute;
-	background: transparent url(/static/pagetest/images/icon-enlarge.png) no-repeat center center;
+	background: transparent url(/static/core/images/icon-enlarge.png) no-repeat center center;
 }
 .play {
-	background-image: url(/static/pagetest/images/icon-play.png);
+	background-image: url(/static/core/images/icon-play.png);
 }
 
 .details {
-	background-image: url(/static/pagetest/images/icon-link.png);
+	background-image: url(/static/core/images/icon-link.png);
 }
 
 .box a span, .items .left-side a span, .carousel ul li a span {
@@ -1489,12 +1489,12 @@ table.price td h4 sup {
 	font-style: normal;
 }
 .check-icon {
-	background: transparent url(/static/pagetest/images/check-table.png) no-repeat center left;
+	background: transparent url(/static/core/images/check-table.png) no-repeat center left;
 	width: 12px;
 	height: 10px;
 }
 .cross {
-	background: transparent url(/static/pagetest/images/cross.png) no-repeat center left;
+	background: transparent url(/static/core/images/cross.png) no-repeat center left;
 	width: 10px;
 	height: 10px;
 }

@@ -29,16 +29,52 @@
 
 	<div class="one-side last"><h4>Hourly Rate: </h4>
 		<div class="name-box">
-			For easy viewing of rate.
+			{{ node.rate }}
+			{%for child in node.node_set.all%}
+				{% if child.name == "rate" %}
+					{{ child.desc }} 
+				{% endif %}
+			{%endfor%}
 			</div>
 	</div>
 
 	<div class="one-side"><h4>Primary Contact Info: </h4>
 		<div class="name-box">
-			Contact Name
-			<br>Contact Phone
-			<br>Contact Email
-			<br>Contact Address
+			<h6>Name: </h6>
+			{%for child in node.node_set.all%}
+				{% if child.name == "primName" %}
+					{{ child.desc }} 
+				{% endif %}
+			{%endfor%}
+
+			{% if form %}{{ form.primName }}{% endif %}
+			</br>
+			<br><h6>Phone: </h6>
+			{%for child in node.node_set.all%}
+				{% if child.name == "primPhone" %}
+					Name: {{ child.desc }} 
+				{% endif %}
+			{%endfor%}
+
+			{% if form %}{{ form.primPhone }}{% endif %}
+			</br>
+			<br><h6>Email: </h6>
+			{%for child in node.node_set.all%}
+				{% if child.name == "primEmail" %}
+					{{ child.desc }} 
+				{% endif %}
+			{%endfor%}
+
+			{% if form %}{{ form.primEmail }}{% endif %}
+			</br>
+			<br><h6>Address: </h6>
+			{%for child in node.node_set.all%}
+				{% if child.name == "primAddress" %}
+					{{ child.desc }} 
+				{% endif %}
+			{%endfor%}
+
+			{% if form %}{{ form.primAddress }}</br>{% endif %}
 		</div>
 	</div>	
 
@@ -46,6 +82,10 @@
 		<div class="name-box">
 			Perhaps list of documents associated with customer and/or link to invoice.
 		</div>
+
+	{% if form  %}	
+		<input type="submit" value="Save" />
+	{% endif %}
 	</div>	
 
 	<div class="whole"><br><br><h4>Assets: </h4>
@@ -93,27 +133,41 @@
 	<h1>Create a <a href="/ticket/new_ticket">New Ticket</a> for this customer</h1> <!--Maybe find a way to automatically set new_ticket to customer the link was clicked from--> 
 
 	<h4>Tickets: </h4>
+
 	    <div class="toggle">
 
 
-	          {%for child in node.node_set.all%}  <!-- {{child.name}}:child<BR> -->
-	          	{{ child.name }}
-	          	{%for grandchild in child.node_set.all%}   <!-- {{grandchild.name}}{{grandchild.desc}}:grandchild<BR> -->
-		          {%if grandchild.name == "flags" and "|TICKET|" in grandchild.desc %}
-		          <h2 class="trigger">+ {{ grandchild.parent.name }}</h2>
+	        {%for glue in node.node_parent.all%}
+		        <h2 class="trigger">+ {{glue.child.name}}</h2>
 	        <div class="togglebox">
 	          <div>
-		          	{{ grandchild.parent.desc }}<BR>
 
+		          	{{glue.child.desc}}<BR>
+		          	{%for child in glue.child.node_set.all%}
+						{% if child.name == "priority" %}
+							<br><h5>Priority: {{child.desc}}</h5>
+						{% endif %}
 
+					{% endfor %}
+					{%for child in glue.child.node_set.all%}
+						{% if child.name == "status" %}
+							<h5>Status: {{child.desc}}</h5>
+						{% endif %}
+
+					{% endfor %}
+					{%for child in glue.child.node_set.all%}
+						{% if child.name == "status" %}
+							<h5>Date Created: {{ glue.child.date_created }}</h5>
+						{% endif %}
+
+					{% endfor %}
+
+					<h4><a href="/ops/customer/detail/{{glue.child.pk}}">go to ticket</a></h4>
+
+				</br>
 	          </div>
 	        </div>
-		          {%endif%}
-		        {%endfor%}
-	          {%endfor%}
-
-
-
+	        {%endfor%}
 
 	    </div>
 	</div>

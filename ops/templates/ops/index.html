@@ -8,25 +8,33 @@
 {% csrf_token %}
 
 
-	<ul><a href="/ops/new/">Create New Customer</a></ul>
-
+	<ul><a href="/ops/customer/new_customer/">Create New Customer</a></ul>
 	<h2>Customers</h2>
+
+		    <div class="line"></div>
+
 	{% if latest_node_list %}
-		<table>
+	   <table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+		<thead>
 			<tr>
-	          <th><h4>Customer Name</h4></th>
-	        </tr>
+				<th><h4>Customer Name</h4></th>
+			</tr>
+		</thead>
+		<tbody>
 	    {% for node in latest_node_list %}
-	        <tr>
-	              <td><a href="/ops/customer/detail/{{ node.id }}/">{{ node.name }}</a></td>
-	        </tr>
+			<tr>
+	               <td><a href="/ops/customer/detail/{{ node.id }}/">{{ node.name }}</a></td>
+			</tr>
 	    {% endfor %}
-		</table>
-		<br />
-	      <div class="line"></div>
+		</tbody>
+	</table>
 	{% else %}
 	    <p>No customers available.</p>
 	{% endif %}
+		<br />
+	      <div class="line"></div>
+
+
 
  
 

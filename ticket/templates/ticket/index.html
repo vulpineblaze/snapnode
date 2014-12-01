@@ -1,5 +1,6 @@
 {% extends "core/base.html" %}
 
+
 {% block content %}
 
 {% load static %}
@@ -7,20 +8,24 @@
 
 {% csrf_token %}
 
-
 	<ul><a href="/ticket/new_ticket/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Ticket" /></a></ul><br><br><br><br>
 	<h2>Ticket</h2>
+		      <div class="line"></div>
+
 	{% if latest_node_list %}
-		<table>
+	   <table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+		<thead>
 			<tr>
-	          <th><h4>Ticket Name</h4></th>
-	          <th><h4>Customer</h4></th>
-	          <th><h4>Date</h4></th>
-	          <th><h4>Priority</h4></th>
-						<th><h4>Status</h4></th>
-	        </tr>
+	          	<th><h4>Ticket Name</h4></th>
+	          	<th><h4>Customer</h4></th>
+	          	<th><h4>Date</h4></th>
+	          	<th><h4>Priority</h4></th>
+				<th><h4>Status</h4></th>
+			</tr>
+		</thead>
+		<tbody>
 	    {% for node in latest_node_list %}
-	        <tr>
+			<tr>
 	              <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
 	              <td>
 					{%for glue in node.node_child.all%}
@@ -34,11 +39,11 @@
 					{%for child in node.node_set.all%}
 						{% if child.name == "priority" %}
                                         		{% if child.desc == "1" %}
-                                                		LOW
+                                                		HIGH
                                         		{% elif child.desc == "2" %}
                                                 		MEDIUM
                                         		{% elif child.desc == "3" %}
-                                                		HIGH
+                                                		LOW
                                         		{% endif %}
 						{% endif %}
 
@@ -52,15 +57,14 @@
 
 									{%endfor%}
 								</td>
-	        </tr>
+			</tr>
 	    {% endfor %}
-		</table>
-		<br />
-	      <div class="line"></div>
+		</tbody>
+	</table>
 	{% else %}
 	    <p>No tickets available.</p>
 	{% endif %}
-
+	      <div class="line"></div>
 <!--  -->
 
 {%endblock%}
