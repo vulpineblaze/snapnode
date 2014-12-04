@@ -7,32 +7,20 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {{form.errors}}
+
 <form action="{{ form_action }}" method="post">
 {% csrf_token %}
 
-{{form.name.label}}{{form.name}}<BR>
-{{form.customer.label}}{{form.customer}}<BR>
-{{form.desc.label}}{{form.desc}}<BR>
-<!--{{form.priority.label}}
-{% for choice in form.priority %}
-	{{ choice }}
-{% endfor %}<BR>-->
-{{form.status.label}}
-{% for choice in form.status %}
-  {{ choice }}
-{% endfor %}
-<BR>
+{{form.ID.label}}{{form.ID}}</br>
+{{form.date.label}}{{form.date}}</br>
+{{form.bank.label}}{{form.bank}}</br>
+{{form.depositor.label}}{{form.depositor}}</br>
+{{form.amount.label}}{{form.amount}}</br>
 
-{% if action == "edit" %}
-	{{ form.assets.name }}{{ form.assets }}
-	<BR>
-{% else %}
-	<div style="display:none;">{{ form.assets.name }}{{ form.assets }}</div>
-{%endif%}
+
 
 <input type="submit" value="Save" />
 </form>
-
 
 
 

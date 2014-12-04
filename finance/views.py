@@ -8,7 +8,7 @@ from core.models import Node, UserProfile
 from django.core.mail import send_mail
 from finance.forms import *
 
-def index(request):
+def bank_deposit_event_index(request):
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     # template = loader.get_template('core/index.html')
@@ -16,51 +16,41 @@ def index(request):
     for node in latest_node_list:
         for child in node.node_set.all():
             if(child.name == "flags"):
-            	if "|BDE|" in child.desc:
-                	node_list.append(node.pk)
+                if "|BDE|" in child.desc:
+                    node_list.append(node.pk)
 
     queryset = Node.objects.filter(pk__in=node_list) 
     latest_node_list = queryset   
 
     context = {'latest_node_list': latest_node_list}
-    return render(request, 'finance/index.html', context)
+    return render(request, 'finance/bank_deposit_event_index.html', context)
 
 
-def documentation(request):
+def index(request):
     generic_html_dump = ""
     
-    generic_html_dump += "<a href=\"Bank_Deposit_Event\" >Bank Deposit Event</a><BR>"
-    generic_html_dump += "<a href=\"Expenditure_Event\" >Expenditure Event</a><BR>"
-    #generic_html_dump += "<a href=\"Contact_list\" >Documents</a><BR>"
-    generic_html_dump += "<a href=\"payment_received\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"bank_deposit_event_index\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"new_bank_deposit_event_index\" >Create Bank Deposit Event</a><BR>"
+
+    generic_html_dump += "<a href=\"expenditure_event_index\" >Expenditure Event</a><BR>"
+    generic_html_dump += "<a href=\"new_expenditure_event\" >Create Expenditure Event</a><BR>"
+
+    generic_html_dump += "<a href=\"payment_received_index\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+
+
     context = {'generic_html_dump': generic_html_dump}
+    return render(request, 'finance/index.html', context)
 
-    return render(request, 'core/generic.html', context)
+#def Bank_Deposit_Event_detail(request, node_id):
+#    """  Page for viewing all aspects of a ticket. """
+#    iterator=itertools.count() ###
 
-def Bank_Deposit_Event_detail(request, node_id):
-    """  Page for viewing all aspects of a ticket. """
-    iterator=itertools.count() ###
+#    node = get_object_or_404(Node, pk=node_id)
+#    return render(request, 'finance/bank_deposit_event/detail.html', {'node': node, 'iterator':iterator})
 
-    node = get_object_or_404(Node, pk=node_id)
-    return render(request, 'finance/Bank_Deposit_Event/detail.html', {'node': node, 'iterator':iterator})
-
-
-"""
-def new_document(request): #create new documents
-	form_action = "/finance/documentation/new_document
-
-"""
-def Bank_Deposit_Event(request):
-    generic_html_dump = ""
-
-    generic_html_dump += "<a href=\"new_Bank_Deposit_Event\" >Bank Deposit Event</a><BR>"
-    generic_html_dump += "<a href=\"details\" >list of Bank Deposit Event</a><BR>"
-
-
-def new_Bank_Deposit_Event(request):
-   #   Page for making new Bank_Deposit_Event documents. 
-	#BDE = Bank Deposit Event
-    form_action = "/finance/Bank_Deposit_Event/new_Bank_Deposit_Event/"
+def new_bank_deposit_event(request):
+    form_action = "/finance/new_bank_deposit_event/"
 
     if request.method == 'POST':
         form = NewBankDepositEventForm(request.POST)
@@ -69,18 +59,18 @@ def new_Bank_Deposit_Event(request):
             # change the stuffs here
             # node_data = {parent:None, name:"", desc:"" }
 
-
             BDE_node = Node.objects.create()
             ID_node = Node.objects.create()
             date_node = Node.objects.create()#date of event made
             bank_node = Node.objects.create()
             depositor_node = Node.objects.create()
-            amount_deposited_node = Node.objects.create()
+            amount_node = Node.objects.create()
+            flags_node = Node.objects.create()
             # customer_node = Node.objects.create()
 
             # record.save()
-            BDE_node.name = form.cleaned_data['name']
-            BDE_node.desc = form.cleaned_data['desc']
+            BDE_node.name = form.cleaned_data['ID']
+#            BDE_node.desc = form.cleaned_data['desc']
 
             BDE_node.save()
 
@@ -99,7 +89,7 @@ def new_Bank_Deposit_Event(request):
 
             date_node.parent = BDE_node
             date_node.name = "date"
-            date_node.desc = from.cleaned_data['date']
+            date_node.desc = form.cleaned_data['date']
 
             date_node.save()
 
@@ -111,17 +101,15 @@ def new_Bank_Deposit_Event(request):
 
             depositor_node.parent = BDE_node
             depositor_node.name = "depositor"
-            depositor_node.desc = form.cleaned_data['bank']
+            depositor_node.desc = form.cleaned_data['depositor']
 
             depositor_node.save()
 
-            amount_deposited_node.parent = BDE_node
-            amount_deposited__node.name = "amount"
-            amount_deposited_node.desc = form.cleaned_data['bank']
+            amount_node.parent = BDE_node
+            amount_node.name = "amount"
+            amount_node.desc = form.cleaned_data['amount']
 
-            amount_deposited_node.save()
-
-
+            amount_node.save()
 
            # BDE_glue = Glue.objects.create(parent=form.cleaned_data['BDE'],
            #                                     child=ticket_node,
@@ -135,19 +123,22 @@ def new_Bank_Deposit_Event(request):
             #BDE_glue.save()
 
             form.save()
-            return HttpResponseRedirect('/finance/bank_deposit_event/detail/'+str(BDE_node.id))
+            return HttpResponseRedirect('/finance/bank_deposit_event_detail/'+str(BDE_node.id))
     else:
-        form = NewFormBankDepositEvent()
+        form = NewBankDepositEventForm()
 
-    return render(request, 'bank_deposit_event/detail.html', {'form': form,'action':'new_BDE'})
+    return render(request, 'finance/bank_deposit_event_detail.html', {'form': form,'action':'new_bank_deposit_event'})
 
+def bank_deposit_event_detail(request):
+    """  Page for viewing all aspects of a ticket. """
+    iterator=itertools.count() ###
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'finance/bank_deposit_event_detail.html', {'node': node, 'iterator':iterator})
 
 
 def home(request):
     """  Starting page where User chooses what to do. """
-
-    generic_html_dump = ""
-
+    """    generic_html_dump = ""
     generic_html_dump += "<P> In home.html </P>"
     generic_html_dump += "<a href=\"documentation\" >documentation</a><BR>"
     generic_html_dump += "<a href=\"new_document\" >New document</a><BR>"
@@ -157,10 +148,24 @@ def home(request):
     context = {'generic_html_dump': generic_html_dump}
 
     return render(request, 'core/generic.html', context)
+    """
+    generic_html_dump = ""
+
+    generic_html_dump += "<a href=\"bank_deposit_event_index\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"new_bank_deposit_event\" >Create Bank Deposit Event</a><BR>"
+
+    generic_html_dump += "<a href=\"expenditure_event_index\" >Expenditure Event</a><BR>"
+    generic_html_dump += "<a href=\"new_expenditure_event\" >Create Expenditure Event</a><BR>"
+
+    generic_html_dump += "<a href=\"payment_received_index\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+
+
+    context = {'generic_html_dump': generic_html_dump}
+    return render(request, 'core/generic.html', context)
 
 
 def invoices(request):
-    """ """
     context = {}
     return render(request, 'finance/invoices.html', context)
 
