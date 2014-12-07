@@ -54,13 +54,6 @@ def home(request):
     context = {'generic_html_dump': generic_html_dump}
     return render(request, 'core/generic.html', context)
 
-#def Bank_Deposit_Event_detail(request, node_id):
-#    """  Page for viewing all aspects of a ticket. """
-#    iterator=itertools.count() ###
-
-#    node = get_object_or_404(Node, pk=node_id)
-#    return render(request, 'finance/bank_deposit_event/detail.html', {'node': node, 'iterator':iterator})
-
 def bank_deposit(request):
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
@@ -78,6 +71,40 @@ def bank_deposit(request):
     context = {'latest_node_list': latest_node_list}
     return render(request, 'finance/bank_deposit.html', context)
 
+def expenditure(request):
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+    # template = loader.get_template('core/index.html')
+
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|EXP|" in child.desc:
+                    node_list.append(node.pk)
+
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
+
+    context = {'latest_node_list': latest_node_list}
+    return render(request, 'finance/expenditure.html', context)
+
+def payment_received(request):
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+    # template = loader.get_template('core/index.html')
+
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|PR|" in child.desc:
+                    node_list.append(node.pk)
+
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
+
+    context = {'latest_node_list': latest_node_list}
+    return render(request, 'finance/payment_received.html', context)
+
 def new_bank_deposit(request):
     form_action = "/finance/new_bank_deposit/"
 
@@ -89,8 +116,6 @@ def new_bank_deposit(request):
             # node_data = {parent:None, name:"", desc:"" }
 
             BDE_node = Node.objects.create()
-            ID_node = Node.objects.create()
-            date_node = Node.objects.create()#date of event made
             bank_node = Node.objects.create()
             depositor_node = Node.objects.create()
             amount_node = Node.objects.create()
@@ -98,29 +123,16 @@ def new_bank_deposit(request):
             # customer_node = Node.objects.create()
 
             # record.save()
-            BDE_node.name = form.cleaned_data['ID']
-#            BDE_node.desc = form.cleaned_data['desc']
+
+            BDE_node.desc = form.cleaned_data['desc']
 
             BDE_node.save()
-
-	#ID number of event
-            ID_node.parent = BDE_node
-            ID_node.name = "ID"
-            ID_node.desc = form.cleaned_data['ID']
-
-            ID_node.save()
 
             flags_node.parent = BDE_node
             flags_node.name = "flags"
             flags_node.desc = "|BDE|"
 
             flags_node.save()
-
-            date_node.parent = BDE_node
-            date_node.name = "date"
-            date_node.desc = form.cleaned_data['date']
-
-            date_node.save()
 
             bank_node.parent = BDE_node
             bank_node.name = "bank name"
@@ -156,14 +168,123 @@ def new_bank_deposit(request):
     else:
         form = NewBankDepositEventForm()
 
-    return render(request, 'finance/bank_deposit_detail.html', {'form': form,'action':'new_bank_deposit_event'})
+    return render(request, 'finance/bank_deposit_detail.html', {'form': form,'action':'new_bank_deposit'})
+
+def new_expenditure(request):
+    form_action = "/finance/new_expenditure/"
+
+    if request.method == 'POST':
+        form = NewExpenditureForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            EXP_node = Node.objects.create()
+            payto_node = Node.objects.create()
+            amount_node = Node.objects.create()
+            flags_node = Node.objects.create()
+            # customer_node = Node.objects.create()
+
+            # record.save()
+            EXP_node.desc = form.cleaned_data['desc']
+
+            EXP_node.save()
+
+            flags_node.parent = EXP_node
+            flags_node.name = "flags"
+            flags_node.desc = "|EXP|"
+
+            flags_node.save()
+
+            payto_node.parent = EXP_node
+            payto_node.name = "payto"
+            payto_node.desc = form.cleaned_data['payto']
+
+            payto_node.save()
+
+            amount_node.parent = EXP_node
+            amount_node.name = "amount"
+            amount_node.desc = form.cleaned_data['amount']
+
+            amount_node.save()
+            #BDE_glue.save()
+
+            form.save()
+            return HttpResponseRedirect('/finance/expenditure/detail/'+str(EXP_node.id))
+    else:
+        form = NewExpenditureForm()
+
+    return render(request, 'finance/expenditure_detail.html', {'form': form,'action':'new_expenditure'})
+
+def new_payment_received(request):
+    form_action = "/finance/new_payment_received/"
+
+    if request.method == 'POST':
+        form = NewPaymentReceivedForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            PR_node = Node.objects.create()
+            payfrom_node = Node.objects.create()
+            amount_node = Node.objects.create()
+            flags_node = Node.objects.create()
+            # customer_node = Node.objects.create()
+
+            # record.save()
+            PR_node.desc = form.cleaned_data['desc']
+#            BDE_node.desc = form.cleaned_data['desc']
+
+            PR_node.save()
+
+            flags_node.parent = PR_node
+            flags_node.name = "flags"
+            flags_node.desc = "|PR|"
+
+            flags_node.save()
+
+            payfrom_node.parent = PR_node
+            payfrom_node.name = "payfrom"
+            payfrom_node.desc = form.cleaned_data['payfrom']
+
+            payfrom_node.save()
+
+            amount_node.parent = PR_node
+            amount_node.name = "amount"
+            amount_node.desc = form.cleaned_data['amount']
+
+            amount_node.save()
+            #BDE_glue.save()
+
+            form.save()
+            return HttpResponseRedirect('/finance/payment_received/detail/'+str(PR_node.id))
+    else:
+        form = NewPaymentReceivedForm()
+
+    return render(request, 'finance/payment_received_detail.html', {'form': form,'action':'new_payment_received'})
 
 def bank_deposit_detail(request, node_id):
-    """  Page for viewing all aspects of a ticket. """
+    """  Page for viewing all aspects of a bank deposit. """
     iterator=itertools.count() ###
 
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'finance/bank_deposit_detail.html', {'node': node, 'iterator':iterator})
+
+def expenditure_detail(request, node_id):
+    """  Page for viewing all aspects of a expenditure. """
+    iterator=itertools.count() ###
+
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'finance/expenditure_detail.html', {'node': node, 'iterator':iterator})
+
+def payment_received_detail(request, node_id):
+    """  Page for viewing all aspects of a payment received. """
+    iterator=itertools.count() ###
+
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'finance/payment_received_detail.html', {'node': node, 'iterator':iterator})
 
 
 def invoices(request):

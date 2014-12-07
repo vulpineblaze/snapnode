@@ -10,11 +10,11 @@
 
 {% csrf_token %}
 
-<div class="one-side"><h1 class="title">Bank Deposit Info</h1></div>  
+<div class="one-side"><h1 class="title">Expenditure Info</h1></div>  
 	
 	<div class="one-side last">
 		{% if node %}
-			<h1> <a href="/finance/bank_deposit/edit/{{node.id}}">Edit</a> bank deposit event edit</h1>
+			<h1> <a href="/finance/expenditure/edit/{{node.id}}">Edit</a> expenditure edit</h1>
 		{% endif %}
 	</div>
 	 
@@ -34,33 +34,15 @@
 		</div>
 
 	</div>
-	
-        <div class="one-side"><p><h4>Bank Name:</h4>
+
+        <div class="one-side"><p><h4>Payment To:</h4>
                 <div class="name-box">
 						{%for child in node.node_set.all%}
-							{% if child.name == "bank name" %}
+							{% if child.name == "payto" %}
 								{{child.desc}}
 							{% endif %}
 						{% endfor %}
-                        {{ form.bank }}
-                </div>
-        </div>
-
-        <div class="one-side last"><p><h4>Depositor:</h4>
-                <div class="name-box">
-						{%for child in node.node_set.all%}
-							{% if child.name == "depositor" %}
-								{{child.desc}}
-							{% endif %}
-						{% endfor %}
-                        {{ form.depositor }}
-                </div>
-        </div>
-
-        <div class="one-side"><p><h4>Description:</h4>
-                <div class="desc-box">
-						{{ node.desc }}
-                        {{ form.desc }}
+                        {{ form.payto }}
                 </div>
         </div>
 
@@ -75,6 +57,12 @@
                 </div>
         </div>
 
+        <div class="one-side"><p><h4>Description:</h4>
+                <div class="desc-box">
+						{{ node.desc }}
+                        {{ form.desc }}
+                </div>
+        </div>
 
 
         <div class="one-side last">

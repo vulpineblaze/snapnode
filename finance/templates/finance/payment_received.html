@@ -7,37 +7,29 @@
 
 {% csrf_token %}
 
-<ul><a href="/finance/new_bank_deposit/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Bank Deposit" /></a></ul>
+<ul><a href="/finance/new_payment_received/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Payment Received" /></a></ul>
 
-<h2>Bank Deposits</h2>
+<h2>Payments Received</h2>
               <div class="line"></div>
 
     {% if latest_node_list %}
        <table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
         <thead>
              <tr>
-        	    <th><h4>ID</h4></th>
-        	    <th><h4>Date</h4></th>
-        	    <th><h4>Bank</h4></th>
-        	    <th><h4>Depositor</h4></th> 
+                <th><h4>ID</h4></th>
+                <th><h4>Date</h4></th>
+                <th><h4>Payment From</h4></th>
                 <th><h4>Amount</h4></th> 
             </tr>   
         </thead>
         <tbody>
         {% for node in latest_node_list %}
             <tr>
-                <td><a href="/finance/bank_deposit/detail/{{ node.id }}/">{{ node.id }}</a></td>
+                <td><a href="/finance/payment_received/detail/{{ node.id }}/">{{ node.id }}</a></td>
                 <td>{{ node.date_created }}</td>
                 <td>
                     {%for child in node.node_set.all%}
-                        {% if child.name == "bank name" %}
-                            {{ child.desc }}
-                        {% endif %}
-                    {%endfor%}   
-                </td>
-                <td>
-                    {%for child in node.node_set.all%}
-                        {% if child.name == "depositor" %}
+                        {% if child.name == "payfrom" %}
                             {{ child.desc }}
                         {% endif %}
                     {%endfor%}   

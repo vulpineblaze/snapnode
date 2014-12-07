@@ -36,35 +36,15 @@ class NodeForm(forms.ModelForm):
         fields = ('parent', 'name', 'desc')
 
 class NewBankDepositEventForm(forms.ModelForm):
-    #Creates a Form for the generic top-level assets
-    # sub_name = forms.CharField(label="Property Name")
-    # customer = forms.CharField(label="Customer Name")
 
-
-#    BDE_list = []
-#    cust_asset_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     latest_glue_list = Glue.objects.order_by('-date_updated')
 
-    # template = loader.get_template('core/index.html') 
-
-#    for node in latest_node_list:
-#        for child in node.node_set.all():
-#            if(child.name == "flags"):
-#                if "|BDE|" in child.desc:
-#                    cust_list.append(node.pk)
-
-    ID = []
-    date = []
     bank = []
     depositor = []
     amount = []
 
     # template = loader.get_template('core/index.html')
-
-    ID = forms.CharField(label="ID Number")#maybe make this randomly genrated number or add 1 for every new one
-
-    date = forms.CharField(label="Date created")
 
     bank = forms.CharField(label="Name of Bank that was deposited to")
 
@@ -74,47 +54,43 @@ class NewBankDepositEventForm(forms.ModelForm):
 
     class Meta:
         model = Node
-        fields = ( 'date',"depositor","amount","ID", "bank")
+        fields = ( "desc","depositor","amount", "bank")
 
+class NewExpenditureForm(forms.ModelForm):
 
+    latest_node_list = Node.objects.order_by('-date_updated')
+    latest_glue_list = Glue.objects.order_by('-date_updated')
 
+    payto = []
+    amount = []
 
-#    class Meta:
-#        model = Node
-#        fields = ('ID', 'date','bank','depositor', 'amount')
+    # template = loader.get_template('core/index.html')
 
-"""   for node in latest_node_list:
-        for child in node.node_set.all():
-            if(child.name == "flags"):
-              if "|ASSET|" in child.desc:
-                  asset_list.append(node.pk)"""
-"""    cust_queryset = Node.objects.filter(pk__in=cust_list)
-    customer = forms.ModelChoiceField(queryset=cust_queryset, 
-                                        empty_label="(Choose One)",
-                                        to_field_name="name")
-"""
+    payto = forms.CharField(label="Recipient of payment")
 
-    # test_var = dir(customer)
-    # second_var = dir(customer.choices) ##
-    # third_var = customer.choices.queryset
-    #for glue in latest_glue_list:
-#        if glue.parent is customer and glue.child.pk in asset_list:
-#            cust_asset_list.append(glue.child.pk)
+    amount = forms.CharField(label="Amount deposited")
 
-    
+    class Meta:
+        model = Node
+        fields = ( "desc","payto","amount")
 
-#    asset_queryset = Node.objects.filter(pk__in=cust_asset_list)
+class NewPaymentReceivedForm(forms.ModelForm):
 
-#    assets = forms.ModelMultipleChoiceField(queryset=asset_queryset, 
-#                                        to_field_name="name",
-#                                        required=False)
+    latest_node_list = Node.objects.order_by('-date_updated')
+    latest_glue_list = Glue.objects.order_by('-date_updated')
 
-#    priority = forms.ChoiceField(label="Priority"
-#                                ,choices=TICKET_PRIORITY_CHOICES)
-#    status = forms.ChoiceField(label="Status"
-#                              ,choices=TICKET_STATUS_CHOICES)
+    payfrom = []
+    amount = []
 
+    # template = loader.get_template('core/index.html')
 
+    payfrom = forms.CharField(label="Payment received from")
+
+    amount = forms.CharField(label="Amount deposited")
+
+    class Meta:
+        model = Node
+        fields = ( "desc","payfrom","amount")
 
 class UserForm(forms.ModelForm):
     """
