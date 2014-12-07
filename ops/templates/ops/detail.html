@@ -29,8 +29,7 @@
 
 	<div class="one-side last"><h4>Hourly Rate: </h4>
 		<div class="name-box">
-			{{ node.rate }}
-      {{ form.rate }}
+      {% if form %}{{ form.rate }}{% endif %}
 			{%for child in node.node_set.all%}
 				{% if child.name == "rate" %}
 					{{ child.desc }}
