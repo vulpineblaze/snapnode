@@ -1,0 +1,67 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+  <div class="line"></div>
+    <a style="display:block" href="/finances/bank_deposit">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/bank.png" alt="BANK DEPOSITS" /></h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="/finances/new_bank_deposit">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/new_bank.png" alt="NEW BANK DEPOSIT" /></h3></center>
+      </div>
+    </a>
+
+    <a style="display:block" href="/finances/expenditure">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/ex.png" alt="EXPENDITURES" /></h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="/finances/new_expenditure">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/new_ex.png" alt="NEW EXPENDITURE" /></h3></center>
+      </div>
+    </a>
+
+    <a style="display:block" href="/finances/payment_received">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/pays.png" alt="PAYMENTS RECEIVED" /></h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="/finances/new_payment_received">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/new_pay.png" alt="NEW PAYMENT RECEIVED" /></h3></center>
+      </div>
+    </a>
+
+    <a style="display:block" href="http://snapnode.yourcompusolutions.com:8003/finance/invoices/#tab1">
+      <div class="one-half">
+      <center><h3><img src="/static/core/images/due_in.png" alt="DUE INVOICES" /></h3></center>
+      </div>
+    </a>
+    
+    <a style="display:block" href="http://snapnode.yourcompusolutions.com:8003/finance/invoices/#tab3">
+      <div class="one-half last">
+      <center><h3><img src="/static/core/images/arch_in.png" alt="ARCHIVED INVOICES" /></h3></center>
+      </div>
+    </a>
+    
+    <div class="clear"></div>
+    
+    <div class="line"></div>
+  </div>
+  <!-- End Content -->
+
+
+
+{%endblock%}

@@ -28,17 +28,6 @@ def index(request):
 
 def home(request):
     """  Starting page where User chooses what to do. """
-    """    generic_html_dump = ""
-    generic_html_dump += "<P> In home.html </P>"
-    generic_html_dump += "<a href=\"documentation\" >documentation</a><BR>"
-    generic_html_dump += "<a href=\"new_document\" >New document</a><BR>"
-    generic_html_dump += "<a href=\"invoices\" >invoices</a><BR>"
-    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
-
-    context = {'generic_html_dump': generic_html_dump}
-
-    return render(request, 'core/generic.html', context)
-    """
     generic_html_dump = ""
 
     generic_html_dump += "<a href=\"bank_deposit\" >Bank Deposit Event</a><BR>"
@@ -52,7 +41,7 @@ def home(request):
 
 
     context = {'generic_html_dump': generic_html_dump}
-    return render(request, 'core/generic.html', context)
+    return render(request, 'finance/home.html', context)
 
 def bank_deposit(request):
     node_list = []
