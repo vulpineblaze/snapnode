@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% csrf_token %}
+
+<!--<ul><a href="/finance/new_document/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Ticket" /></a></ul><br><br><br><br> creating new documents -->
+<h2>Financial Documents</h2>
+              <div class="line"></div>
+
+    {% if latest_node_list %}
+       <table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+             <tr>
+        	    <th><h4>ID</h4></th>
+        	    <th><h4>Date</h4></th>
+        	    <th><h4>Bank</h4></th>
+        	    <th><h4>Depositor</h4></th> 
+                <th><h4>Amount</h4></th> 
+            </tr>   
+        </thead>
+        <tbody>
+        {% for node in latest_node_list %}
+            <tr>
+                <td><a href="/finance/bank_deposit/detail/{{ node.id }}/">{{ node.name }}</a></td>
+                <td>{{ node.date_created }}</td>
+                <td>
+                    {%for child in node.node_set.all%}
+                        {% if child.name == "bank name" %}
+                            {{ child.desc }}
+                        {% endif %}
+                    {%endfor%}   
+                </td>
+                <td>
+                    {%for child in node.node_set.all%}
+                        {% if child.name == "depositor" %}
+                            {{ child.desc }}
+                        {% endif %}
+                    {%endfor%}   
+                </td>    
+                <td>
+                    {%for child in node.node_set.all%}
+                        {% if child.name == "amount" %}
+                            {{ child.desc }}
+                        {% endif %}
+                    {%endfor%}   
+                </td>                                             
+            </tr>
+        {% endfor %}
+            
+        </table>
+    
+    {% else %}
+        <p>No documents are available.</p>
+    {% endif %}
+{%endblock%}

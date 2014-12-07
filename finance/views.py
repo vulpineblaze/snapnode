@@ -8,7 +8,60 @@ from core.models import Node, UserProfile
 from django.core.mail import send_mail
 from finance.forms import *
 
-def bank_deposit_event_index(request):
+import itertools
+
+def index(request):
+    generic_html_dump = ""
+    
+    generic_html_dump += "<a href=\"bank_deposit\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"new_bank_deposit\" >Create Bank Deposit Event</a><BR>"
+
+    generic_html_dump += "<a href=\"expenditure\" >Expenditure Event</a><BR>"
+    generic_html_dump += "<a href=\"new_expenditure\" >Create Expenditure Event</a><BR>"
+
+    generic_html_dump += "<a href=\"payment_received\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+
+
+    context = {'generic_html_dump': generic_html_dump}
+    return render(request, 'finance/index.html', context)
+
+def home(request):
+    """  Starting page where User chooses what to do. """
+    """    generic_html_dump = ""
+    generic_html_dump += "<P> In home.html </P>"
+    generic_html_dump += "<a href=\"documentation\" >documentation</a><BR>"
+    generic_html_dump += "<a href=\"new_document\" >New document</a><BR>"
+    generic_html_dump += "<a href=\"invoices\" >invoices</a><BR>"
+    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+
+    context = {'generic_html_dump': generic_html_dump}
+
+    return render(request, 'core/generic.html', context)
+    """
+    generic_html_dump = ""
+
+    generic_html_dump += "<a href=\"bank_deposit\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"new_bank_deposit\" >Create Bank Deposit Event</a><BR>"
+
+    generic_html_dump += "<a href=\"expenditure\" >Expenditure Event</a><BR>"
+    generic_html_dump += "<a href=\"new_expenditure\" >Create Expenditure Event</a><BR>"
+
+    generic_html_dump += "<a href=\"payment_received\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+
+
+    context = {'generic_html_dump': generic_html_dump}
+    return render(request, 'core/generic.html', context)
+
+#def Bank_Deposit_Event_detail(request, node_id):
+#    """  Page for viewing all aspects of a ticket. """
+#    iterator=itertools.count() ###
+
+#    node = get_object_or_404(Node, pk=node_id)
+#    return render(request, 'finance/bank_deposit_event/detail.html', {'node': node, 'iterator':iterator})
+
+def bank_deposit(request):
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     # template = loader.get_template('core/index.html')
@@ -23,34 +76,10 @@ def bank_deposit_event_index(request):
     latest_node_list = queryset   
 
     context = {'latest_node_list': latest_node_list}
-    return render(request, 'finance/bank_deposit_event_index.html', context)
+    return render(request, 'finance/bank_deposit.html', context)
 
-
-def index(request):
-    generic_html_dump = ""
-    
-    generic_html_dump += "<a href=\"bank_deposit_event_index\" >Bank Deposit Event</a><BR>"
-    generic_html_dump += "<a href=\"new_bank_deposit_event_index\" >Create Bank Deposit Event</a><BR>"
-
-    generic_html_dump += "<a href=\"expenditure_event_index\" >Expenditure Event</a><BR>"
-    generic_html_dump += "<a href=\"new_expenditure_event\" >Create Expenditure Event</a><BR>"
-
-    generic_html_dump += "<a href=\"payment_received_index\" >Payments received</a><BR>"
-    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
-
-
-    context = {'generic_html_dump': generic_html_dump}
-    return render(request, 'finance/index.html', context)
-
-#def Bank_Deposit_Event_detail(request, node_id):
-#    """  Page for viewing all aspects of a ticket. """
-#    iterator=itertools.count() ###
-
-#    node = get_object_or_404(Node, pk=node_id)
-#    return render(request, 'finance/bank_deposit_event/detail.html', {'node': node, 'iterator':iterator})
-
-def new_bank_deposit_event(request):
-    form_action = "/finance/new_bank_deposit_event/"
+def new_bank_deposit(request):
+    form_action = "/finance/new_bank_deposit/"
 
     if request.method == 'POST':
         form = NewBankDepositEventForm(request.POST)
@@ -123,46 +152,18 @@ def new_bank_deposit_event(request):
             #BDE_glue.save()
 
             form.save()
-            return HttpResponseRedirect('/finance/bank_deposit_event_detail/'+str(BDE_node.id))
+            return HttpResponseRedirect('/finance/bank_deposit/detail/'+str(BDE_node.id))
     else:
         form = NewBankDepositEventForm()
 
-    return render(request, 'finance/bank_deposit_event_detail.html', {'form': form,'action':'new_bank_deposit_event'})
+    return render(request, 'finance/bank_deposit_detail.html', {'form': form,'action':'new_bank_deposit_event'})
 
-def bank_deposit_event_detail(request):
+def bank_deposit_detail(request, node_id):
     """  Page for viewing all aspects of a ticket. """
     iterator=itertools.count() ###
+
     node = get_object_or_404(Node, pk=node_id)
-    return render(request, 'finance/bank_deposit_event_detail.html', {'node': node, 'iterator':iterator})
-
-
-def home(request):
-    """  Starting page where User chooses what to do. """
-    """    generic_html_dump = ""
-    generic_html_dump += "<P> In home.html </P>"
-    generic_html_dump += "<a href=\"documentation\" >documentation</a><BR>"
-    generic_html_dump += "<a href=\"new_document\" >New document</a><BR>"
-    generic_html_dump += "<a href=\"invoices\" >invoices</a><BR>"
-    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
-
-    context = {'generic_html_dump': generic_html_dump}
-
-    return render(request, 'core/generic.html', context)
-    """
-    generic_html_dump = ""
-
-    generic_html_dump += "<a href=\"bank_deposit_event_index\" >Bank Deposit Event</a><BR>"
-    generic_html_dump += "<a href=\"new_bank_deposit_event\" >Create Bank Deposit Event</a><BR>"
-
-    generic_html_dump += "<a href=\"expenditure_event_index\" >Expenditure Event</a><BR>"
-    generic_html_dump += "<a href=\"new_expenditure_event\" >Create Expenditure Event</a><BR>"
-
-    generic_html_dump += "<a href=\"payment_received_index\" >Payments received</a><BR>"
-    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
-
-
-    context = {'generic_html_dump': generic_html_dump}
-    return render(request, 'core/generic.html', context)
+    return render(request, 'finance/bank_deposit_detail.html', {'node': node, 'iterator':iterator})
 
 
 def invoices(request):
