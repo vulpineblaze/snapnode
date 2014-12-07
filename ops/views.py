@@ -25,15 +25,15 @@ def index(request):
                 if "|CUSTOMER|" in child.desc:
                     node_list.append(node.pk)
 
-    queryset = Node.objects.filter(pk__in=node_list) 
-    latest_node_list = queryset   
+    queryset = Node.objects.filter(pk__in=node_list)
+    latest_node_list = queryset
 
     context = {'latest_node_list': latest_node_list}
     return render(request, 'ops/index.html', context)
 
 def home(request):
     """  Starting page where User chooses what to do. """
-    
+
     generic_html_dump = ""
 
     generic_html_dump += "<P> In home.html </P>"
@@ -48,7 +48,7 @@ def home(request):
 def new_customer(request):
     """  Page for making new customers. """
 
-    form_action = "/ops/new_customer/"
+    form_action = "/ops/customer/new_customer/"
 
     if request.method == 'POST':
         form = NewCustomerForm(request.POST)
@@ -135,19 +135,70 @@ def detail(request, node_id):
     return render(request, 'ops/detail.html', {'node': node, 'iterator':iterator})
 
 
-def edit(request):
+def edit(request, node_id):
     """  Page for editing all aspects of a customer. """
 
-    
-    generic_html_dump = ""
+    form_action = "/ops/customer/edit/" + str(node_id)
 
-    generic_html_dump += "<P> In edit </P>"
-    generic_html_dump += "fake <a href=\"../detail\" >SUBMIT</a>"
-    generic_html_dump += " to pretend we just updated a customer<BR>"
+    customer_node = get_object_or_404(Node, pk=node_id)
+    primName_node = Node.objects.get(parent=customer_node, name='primName')
+    primPhone_node = Node.objects.get(parent=customer_node, name='primPhone')
+    primEmail_node = Node.objects.get(parent=customer_node, name='primEmail')
+    primAddress_node = Node.objects.get(parent=customer_node, name='primAddress')
+    rate_node = Node.objects.get(parent=customer_node, name='rate')
 
-    context = {'generic_html_dump': generic_html_dump}
+    if request.method == 'POST':
+        form = NewCustomerForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+            # record.save()
 
-    return render(request, 'core/generic.html', context)
+            customer_node.name = form.cleaned_data['name']
 
+            customer_node.save()
 
+            primName_node.desc = form.cleaned_data['primName']
 
+            primName_node.save()
+
+            primPhone_node.desc = form.cleaned_data['primPhone']
+
+            primPhone_node.save()
+
+            primEmail_node.desc = form.cleaned_data['primEmail']
+
+            primEmail_node.save()
+
+            primAddress_node.desc = form.cleaned_data['primAddress']
+
+            primAddress_node.save()
+
+            rate_node.desc = form.cleaned_data['rate']
+
+            rate_node.save()
+
+            #customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
+            #                                    child=ticket_node,
+            #                                    name="CUSTOMER has TICKET")
+
+            # asset_set = form.cleaned_data['assets']
+
+            # customer_glue.parent = form.cleaned_data['customer']
+            # customer_glue.child = ticket_node
+
+            #customer_glue.save()
+
+            # form.save()
+            return HttpResponseRedirect('/ops/customer/detail/'+str(customer_node.id))
+    else:
+        form = NewCustomerForm( initial = { 'name':customer_node.name,
+                                            'primName':primName_node.desc,
+                                            'primEmail':primEmail_node.desc,
+                                            'primPhone':primPhone_node.desc,
+                                            'primAddress':primAddress_node.desc,
+                                            'rate':rate_node.desc
+                                } )
+
+    return render(request, 'ops/detail.html', {'form': form,'action':'edit'})

@@ -70,7 +70,7 @@ class NewTicketForm(forms.ModelForm):
     latest_node_list = Node.objects.order_by('-date_updated')
     latest_glue_list = Glue.objects.order_by('-date_updated')
 
-    # template = loader.get_template('core/index.html') 
+    # template = loader.get_template('core/index.html')
 
     for node in latest_node_list:
         for child in node.node_set.all():
@@ -84,10 +84,9 @@ class NewTicketForm(forms.ModelForm):
               if "|ASSET|" in child.desc:
                   asset_list.append(node.pk)
 
-
     cust_queryset = Node.objects.filter(pk__in=cust_list)
 
-    customer = forms.ModelChoiceField(queryset=cust_queryset, 
+    customer = forms.ModelChoiceField(queryset=cust_queryset,
                                         empty_label="(Choose One)",
                                         to_field_name="name")
 
@@ -98,11 +97,9 @@ class NewTicketForm(forms.ModelForm):
         if glue.parent is customer and glue.child.pk in asset_list:
             cust_asset_list.append(glue.child.pk)
 
-    
-
     asset_queryset = Node.objects.filter(pk__in=cust_asset_list)
 
-    assets = forms.ModelMultipleChoiceField(queryset=asset_queryset, 
+    assets = forms.ModelMultipleChoiceField(queryset=asset_queryset,
                                         to_field_name="name",
                                         required=False)
 
