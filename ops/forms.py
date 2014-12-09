@@ -70,15 +70,15 @@ class NewCustomerForm(forms.ModelForm):
     # customer = forms.CharField(label="Customer Name")
 
 
-    primName = []
-    primPhone = []
-    primEmail = []
-    primAddress = []
-    rate = []
+    #primName = []
+    #primPhone = []
+    #primEmail = []
+    #primAddress = []
+    #rate = []
     latest_node_list = Node.objects.order_by('-date_updated')
     latest_glue_list = Glue.objects.order_by('-date_updated')
 
-    # template = loader.get_template('core/index.html') 
+    # template = loader.get_template('core/index.html')
 
     primName = forms.CharField(label="Primary Name")
 
@@ -92,7 +92,7 @@ class NewCustomerForm(forms.ModelForm):
 
     class Meta:
         model = Node
-        fields = ('name', "primName", "primPhone", "primEmail", "primAddress", "rate")
+        fields = ('name', 'primName', 'primPhone', 'primEmail', 'primAddress', 'rate')
 
 
 class NewEventForm(forms.ModelForm):

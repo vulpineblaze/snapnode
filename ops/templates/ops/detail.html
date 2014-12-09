@@ -10,14 +10,14 @@
 
 {% csrf_token %}
 
-<div class="one-side"><h1 class="title">Customer Info</h1></div>  
-	
+<div class="one-side"><h1 class="title">Customer Info</h1></div>
+
 	<div class="one-side last">
 		{% if node %}
 			<h1> <a href="/ops/customer/edit/{{node.id}}">Edit</a> this customer</h1>
 		{% endif %}
 	</div>
-	 
+
 	<div class="whole"><div class="line"></div></div>
 
 	<div class="one-side"><h4>Customer Name: </h4>
@@ -29,10 +29,10 @@
 
 	<div class="one-side last"><h4>Hourly Rate: </h4>
 		<div class="name-box">
-			{{ node.rate }}
+      {% if form %}{{ form.rate }}{% endif %}
 			{%for child in node.node_set.all%}
 				{% if child.name == "rate" %}
-					{{ child.desc }} 
+					{{ child.desc }}
 				{% endif %}
 			{%endfor%}
 			</div>
@@ -43,7 +43,7 @@
 			<h6>Name: </h6>
 			{%for child in node.node_set.all%}
 				{% if child.name == "primName" %}
-					{{ child.desc }} 
+					{{ child.desc }}
 				{% endif %}
 			{%endfor%}
 
@@ -52,7 +52,7 @@
 			<br><h6>Phone: </h6>
 			{%for child in node.node_set.all%}
 				{% if child.name == "primPhone" %}
-					Name: {{ child.desc }} 
+					Name: {{ child.desc }}
 				{% endif %}
 			{%endfor%}
 
@@ -61,7 +61,7 @@
 			<br><h6>Email: </h6>
 			{%for child in node.node_set.all%}
 				{% if child.name == "primEmail" %}
-					{{ child.desc }} 
+					{{ child.desc }}
 				{% endif %}
 			{%endfor%}
 
@@ -70,23 +70,23 @@
 			<br><h6>Address: </h6>
 			{%for child in node.node_set.all%}
 				{% if child.name == "primAddress" %}
-					{{ child.desc }} 
+					{{ child.desc }}
 				{% endif %}
 			{%endfor%}
 
 			{% if form %}{{ form.primAddress }}</br>{% endif %}
 		</div>
-	</div>	
+	</div>
 
 	<div class="one-side last"><h4>Docs: </h4>
 		<div class="name-box">
 			Perhaps list of documents associated with customer and/or link to invoice.
 		</div>
 
-	{% if form  %}	
+	{% if form  %}
 		<input type="submit" value="Save" />
 	{% endif %}
-	</div>	
+	</div>
 
 	<div class="whole"><br><br><h4>Assets: </h4>
 <!-- 	BEGIN TEST CODE //
@@ -130,7 +130,7 @@
 		        </div>
 		      </div>
 
-	<h1>Create a <a href="/ticket/new_ticket">New Ticket</a> for this customer</h1> <!--Maybe find a way to automatically set new_ticket to customer the link was clicked from--> 
+	<h1>Create a <a href="/ticket/new_ticket">New Ticket</a> for this customer</h1> <!--Maybe find a way to automatically set new_ticket to customer the link was clicked from-->
 
 	<h4>Tickets: </h4>
 

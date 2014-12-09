@@ -1,0 +1,80 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+
+ <form action="{{ form_action }}" method="post">
+
+{% csrf_token %}
+
+<div class="one-side"><h1 class="title">Payments Received Info</h1></div>  
+	
+	<div class="one-side last">
+		{% if node %}
+			<h1> <a href="/finance/payment_received/edit/{{node.id}}">Edit</a> payment received info</h1>
+		{% endif %}
+	</div>
+	 
+	<div class="whole"><div class="line"></div></div>
+
+	<div class="one-side"><h4>ID: </h4>
+		<div class="name-box">
+			{{ node.id }}
+			</div>
+	</div>
+
+
+
+	<div class="one-side last"><h4>Date Created: </h4>
+		<div class="name-box">
+			{{ node.date_created }}
+		</div>
+
+	</div>
+
+        <div class="one-side"><p><h4>Payment From:</h4>
+                <div class="name-box">
+						{%for child in node.node_set.all%}
+							{% if child.name == "payfrom" %}
+								{{child.desc}}
+							{% endif %}
+						{% endfor %}
+                        {{ form.payfrom }}
+                </div>
+        </div>
+
+        <div class="one-side last"><p><h4>Amount Deposited:</h4>
+                <div class="name-box">
+						{%for child in node.node_set.all%}
+							{% if child.name == "amount" %}
+								{{child.desc}}
+							{% endif %}
+						{% endfor %}
+                        {{ form.amount }}
+                </div>
+        </div>
+
+        <div class="one-side"><p><h4>Description:</h4>
+                <div class="desc-box">
+						{{ node.desc }}
+                        {{ form.desc }}
+                </div>
+        </div>
+
+
+        <div class="one-side last">
+			{% if form  %}	
+				<br><br>
+				<input type="submit" value="Save" />
+			{% endif %}
+		</div>
+
+	</div>
+
+</form>
+
+{%endblock%}
+

@@ -8,7 +8,42 @@ from core.models import Node, UserProfile
 from django.core.mail import send_mail
 from finance.forms import *
 
-def bank_deposit_event_index(request):
+import itertools
+
+def index(request):
+    generic_html_dump = ""
+    
+    generic_html_dump += "<a href=\"bank_deposit\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"new_bank_deposit\" >Create Bank Deposit Event</a><BR>"
+
+    generic_html_dump += "<a href=\"expenditure\" >Expenditure Event</a><BR>"
+    generic_html_dump += "<a href=\"new_expenditure\" >Create Expenditure Event</a><BR>"
+
+    generic_html_dump += "<a href=\"payment_received\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+
+
+    context = {'generic_html_dump': generic_html_dump}
+    return render(request, 'finance/index.html', context)
+
+def home(request):
+    """  Starting page where User chooses what to do. """
+    generic_html_dump = ""
+
+    generic_html_dump += "<a href=\"bank_deposit\" >Bank Deposit Event</a><BR>"
+    generic_html_dump += "<a href=\"new_bank_deposit\" >Create Bank Deposit Event</a><BR>"
+
+    generic_html_dump += "<a href=\"expenditure\" >Expenditure Event</a><BR>"
+    generic_html_dump += "<a href=\"new_expenditure\" >Create Expenditure Event</a><BR>"
+
+    generic_html_dump += "<a href=\"payment_received\" >Payments received</a><BR>"
+    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+
+
+    context = {'generic_html_dump': generic_html_dump}
+    return render(request, 'finance/home.html', context)
+
+def bank_deposit(request):
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')
     # template = loader.get_template('core/index.html')
@@ -23,34 +58,44 @@ def bank_deposit_event_index(request):
     latest_node_list = queryset   
 
     context = {'latest_node_list': latest_node_list}
-    return render(request, 'finance/bank_deposit_event_index.html', context)
+    return render(request, 'finance/bank_deposit.html', context)
 
+def expenditure(request):
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+    # template = loader.get_template('core/index.html')
 
-def index(request):
-    generic_html_dump = ""
-    
-    generic_html_dump += "<a href=\"bank_deposit_event_index\" >Bank Deposit Event</a><BR>"
-    generic_html_dump += "<a href=\"new_bank_deposit_event_index\" >Create Bank Deposit Event</a><BR>"
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|EXP|" in child.desc:
+                    node_list.append(node.pk)
 
-    generic_html_dump += "<a href=\"expenditure_event_index\" >Expenditure Event</a><BR>"
-    generic_html_dump += "<a href=\"new_expenditure_event\" >Create Expenditure Event</a><BR>"
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
 
-    generic_html_dump += "<a href=\"payment_received_index\" >Payments received</a><BR>"
-    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
+    context = {'latest_node_list': latest_node_list}
+    return render(request, 'finance/expenditure.html', context)
 
+def payment_received(request):
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+    # template = loader.get_template('core/index.html')
 
-    context = {'generic_html_dump': generic_html_dump}
-    return render(request, 'finance/index.html', context)
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|PR|" in child.desc:
+                    node_list.append(node.pk)
 
-#def Bank_Deposit_Event_detail(request, node_id):
-#    """  Page for viewing all aspects of a ticket. """
-#    iterator=itertools.count() ###
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
 
-#    node = get_object_or_404(Node, pk=node_id)
-#    return render(request, 'finance/bank_deposit_event/detail.html', {'node': node, 'iterator':iterator})
+    context = {'latest_node_list': latest_node_list}
+    return render(request, 'finance/payment_received.html', context)
 
-def new_bank_deposit_event(request):
-    form_action = "/finance/new_bank_deposit_event/"
+def new_bank_deposit(request):
+    form_action = "/finance/new_bank_deposit/"
 
     if request.method == 'POST':
         form = NewBankDepositEventForm(request.POST)
@@ -60,8 +105,6 @@ def new_bank_deposit_event(request):
             # node_data = {parent:None, name:"", desc:"" }
 
             BDE_node = Node.objects.create()
-            ID_node = Node.objects.create()
-            date_node = Node.objects.create()#date of event made
             bank_node = Node.objects.create()
             depositor_node = Node.objects.create()
             amount_node = Node.objects.create()
@@ -69,29 +112,16 @@ def new_bank_deposit_event(request):
             # customer_node = Node.objects.create()
 
             # record.save()
-            BDE_node.name = form.cleaned_data['ID']
-#            BDE_node.desc = form.cleaned_data['desc']
+
+            BDE_node.desc = form.cleaned_data['desc']
 
             BDE_node.save()
-
-	#ID number of event
-            ID_node.parent = BDE_node
-            ID_node.name = "ID"
-            ID_node.desc = form.cleaned_data['ID']
-
-            ID_node.save()
 
             flags_node.parent = BDE_node
             flags_node.name = "flags"
             flags_node.desc = "|BDE|"
 
             flags_node.save()
-
-            date_node.parent = BDE_node
-            date_node.name = "date"
-            date_node.desc = form.cleaned_data['date']
-
-            date_node.save()
 
             bank_node.parent = BDE_node
             bank_node.name = "bank name"
@@ -123,46 +153,127 @@ def new_bank_deposit_event(request):
             #BDE_glue.save()
 
             form.save()
-            return HttpResponseRedirect('/finance/bank_deposit_event_detail/'+str(BDE_node.id))
+            return HttpResponseRedirect('/finance/bank_deposit/detail/'+str(BDE_node.id))
     else:
         form = NewBankDepositEventForm()
 
-    return render(request, 'finance/bank_deposit_event_detail.html', {'form': form,'action':'new_bank_deposit_event'})
+    return render(request, 'finance/bank_deposit_detail.html', {'form': form,'action':'new_bank_deposit'})
 
-def bank_deposit_event_detail(request):
-    """  Page for viewing all aspects of a ticket. """
+def new_expenditure(request):
+    form_action = "/finance/new_expenditure/"
+
+    if request.method == 'POST':
+        form = NewExpenditureForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            EXP_node = Node.objects.create()
+            payto_node = Node.objects.create()
+            amount_node = Node.objects.create()
+            flags_node = Node.objects.create()
+            # customer_node = Node.objects.create()
+
+            # record.save()
+            EXP_node.desc = form.cleaned_data['desc']
+
+            EXP_node.save()
+
+            flags_node.parent = EXP_node
+            flags_node.name = "flags"
+            flags_node.desc = "|EXP|"
+
+            flags_node.save()
+
+            payto_node.parent = EXP_node
+            payto_node.name = "payto"
+            payto_node.desc = form.cleaned_data['payto']
+
+            payto_node.save()
+
+            amount_node.parent = EXP_node
+            amount_node.name = "amount"
+            amount_node.desc = form.cleaned_data['amount']
+
+            amount_node.save()
+            #BDE_glue.save()
+
+            form.save()
+            return HttpResponseRedirect('/finance/expenditure/detail/'+str(EXP_node.id))
+    else:
+        form = NewExpenditureForm()
+
+    return render(request, 'finance/expenditure_detail.html', {'form': form,'action':'new_expenditure'})
+
+def new_payment_received(request):
+    form_action = "/finance/new_payment_received/"
+
+    if request.method == 'POST':
+        form = NewPaymentReceivedForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            PR_node = Node.objects.create()
+            payfrom_node = Node.objects.create()
+            amount_node = Node.objects.create()
+            flags_node = Node.objects.create()
+            # customer_node = Node.objects.create()
+
+            # record.save()
+            PR_node.desc = form.cleaned_data['desc']
+#            BDE_node.desc = form.cleaned_data['desc']
+
+            PR_node.save()
+
+            flags_node.parent = PR_node
+            flags_node.name = "flags"
+            flags_node.desc = "|PR|"
+
+            flags_node.save()
+
+            payfrom_node.parent = PR_node
+            payfrom_node.name = "payfrom"
+            payfrom_node.desc = form.cleaned_data['payfrom']
+
+            payfrom_node.save()
+
+            amount_node.parent = PR_node
+            amount_node.name = "amount"
+            amount_node.desc = form.cleaned_data['amount']
+
+            amount_node.save()
+            #BDE_glue.save()
+
+            form.save()
+            return HttpResponseRedirect('/finance/payment_received/detail/'+str(PR_node.id))
+    else:
+        form = NewPaymentReceivedForm()
+
+    return render(request, 'finance/payment_received_detail.html', {'form': form,'action':'new_payment_received'})
+
+def bank_deposit_detail(request, node_id):
+    """  Page for viewing all aspects of a bank deposit. """
     iterator=itertools.count() ###
+
     node = get_object_or_404(Node, pk=node_id)
-    return render(request, 'finance/bank_deposit_event_detail.html', {'node': node, 'iterator':iterator})
+    return render(request, 'finance/bank_deposit_detail.html', {'node': node, 'iterator':iterator})
 
+def expenditure_detail(request, node_id):
+    """  Page for viewing all aspects of a expenditure. """
+    iterator=itertools.count() ###
 
-def home(request):
-    """  Starting page where User chooses what to do. """
-    """    generic_html_dump = ""
-    generic_html_dump += "<P> In home.html </P>"
-    generic_html_dump += "<a href=\"documentation\" >documentation</a><BR>"
-    generic_html_dump += "<a href=\"new_document\" >New document</a><BR>"
-    generic_html_dump += "<a href=\"invoices\" >invoices</a><BR>"
-    generic_html_dump += "<a href=\"index\" >UNDECIDED FEATURE</a><BR>"
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'finance/expenditure_detail.html', {'node': node, 'iterator':iterator})
 
-    context = {'generic_html_dump': generic_html_dump}
+def payment_received_detail(request, node_id):
+    """  Page for viewing all aspects of a payment received. """
+    iterator=itertools.count() ###
 
-    return render(request, 'core/generic.html', context)
-    """
-    generic_html_dump = ""
-
-    generic_html_dump += "<a href=\"bank_deposit_event_index\" >Bank Deposit Event</a><BR>"
-    generic_html_dump += "<a href=\"new_bank_deposit_event\" >Create Bank Deposit Event</a><BR>"
-
-    generic_html_dump += "<a href=\"expenditure_event_index\" >Expenditure Event</a><BR>"
-    generic_html_dump += "<a href=\"new_expenditure_event\" >Create Expenditure Event</a><BR>"
-
-    generic_html_dump += "<a href=\"payment_received_index\" >Payments received</a><BR>"
-    generic_html_dump += "<a href=\"new_payment_received\" >Create Payments received</a><BR>"
-
-
-    context = {'generic_html_dump': generic_html_dump}
-    return render(request, 'core/generic.html', context)
+    node = get_object_or_404(Node, pk=node_id)
+    return render(request, 'finance/payment_received_detail.html', {'node': node, 'iterator':iterator})
 
 
 def invoices(request):

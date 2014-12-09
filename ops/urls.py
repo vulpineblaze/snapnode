@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
     url(r'^customer/new_customer/$', views.new_customer, name='new_customer'),
     url(r'^customer/detail/(?P<node_id>\d+)/$', views.detail, name='detail'),
-    url(r'^edit/(?P<node_id>\d+)/$', views.edit, name='edit'),
+    url(r'^customer/edit/(?P<node_id>\d+)/$', views.edit, name='edit'),
 
     # # ex: /polls/5/
     # url(r'^(?P<node_id>\d+)/$', views.detail, name='detail'),

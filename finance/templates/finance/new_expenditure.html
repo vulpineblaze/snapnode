@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{{form.errors}}
+
+<form action="{{ form_action }}" method="post">
+{% csrf_token %}
+
+{{form.ID.label}}{{form.ID}}</br>
+{{form.date.label}}{{form.date}}</br>
+{{form.bank.label}}{{form.bank}}</br>
+{{form.depositor.label}}{{form.depositor}}</br>
+{{form.amount.label}}{{form.amount}}</br>
+
+
+
+<input type="submit" value="Save" />
+</form>
+
+
+
+{%endblock%}
+
