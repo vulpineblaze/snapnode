@@ -15,6 +15,4 @@ urlpatterns = patterns('',
 
     url(r'^core/', include('core.urls')),
 
-    url(r'^pagetest/', include('pagetest.urls')),
-
 )
