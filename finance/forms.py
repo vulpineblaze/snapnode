@@ -35,7 +35,7 @@ class NodeForm(forms.ModelForm):
         model = Node
         fields = ('parent', 'name', 'desc')
 
-class NewBankDepositEventForm(forms.ModelForm):
+class NewBankDepositForm(forms.ModelForm):
 
     latest_node_list = Node.objects.order_by('-date_updated')
     latest_glue_list = Glue.objects.order_by('-date_updated')
