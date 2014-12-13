@@ -110,7 +110,6 @@ def new_bank_deposit(request):
             amount_node = Node.objects.create()
             flags_node = Node.objects.create()
             # customer_node = Node.objects.create()
-
             # record.save()
 
             BDE_node.desc = form.cleaned_data['desc']
@@ -122,6 +121,7 @@ def new_bank_deposit(request):
             flags_node.desc = "|BDE|"
 
             flags_node.save()
+
 
             bank_node.parent = BDE_node
             bank_node.name = "bank name"
@@ -158,6 +158,62 @@ def new_bank_deposit(request):
         form = NewBankDepositEventForm()
 
     return render(request, 'finance/bank_deposit_detail.html', {'form': form,'action':'new_bank_deposit'})
+
+def bank_deposit_edit(request, node_id):
+
+    latest_node_list = Node.objects.order_by('-date_updated')
+    node_list = []
+
+    form_action = "/finance/bank_deposit/edit/" + str(node_id)
+
+    BDE_node = get_object_or_404(Node, pk=node_id)
+    bank_node = Node.objects.get(parent=BDE_node,name='bank')
+    depositor_node = Node.objects.get(parent=BDE_node,name='depositor')
+    amount_node = Node.objects.get(parent=BDE_node,name='amount')
+
+    for index_node in latest_node_list:
+        for child in index_node.node_set.all():
+            if(child.name == "flags"):
+              if "|ASSET|" in child.desc:
+                  node_list.append(index_node.pk)
+
+    asset_set = Node.objects.filter(pk__in=node_list)
+
+    if request.method == 'POST':
+        form = NewBankDepositEventForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            # record.save()
+            BDE_node.name = form.cleaned_data['name']
+            BDE_node.desc = form.cleaned_data['desc']
+            BDE_node.save()
+
+            bank_node = form.cleaned_data['bank']
+            bank_node.save()
+
+            depositor_node.desc = form.cleaned_data['depositor']
+            depositor_node.save()
+
+            amount_node.desc = form.cleaned_data['amount']
+            amount_node.save()
+
+
+            # form.save()
+            return HttpResponseRedirect('/finance/bank_deposit/detail/'+str(BDE_node.id))
+    else:
+
+        form = NewBankDepositEventForm( initial = { 'name':BDE_node.name,
+                                            'desc':BDE_node.desc,
+                                            'depositor':depositor_node.desc,
+                                            'amount':amount_node.desc,
+                                            'bank':bank_node.decs,
+                                } )
+
+    return render(request, 'finance/bank_deposit_detail.html', {'form': form,'action':'edit'})
+
 
 def new_expenditure(request):
     form_action = "/finance/new_expenditure/"
@@ -206,6 +262,50 @@ def new_expenditure(request):
 
     return render(request, 'finance/expenditure_detail.html', {'form': form,'action':'new_expenditure'})
 
+def expenditure_edit(request, node_id):
+
+    latest_node_list = Node.objects.order_by('-date_updated')
+    node_list = []
+
+    form_action = "/finance/expenditure/edit/" + str(node_id)
+
+    EXP_node = get_object_or_404(Node, pk=node_id)
+    payto_node = Node.objects.get(parent=EXP_node,name='payto')
+    amount_node = Node.objects.get(parent=EXP_node,name='amount')
+
+    for index_node in latest_node_list:
+        for child in index_node.node_set.all():
+            if(child.name == "flags"):
+              if "|ASSET|" in child.desc:
+                  node_list.append(index_node.pk)
+
+    asset_set = Node.objects.filter(pk__in=node_list)
+
+    if request.method == 'POST':
+        form = NewExpenditureForm(request.POST)
+        if form.is_valid():
+            EXP_node.name = form.cleaned_data['name']
+            EXP_node.desc = form.cleaned_data['desc']
+            EXP_node.save()
+
+            payto_node = form.cleaned_data['payto']
+            payto_node.save()
+
+            amount_node.desc = form.cleaned_data['amount']
+            amount_node.save()
+
+            # form.save()
+            return HttpResponseRedirect('/finance/expenditure/detail/'+str(EXP_node.id))
+    else:
+
+        form = NewExpenditureForm( initial = { 'name':EXP_node.name,
+                                            'desc':EXP_node.desc,
+                                            'payto':payto_node.desc,
+                                            'amount':amount_node.desc,
+                                } )
+
+    return render(request, 'finance/expenditure_detail.html', {'form': form,'action':'edit'})
+
 def new_payment_received(request):
     form_action = "/finance/new_payment_received/"
 
@@ -253,6 +353,50 @@ def new_payment_received(request):
         form = NewPaymentReceivedForm()
 
     return render(request, 'finance/payment_received_detail.html', {'form': form,'action':'new_payment_received'})
+
+def payment_received_edit(request, node_id):
+
+    latest_node_list = Node.objects.order_by('-date_updated')
+    node_list = []
+
+    form_action = "/finance/new_payment_received/edit/" + str(node_id)
+
+    PR_node = get_object_or_404(Node, pk=node_id)
+    payfrom_node = Node.objects.get(parent=PR_node,name='payfrom')
+    amount_node = Node.objects.get(parent=PR_node,name='amount')
+
+    for index_node in latest_node_list:
+        for child in index_node.node_set.all():
+            if(child.name == "flags"):
+              if "|ASSET|" in child.desc:
+                  node_list.append(index_node.pk)
+
+    asset_set = Node.objects.filter(pk__in=node_list)
+
+    if request.method == 'POST':
+        form = NewExpenditureForm(request.POST)
+        if form.is_valid():
+            PR_node.name = form.cleaned_data['name']
+            PR_node.desc = form.cleaned_data['desc']
+            PR_node.save()
+
+            payfrom_node = form.cleaned_data['payfrom']
+            payfrom_node.save()
+
+            amount_node.desc = form.cleaned_data['amount']
+            amount_node.save()
+
+            # form.save()
+            return HttpResponseRedirect('/finance/payment_received/detail/'+str(PR_node.id))
+    else:
+        form = NewPaymentReceivedForm( initial = { 'name':PR_node.name,
+                                            'desc':PR_node.desc,
+                                            'payto':payfrom_node.desc,
+                                            'amount':amount_node.desc,
+                                } )
+
+    return render(request, 'finance/payment_received_detail.html', {'form': form,'action':'edit'})
+
 
 def bank_deposit_detail(request, node_id):
     """  Page for viewing all aspects of a bank deposit. """

@@ -86,7 +86,41 @@
 
 	</div>
 
+<h1>Create a <a href="/ticket/new_event/{{node.id}}">New Event</a> for this ticket</h1>
+
+	<h4>Events: </h4>
+	    <div class="toggle">
+
+
+	          {%for child in node.node_set.all%}  <!-- {{child.name}}:child<BR> -->
+	          	{%for grandchild in child.node_set.all%}   <!-- {{grandchild.name}}{{grandchild.desc}}:grandchild<BR> -->
+		          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
+		          <h2 class="trigger">+ {{ grandchild.parent.name }}</h2>
+	        <div class="togglebox">
+	          <div>
+		          	{{ grandchild.parent.desc }}<BR>
+		          	{%for event in grandchild.parent.node_set.all%}
+		          		{% if event.name == "hours" %}
+                                        	<h5><p>Hours spent working: {{event.desc}} hours </h5></p>
+                               		{% endif %}
+		          	{%endfor%}
+
+
+	          </div>
+	        </div>
+		          {%endif%}
+		        {%endfor%}
+	          {%endfor%}
+
+
+
+
+	    </div>
+	</div>
+
 </form>
+
+
 
 {%endblock%}
 
