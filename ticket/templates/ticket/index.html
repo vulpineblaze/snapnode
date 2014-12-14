@@ -10,9 +10,8 @@
 
 	<ul><a href="/ticket/new_ticket/"><img align="right" src="/static/core/images/create_new.png" alt="Create New Ticket" /></a></ul><br><br><br><br>
 	<h2>Ticket</h2>
-		      <div class="line"></div>
-
 	<div class="line"></div>
+
 	<div class="tabbed-content">
 		<ul class="tabs">
 			<li><a href="#tab1">My Tickets</a></li>
@@ -39,36 +38,42 @@
 							        	{%for event in grandchild.parent.node_set.all%}
 							          		{% if event.name == "user" %}
 					                        	{% if event.desc == username %}
-					                        		<tr>
-											            <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
-											            <td>
-														{%for glue in node.node_child.all%}
-															<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
-
-														{%endfor%}
-											            </td>
-											            <td>{{ node.date_created }}</td>
-											            <td>
-														{%for child in node.node_set.all%}
-															{% if child.name == "priority" %}
-										                        {% if child.desc == "1" %}
-										                            HIGH
-										                        {% elif child.desc == "2" %}
-										                            MEDIUM
-										                        {% elif child.desc == "3" %}
-										                            LOW
-										                        {% endif %}
-															{% endif %}
-														{%endfor%}
-											            </td>
-														<td>
-														{%for child in node.node_set.all%}
+					                        		{%for child in node.node_set.all%}
 															{% if child.name == "status" %}
-																{{child.desc}}
-															{% endif %}
-														{%endfor%}
-														</td>
-													</tr>
+																{% if child.desc != "Completed" %}
+									                        		<tr>
+															            <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
+															            <td>
+																		{%for glue in node.node_child.all%}
+																			<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
+
+																		{%endfor%}
+															            </td>
+															            <td>{{ node.date_created }}</td>
+															            <td>
+																		{%for child in node.node_set.all%}
+																			{% if child.name == "priority" %}
+														                        {% if child.desc == "1" %}
+														                            HIGH
+														                        {% elif child.desc == "2" %}
+														                            MEDIUM
+														                        {% elif child.desc == "3" %}
+														                            LOW
+														                        {% endif %}
+																			{% endif %}
+																		{%endfor%}
+															            </td>
+																		<td>
+																		{%for child in node.node_set.all%}
+																			{% if child.name == "status" %}
+																				{{child.desc}}
+																			{% endif %}
+																		{%endfor%}
+																		</td>
+																	</tr>
+																{% endif %}	
+														{% endif %}
+													{%endfor%}
 					                        	{% endif %}
 					                        {% endif %}
 							          	{%endfor%}
@@ -92,39 +97,45 @@
 					</thead>
 					<tbody>
 				    {% for node in latest_node_list %}
-						<tr>
-				              <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
-				              <td>
-								{%for glue in node.node_child.all%}
+				    	{%for child in node.node_set.all%}
+							{% if child.name == "status" %}
+								{% if child.desc != "Completed" %}				    
+									<tr>
+							              <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
+							              <td>
+											{%for glue in node.node_child.all%}
 
-									<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
+												<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
 
-								{%endfor%}
-				              </td>
-				              <td>{{ node.date_created }}</td>
-				              <td>
-								{%for child in node.node_set.all%}
-									{% if child.name == "priority" %}
-			                                        		{% if child.desc == "1" %}
-			                                                		HIGH
-			                                        		{% elif child.desc == "2" %}
-			                                                		MEDIUM
-			                                        		{% elif child.desc == "3" %}
-			                                                		LOW
-			                                        		{% endif %}
-									{% endif %}
+											{%endfor%}
+							              </td>
+							              <td>{{ node.date_created }}</td>
+							              <td>
+											{%for child in node.node_set.all%}
+												{% if child.name == "priority" %}
+						                                        		{% if child.desc == "1" %}
+						                                                		HIGH
+						                                        		{% elif child.desc == "2" %}
+						                                                		MEDIUM
+						                                        		{% elif child.desc == "3" %}
+						                                                		LOW
+						                                        		{% endif %}
+												{% endif %}
 
-								{%endfor%}
-				              </td>
-											<td>
-												{%for child in node.node_set.all%}
-													{% if child.name == "status" %}
-														{{child.desc}}
-													{% endif %}
+											{%endfor%}
+							              </td>
+														<td>
+															{%for child in node.node_set.all%}
+																{% if child.name == "status" %}
+																	{{child.desc}}
+																{% endif %}
 
-												{%endfor%}
-											</td>
-						</tr>
+															{%endfor%}
+														</td>
+									</tr>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
 				    {% endfor %}
 					</tbody>
 				</table>
