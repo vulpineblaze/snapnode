@@ -12,59 +12,130 @@
 	<h2>Ticket</h2>
 		      <div class="line"></div>
 
-	{% if latest_node_list %}
-	   <table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
-		<thead>
-			<tr>
-	          	<th><h4>Ticket Name</h4></th>
-	          	<th><h4>Customer</h4></th>
-	          	<th><h4>Date</h4></th>
-	          	<th><h4>Priority</h4></th>
-				<th><h4>Status</h4></th>
-			</tr>
-		</thead>
-		<tbody>
-	    {% for node in latest_node_list %}
-			<tr>
-	              <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
-	              <td>
-					{%for glue in node.node_child.all%}
+	<div class="line"></div>
+	<div class="tabbed-content">
+		<ul class="tabs">
+			<li><a href="#tab1">My Tickets</a></li>
+			<li><a href="#tab2">Open Tickets</a></li>	
+		</ul>
+		<div class="tab_container">
+			{% if latest_node_list %}
+			<div style="display: none;" id="tab1" class="tab_content">
+				   	<table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+					<thead>
+						<tr>
+				          	<th><h4>Ticket Name</h4></th>
+				          	<th><h4>Customer</h4></th>
+				          	<th><h4>Date</h4></th>
+				          	<th><h4>Priority</h4></th>
+							<th><h4>Status</h4></th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for node in latest_node_list %}
+				    	{%for child in node.node_set.all%}  <!-- {{child.name}}:child<BR> -->
+						    {%for grandchild in child.node_set.all%}   <!-- {{grandchild.name}}{{grandchild.desc}}:grandchild<BR> -->
+							    {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
+							        	{%for event in grandchild.parent.node_set.all%}
+							          		{% if event.name == "user" %}
+					                        	{% if event.desc == username %}
+					                        		<tr>
+											            <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
+											            <td>
+														{%for glue in node.node_child.all%}
+															<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
 
-						<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
+														{%endfor%}
+											            </td>
+											            <td>{{ node.date_created }}</td>
+											            <td>
+														{%for child in node.node_set.all%}
+															{% if child.name == "priority" %}
+										                        {% if child.desc == "1" %}
+										                            HIGH
+										                        {% elif child.desc == "2" %}
+										                            MEDIUM
+										                        {% elif child.desc == "3" %}
+										                            LOW
+										                        {% endif %}
+															{% endif %}
+														{%endfor%}
+											            </td>
+														<td>
+														{%for child in node.node_set.all%}
+															{% if child.name == "status" %}
+																{{child.desc}}
+															{% endif %}
+														{%endfor%}
+														</td>
+													</tr>
+					                        	{% endif %}
+					                        {% endif %}
+							          	{%endfor%}
+							    {%endif%}
+							{%endfor%}
+						{%endfor%}
+				    {% endfor %}
+				  	</tbody>
+				</table>
+			</div>
+			<div style="display: none;" id="tab2" class="tab_content">
+				   	<table id="myTable2" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+					<thead>
+						<tr>
+				          	<th><h4>Ticket Name</h4></th>
+				          	<th><h4>Customer</h4></th>
+				          	<th><h4>Date</h4></th>
+				          	<th><h4>Priority</h4></th>
+							<th><h4>Status</h4></th>
+						</tr>
+					</thead>
+					<tbody>
+				    {% for node in latest_node_list %}
+						<tr>
+				              <td><a href="/ticket/detail/{{ node.id }}/">{{ node.name }}</a></td>
+				              <td>
+								{%for glue in node.node_child.all%}
 
-					{%endfor%}
-	              </td>
-	              <td>{{ node.date_created }}</td>
-	              <td>
-					{%for child in node.node_set.all%}
-						{% if child.name == "priority" %}
-                                        		{% if child.desc == "1" %}
-                                                		HIGH
-                                        		{% elif child.desc == "2" %}
-                                                		MEDIUM
-                                        		{% elif child.desc == "3" %}
-                                                		LOW
-                                        		{% endif %}
-						{% endif %}
+									<a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a>
 
-					{%endfor%}
-	              </td>
-								<td>
-									{%for child in node.node_set.all%}
-										{% if child.name == "status" %}
-											{{child.desc}}
-										{% endif %}
+								{%endfor%}
+				              </td>
+				              <td>{{ node.date_created }}</td>
+				              <td>
+								{%for child in node.node_set.all%}
+									{% if child.name == "priority" %}
+			                                        		{% if child.desc == "1" %}
+			                                                		HIGH
+			                                        		{% elif child.desc == "2" %}
+			                                                		MEDIUM
+			                                        		{% elif child.desc == "3" %}
+			                                                		LOW
+			                                        		{% endif %}
+									{% endif %}
 
-									{%endfor%}
-								</td>
-			</tr>
-	    {% endfor %}
-		</tbody>
-	</table>
-	{% else %}
-	    <p>No tickets available.</p>
-	{% endif %}
-	      <div class="line"></div>
+								{%endfor%}
+				              </td>
+											<td>
+												{%for child in node.node_set.all%}
+													{% if child.name == "status" %}
+														{{child.desc}}
+													{% endif %}
+
+												{%endfor%}
+											</td>
+						</tr>
+				    {% endfor %}
+					</tbody>
+				</table>
+				</div>
+			{% else %}
+			    <p>No tickets available.</p>
+			{% endif %}
+			      
+			</div>
+		</div>
+		<div class="line"></div>
 <!--  -->
 
 {%endblock%}

@@ -144,12 +144,20 @@
 	        <div class="togglebox">
 	          <div>
 		          	{{ grandchild.parent.desc }}<BR>
+		          	
+		          	<h5><p><BR>
+		          	{%for event in grandchild.parent.node_set.all%}
+		          		{% if event.name == "user" %}
+                        	Tech: {{event.desc}}
+                        {% endif %}
+		          	{%endfor%}
+		          	<BR>
 		          	{%for event in grandchild.parent.node_set.all%}
 		          		{% if event.name == "hours" %}
-                                        	<h5><p>Hours spent working: {{event.desc}} hours </h5></p>
-                               		{% endif %}
+                            Hours spent working: {{event.desc}} hours 
+                        {% endif %}
 		          	{%endfor%}
-
+		          	</h5></p>
 
 	          </div>
 	        </div>

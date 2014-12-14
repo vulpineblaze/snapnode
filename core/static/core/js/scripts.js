@@ -96,3 +96,9 @@ $(window).load(function() {
 $(function() {		
 	$("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets: ['zebra']});
 });	
+$(function() {		
+	$("#myTable2").tablesorter({sortList:[[0,0],[2,1]], widgets: ['zebra']});
+});	
+$(function() {		
+	$("#myTable3").tablesorter({sortList:[[0,0],[2,1]], widgets: ['zebra']});
+});	

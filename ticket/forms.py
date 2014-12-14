@@ -49,9 +49,9 @@ class NodeForm(forms.ModelForm):
 #     favorite_colors = forms.MultipleChoiceField(required=False,
 #         widget=forms.CheckboxSelectMultiple, choices=FAVORITE_COLORS_CHOICES)
 
-TICKET_PRIORITY_CHOICES = (('1','1 - High'),
-                            ('2','2 - Medium'),
-                            ('3','3 - Low'))
+TICKET_PRIORITY_CHOICES = (('1','High'),
+                            ('2','Medium'),
+                            ('3','Low'))
 TICKET_STATUS_CHOICES = (('Not Started','Not Started'),
                          ('In Progress','In Progress'),
                          ('Pending','Pending'),
