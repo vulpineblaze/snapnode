@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^payment_received/detail/(?P<node_id>\d+)/$', views.payment_received_detail),
     url(r'^new_payment_received/$', views.new_payment_received),
     url(r'^payment_received/edit/(?P<node_id>\d+)/$', views.payment_received_edit),
+
+    url(r'^bank_deposit/pdf/$', views.pdf_maker, name='pdf'),
 #    url(r'^bank_deposit_event_detail/$', views.bank_deposit_event_detail),
 #    url(r'^bank_deposit_event_edit$', views.bank_deposit_event_edit),
 
