@@ -206,6 +206,7 @@ def new_event(request, node_id):                         ###
 
             event_node = Node.objects.create()
             flags_node = Node.objects.create()
+            user_node = Node.objects.create()
             hours_node = Node.objects.create()
 
             # record.save()
@@ -221,6 +222,12 @@ def new_event(request, node_id):                         ###
             flags_node.desc = "|EVENT|"
 
             flags_node.save()
+
+            user_node.parent = event_node
+            user_node.name = "user"
+            user_node.desc = request.user.first_name + ' ' + request.user.last_name
+
+            user_node.save()
 
 
             hours_node.parent = event_node
