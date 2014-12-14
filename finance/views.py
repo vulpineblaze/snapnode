@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from core.models import Node, UserProfile
 from django.core.mail import send_mail
 from finance.forms import *
-from finance.pdf import build_pdf
+from finance.pdf import *
 
 import itertools
 
@@ -395,7 +395,7 @@ def invoices(request):
     context = {}
     return render(request, 'finance/invoices.html', context)
 
-def pdf_maker(request):
+def bd_pdf(request):
     """ Calls the reportlab code in pdf.py for generate a pdf. """
 
     node_list = []
@@ -412,7 +412,45 @@ def pdf_maker(request):
     queryset = Node.objects.filter(pk__in=node_list) 
     latest_node_list = queryset   
 
-    return build_pdf(request, latest_node_list)
+    return bank_depo_pdf(request, latest_node_list)
+
+def exp_pdf(request):
+    """ Calls the reportlab code in pdf.py for generate a pdf. """
+
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+
+    # template = loader.get_template('core/index.html')
+
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|EXP|" in child.desc:
+                    node_list.append(node.pk)
+
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
+
+    return expend_pdf(request, latest_node_list)
+
+def pr_pdf(request):
+    """ Calls the reportlab code in pdf.py for generate a pdf. """
+
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+
+    # template = loader.get_template('core/index.html')
+
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|PR|" in child.desc:
+                    node_list.append(node.pk)
+
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
+
+    return pay_rec_pdf(request, latest_node_list)
 
 def contact(request):
     if request.method == 'POST':

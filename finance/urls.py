@@ -22,7 +22,9 @@ urlpatterns = patterns('',
     url(r'^new_payment_received/$', views.new_payment_received),
     url(r'^payment_received/edit/(?P<node_id>\d+)/$', views.payment_received_edit),
 
-    url(r'^bank_deposit/pdf/$', views.pdf_maker, name='pdf'),
+    url(r'^bank_deposit/pdf/$', views.bd_pdf, name='bd_pdf'),
+    url(r'^expenditure/pdf/$', views.exp_pdf, name='exp_pdf'),
+    url(r'^payment_received/pdf/$', views.pr_pdf, name='pr_pdf'),
 #    url(r'^bank_deposit_event_detail/$', views.bank_deposit_event_detail),
 #    url(r'^bank_deposit_event_edit$', views.bank_deposit_event_edit),
 
