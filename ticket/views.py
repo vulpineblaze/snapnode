@@ -29,9 +29,7 @@ def index(request):
 
     queryset = Node.objects.filter(pk__in=node_list)
     latest_node_list = queryset
-    username = request.user.first_name
-    username += ' '
-    username +=  request.user.last_name
+    username = request.user.username
 
     context = {'latest_node_list': latest_node_list, 'username': username}
     return render(request, 'ticket/index.html', context)
@@ -228,7 +226,7 @@ def new_event(request, node_id):                         ###
 
             user_node.parent = event_node
             user_node.name = "user"
-            user_node.desc = request.user.first_name + ' ' + request.user.last_name
+            user_node.desc = request.user.username
 
             user_node.save()
 
