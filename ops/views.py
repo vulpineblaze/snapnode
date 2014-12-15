@@ -11,6 +11,7 @@ from core.models import Node, UserProfile
 from ops.forms import *
 
 import itertools
+import time
 
 
 
@@ -64,6 +65,10 @@ def new_customer(request):
             primAddress_node = Node.objects.create()
             rate_node = Node.objects.create()
             flags_node = Node.objects.create()
+            invoice_node = Node.objects.create()
+            in_flag_node = Node.objects.create()
+            date_node = Node.objects.create()
+            cost_other_node = Node.objects.create()
 
 
             # record.save()
@@ -106,6 +111,30 @@ def new_customer(request):
             flags_node.desc = "|CUSTOMER|"
 
             flags_node.save()
+
+            invoice_node.parent = customer_node
+            invoice_node.name = "invoice"
+            invoice_node.desc = " "
+
+            invoice_node.save()
+
+            in_flag_node.parent = invoice_node
+            in_flag_node.name = "flags"
+            in_flag_node.desc = "|INVOICE|"
+
+            in_flag_node.save()
+
+            date_node.parent = invoice_node
+            date_node.name = "date"
+            date_node.desc = time.strftime("%m/%d/%Y")
+
+            date_node.save()            
+            
+            cost_other_node.parent = invoice_node
+            cost_other_node.name = "cost_other"
+            cost_other_node.desc = ""
+
+            cost_other_node.save()
 
 
             #customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],

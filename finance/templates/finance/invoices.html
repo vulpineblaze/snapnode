@@ -19,29 +19,34 @@
 			<li><a href="#tab3">Sent Invoices</a></li>	
 		</ul>
 		<div class="tab_container">
+			{% if latest_node_list %}
 			<div style="display: none;" id="tab1" class="tab_content">
 				<!--list invoices that need to be reviewed and sent out-->
 			
 			    <table id="myTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
 					<thead>
 					<tr>
-			          <th><h4>Customer</h4></th>
-			          <th><h4>Date of Last Invoice</h4></th>
+						<th><h4>Invoice ID</h4></th>
+			          	<th><h4>Customer</h4></th>
+			          	<th><h4>Date of Last Invoice</h4></th>
 					</tr>
 					</thead>
 					<tbody>
-			        <tr>
-			          <td>Client 1</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 2</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 3</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
+					{% for node in latest_node_list %}
+						{%for child in node.node_set.all%}
+		                        {% if child.name == "date" %}
+		                        	{% if due <= child.desc %}
+								        <tr>
+								        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
+								          	<td>{{ node.parent.name }}</td>
+								          	<td>
+							                    {{ child.desc }}
+								          	</td>
+								        </tr>
+								    {% endif %}
+								{% endif %}    
+		                {%endfor%}   
+			        {%endfor%}
 					</tbody>
 				</table>
 
@@ -53,26 +58,25 @@
 			    <table id="myTable2" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
 					<thead>
 					<tr>
-			          <th><h4>Customer</h4></th>
-			          <th><h4>Date of Last Invoice</h4></th>
+						<th><h4>Invoice ID</h4></th>
+			          	<th><h4>Customer</h4></th>
+			          	<th><h4>Date of Last Invoice</h4></th>
 					</tr>
 					</thead>
 					<tbody>
-			        <tr>
-			          <td>Client 4</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 5</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 6</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
+					{% for node in latest_node_list %}
+						{%for child in node.node_set.all%}
+								        <tr>
+								        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
+								          	<td>{{ node.parent.name }}</td>
+								          	<td>
+							                    {{ child.desc }}
+								          	</td>
+								        </tr>
+		                {%endfor%}   
+			        {%endfor%}
 					</tbody>
 				</table>
-
 			</div>
 
 			<div style="display: none;" id="tab3" class="tab_content">
@@ -86,34 +90,19 @@
 					</tr>
 					</thead>
 					<tbody>
+					{% for node in latest_node_list %}
 			        <tr>
 			          <td>Client 1</td>
 			          <td>MM/DD/YY</td>
 			        </tr>
-			        <tr>
-			          <td>Client 2</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 3</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 4</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 5</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        <tr>
-			          <td>Client 6</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
+			        {% endfor %}
 					</tbody>
 				</table>
 
 			</div>
+			{% else %}
+			    <p>No invoices are available.</p>
+			{% endif %}
 		</div>
 	</div>
 

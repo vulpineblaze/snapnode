@@ -10,6 +10,7 @@ from core.models import Node, UserProfile
 from ticket.forms import *
 
 import itertools
+import time
 
 
 def index(request):
@@ -69,6 +70,7 @@ def new_ticket(request):
             priority_node = Node.objects.create()
             flags_node = Node.objects.create()
             status_node = Node.objects.create()
+            sent_node = Node.objects.create()
             # customer_node = Node.objects.create()
 
             # record.save()
@@ -95,6 +97,14 @@ def new_ticket(request):
 
             status_node.save()
 
+            sent_date_node.parent = ticket_node
+            sent_date_node.name = "sent"
+            sent_date_node.desc = "no"
+
+            if status_node.desc == 'Completed':
+                sent_node.desc = "yes"
+
+            sent_node.save()
 
             customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
                                                 child=ticket_node,
@@ -138,6 +148,7 @@ def edit(request, node_id):
     ticket_node = get_object_or_404(Node, pk=node_id)
     priority_node = Node.objects.get(parent=ticket_node,name='priority')
     status_node = Node.objects.get(parent=ticket_node,name='status')
+    sent_node = Node.objects.get(parent=ticket_node,name='sent')
 
     customer_node = Glue.objects.get(child=ticket_node,name='CUSTOMER has TICKET').parent
 
@@ -174,6 +185,11 @@ def edit(request, node_id):
             status_node.desc = form.cleaned_data['status']
 
             status_node.save()
+
+            if status_node.desc == 'Completed':
+                sent_node.desc = "yes"
+
+            sent_node.save()
 
 
 

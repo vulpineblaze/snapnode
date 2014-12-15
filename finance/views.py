@@ -10,6 +10,7 @@ from finance.forms import *
 from finance.pdf import *
 
 import itertools
+import time
 
 def index(request):
     generic_html_dump = ""
@@ -43,6 +44,34 @@ def home(request):
 
     context = {'generic_html_dump': generic_html_dump}
     return render(request, 'finance/home.html', context)
+
+def invoices(request):
+    node_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+    # template = loader.get_template('core/index.html')
+
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                if "|INVOICE|" in child.desc:
+                    node_list.append(node.pk)
+
+    queryset = Node.objects.filter(pk__in=node_list) 
+    latest_node_list = queryset   
+
+    month = int(time.strftime("%m"))
+    if month == 1:
+        month = 12
+    elif month > 1:
+        month -= 1
+    day = int(time.strftime("%d"))
+    year = int(time.strftime("%Y"))
+    date = (month, day, year, 0, 0, 0, 0, 0, 0)
+    date = time.mktime(date)
+    due = time.strftime("%m/%d/%Y", time.gmtime(date))
+
+    context = {'latest_node_list': latest_node_list, 'due': due}
+    return render(request, 'finance/invoices.html', context)
 
 def bank_deposit(request):
     node_list = []
@@ -389,11 +418,6 @@ def payment_received_detail(request, node_id):
 
     node = get_object_or_404(Node, pk=node_id)
     return render(request, 'finance/payment_received_detail.html', {'node': node, 'iterator':iterator})
-
-
-def invoices(request):
-    context = {}
-    return render(request, 'finance/invoices.html', context)
 
 def bd_pdf(request):
     """ Calls the reportlab code in pdf.py for generate a pdf. """
