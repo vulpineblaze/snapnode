@@ -122,6 +122,7 @@ def detail(request, node_id):
     iterator=itertools.count() ###
 
     node = get_object_or_404(Node, pk=node_id)
+
     return render(request, 'ticket/detail.html', {'node': node, 'iterator':iterator})
 
 
@@ -191,7 +192,47 @@ def edit(request, node_id):
     return render(request, 'ticket/detail.html', {'form': form,'action':'edit'})
 
 
+def edit_event(request, node_id):
+    latest_node_list = Node.objects.order_by('-date_updated')
+    node_list = []
 
+    form_action = "/ticket/edit_event/" + str(node_id)
+
+    event_node = get_object_or_404(Node, pk=node_id)
+    ticket_node = event_node.parent
+    user_node = Node.objects.get(parent=event_node,name='user')
+    hours_node = Node.objects.get(parent=event_node,name='hours')
+
+    if request.method == 'POST':
+        form = NewEventForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            # record.save()
+            event_node.name = form.cleaned_data['name']
+            event_node.desc = form.cleaned_data['desc']
+
+            event_node.save()
+
+            hours_node.desc = form.cleaned_data['hours']
+
+            hours_node.save()
+
+
+
+            # form.save()
+            return HttpResponseRedirect('/ticket/detail/'+str(ticket_node.id))
+    else:
+
+        form = NewEventForm( initial = { 'name':event_node.name,
+                                            'desc':event_node.desc,
+                                            'user':user_node.desc,
+                                            'hours':hours_node.desc,
+                                } )
+
+    return render(request, 'ticket/new_event.html', {'form': form,'action':'edit'})
 
 
 def new_event(request, node_id):                         ###

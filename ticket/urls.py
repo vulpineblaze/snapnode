@@ -18,6 +18,8 @@ urlpatterns = patterns('',
 
     url(r'^new_event/(?P<node_id>\d+)/$', views.new_event, name='new_event'),
 
+    url(r'^edit_event/(?P<node_id>\d+)/$', views.edit_event, name='edit_event'),
+
     # url(r'^index/$', views.index, name='index'),
 
     # url(r'^index/$', views.index, name='index'),
