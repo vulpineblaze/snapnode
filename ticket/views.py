@@ -101,9 +101,6 @@ def new_ticket(request):
             sent_node.name = "sent"
             sent_node.desc = "no"
 
-            if status_node.desc == 'Completed':
-                sent_node.desc = "yes"
-
             sent_node.save()
 
             customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
@@ -185,9 +182,6 @@ def edit(request, node_id):
             status_node.desc = form.cleaned_data['status']
 
             status_node.save()
-
-            if status_node.desc == 'Completed':
-                sent_node.desc = "yes"
 
             sent_node.save()
 

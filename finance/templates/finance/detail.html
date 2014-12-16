@@ -26,13 +26,9 @@
 			</div>
 	</div>
 
-	<div class="one-side last"><h4>Previous Invoice Sent: </h4>
+	<div class="one-side last"><h4>Customer: </h4>
 		<div class="name-box righthand">
-			{%for child in node.node_set.all%}
-		        {% if child.name == "date" %}
-					{{ child.desc }}
-				{% endif %}    
-		    {%endfor%}   			
+			{{ node.parent.name }}			
 		</div>
 	</div>	
 
@@ -43,7 +39,15 @@
 		</div>
 	</div>
 
-
+	<div class="one-side last"><h4>Previous Invoice Sent: </h4>
+		<div class="name-box righthand">
+			{%for child in node.node_set.all%}
+		        {% if child.name == "date" %}
+					{{ child.desc }}
+				{% endif %}    
+		    {%endfor%}   			
+		</div>
+	</div>	
 
 	{% if form  %}	
 		<input type="submit" value="Save" />
