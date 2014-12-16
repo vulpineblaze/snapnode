@@ -6,15 +6,39 @@
 {% load staticfiles %}
 
 
-<form action="{{ form_action }}" method="post">
+ <form action="{{ form_action }}" method="post">
 
 {% csrf_token %}
 
-{{form.name.label}}{{form.name}}</br>
-{{form.desc.label}}{{form.desc}}</br>
+<div class="one-side"><h1 class="title">Asset Info</h1></div>  
 
-<input type="submit" value="Save" />
+	 
+	<div class="whole"><div class="line"></div></div>
 
+	<div class="one-side"><h4>Asset Name: </h4>
+		<div class="name-box">
+			{{form.name}}
+			</div>
+	</div>
+
+
+
+	<div class="one-side last"><h4>Asset Description: </h4>
+		<div class="name-box">
+			{{form.desc}}
+		</div>
+	</div>
+
+	<div class="one-side">
+	{% if form  %}	
+		<br><br><br><br><input type="submit" value="Save" /><br><br><br><br>
+	{% endif %}
+
+	</div>
+
+	<div class="whole"><div class="line"></div></div>
+
+	</div>
 </form>
 
 {%endblock%}
