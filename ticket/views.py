@@ -297,3 +297,31 @@ def new_event(request, node_id):                         ###
                 'form_action':form_action}
 
     return render(request, 'ticket/new_event.html', context)
+
+def attach_asset(request, node_id):                         ###
+    """  Log a new event under a ticket. """
+
+    form_action = "/ticket/attach_asset/" + str(node_id) +"/"
+    if request.method == 'POST':
+        form = AttachAssetForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            ticket_glue = Glue.objects.create(parent=get_object_or_404(Node, pk=node_id),
+                                                child=form.cleaned_data['assets'],
+                                                name="TICKET has ASSET")
+
+            ticket_glue.save()
+
+            # form.save()
+            return HttpResponseRedirect('/ticket/detail/'+str(node_id)+"/" )
+    else:
+        form = AttachAssetForm()
+
+    context = {'form': form,
+                'action':'attach_asset',
+                'form_action':form_action}
+
+    return render(request, 'ticket/attach_asset.html', context)

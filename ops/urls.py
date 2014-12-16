@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^customer/new_customer/$', views.new_customer, name='new_customer'),
     url(r'^customer/detail/(?P<node_id>\d+)/$', views.detail, name='detail'),
     url(r'^customer/edit/(?P<node_id>\d+)/$', views.edit, name='edit'),
+    url(r'^customer/new_asset/(?P<node_id>\d+)/$', views.new_asset, name='new_asset'),
 
     # # ex: /polls/5/
     # url(r'^(?P<node_id>\d+)/$', views.detail, name='detail'),

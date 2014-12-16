@@ -35,7 +35,7 @@
 				    	{%for child in node.node_set.all%}  <!-- {{child.name}}:child<BR> -->
 						    {%for grandchild in child.node_set.all%}   <!-- {{grandchild.name}}{{grandchild.desc}}:grandchild<BR> -->
 							    {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
-							        	{%for event in grandchild.parent.node_set.all%}
+						        	{%for event in grandchild.parent.node_set.all%}	
 							          		{% if event.name == "user" %}
 					                        	{% if event.desc == username %}
 					                        		{%for child in node.node_set.all%}

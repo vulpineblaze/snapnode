@@ -78,54 +78,40 @@
 		</div>
 	</div>
 
-	<div class="one-side last"><h4>Docs: </h4>
+	<div class="one-side last"><!--<h4>Docs: </h4>
 		<div class="name-box">
 			Perhaps list of documents associated with customer and/or link to invoice.
-		</div>
+		</div>-->
 
 	{% if form  %}
 		<input type="submit" value="Save" />
 	{% endif %}
 	</div>
 
-	<div class="whole"><br><br><h4>Assets: </h4>
-<!-- 	BEGIN TEST CODE //
- -->		{%for glue in node.node_parent.all%}
-			<!-- {{ glue.name }} ; -->
-        	{% for node in glue.child.node_set.all %}
-        		<!-- {{ node.name }}|{{node.desc}}, -->
-        		{% if node.name == "flags" and "|ASSET|" in node.desc %}
-
-			            <h4>{{ node.parent.name }}</h4>
-			            <p>
-			            	{{ node.parent.desc }} <BR>
-			            	{{ node.desc }} <BR>
-			            	count: {{ iterator.next }}<BR>
-			            	All his babbys are below:<BR>
-			            </p>
-			            {%for asset_child in node.parent.node_set.all %}
-			            	Name: {{asset_child.name}}  --and--
-			            	Desc: {{asset_child.desc}}<BR>
-			            {%endfor%}
-
-        		{% endif %}
-        	{% endfor %}
-		{%endfor%}
-
+	<div class="whole">
+		<br><br>
+		<h1>Creat a <a href="/ops/customer/new_asset/{{node.id}}">New Asset</a> for this customer</h1>
+		<h4>Assets: </h4>
 
 			<div class="tabbed-content">
 		        <ul class="tabs">
-			        {%for asset_child in node.parent.node_set.all %}
-			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
+			        {% for child in node.node_set.all %}
+			        	{% for grandchild in child.node_set.all %}
+		        			{% if grandchild.name == "flags" and "|ASSETS|" in grandchild.desc %}
+			        			<li><a href="#{{grandchild.parent.name|slugify}}">{{grandchild.parent.name}}</a></li>
+			        		{%endif%}
+			        	{%endfor%}
 			        {%endfor%}
 		        </ul>
 		        <div class="tab_container">
-		        	{%for asset_child in node.parent.node_set.all %}
-			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
-				        <div style="display: none;" id="{{asset_child.name}}" class="tab_content">
-				        	<h4>{{asset_child.name}}</h4>
-				            <p>{{asset_child.desc}}</p>
-				        </div>
+			        {% for child in node.node_set.all %}
+			        	{% for grandchild in child.node_set.all %}
+		        			{% if grandchild.name == "flags" and "|ASSETS|" in grandchild.desc %}
+			        			<div style="display: none;" id="{{grandchild.parent.name|slugify}}" class="tab_content">
+							        <p>{{grandchild.parent.desc}}</p>
+							    </div>
+			        		{%endif%}
+			        	{%endfor%}
 			        {%endfor%}
 		        </div>
 		      </div>
@@ -138,35 +124,39 @@
 
 
 	        {%for glue in node.node_parent.all%}
-		        <h2 class="trigger">+ {{glue.child.name}}</h2>
-	        <div class="togglebox">
-	          <div>
+	          {%for grandchild in glue.child.node_set.all%}  <!-- {{child.name}}:child<BR> -->
+		          {%if grandchild.name == "flags" and "|TICKET|" in grandchild.desc %}	        
+				        <h2 class="trigger">+ {{grandchild.parent.name}}</h2>
+			        <div class="togglebox">
+			          <div>
 
-		          	{{glue.child.desc}}<BR>
-		          	{%for child in glue.child.node_set.all%}
-						{% if child.name == "priority" %}
-							<br><h5>Priority: {{child.desc}}</h5>
-						{% endif %}
+				          	{{glue.child.desc}}<BR>
+				          	{%for child in grandchild.parent.node_set.all%}
+								{% if child.name == "priority" %}
+									<br><h5>Priority: {{child.desc}}</h5>
+								{% endif %}
 
-					{% endfor %}
-					{%for child in glue.child.node_set.all%}
-						{% if child.name == "status" %}
-							<h5>Status: {{child.desc}}</h5>
-						{% endif %}
+							{% endfor %}
+							{%for child in grandchild.parent.node_set.all%}
+								{% if child.name == "status" %}
+									<h5>Status: {{child.desc}}</h5>
+								{% endif %}
 
-					{% endfor %}
-					{%for child in glue.child.node_set.all%}
-						{% if child.name == "status" %}
-							<h5>Date Created: {{ glue.child.date_created }}</h5>
-						{% endif %}
+							{% endfor %}
+							{%for child in grandchild.parent.node_set.all%}
+								{% if child.name == "status" %}
+									<h5>Date Created: {{grandchild.parent.date_created }}</h5>
+								{% endif %}
 
-					{% endfor %}
+							{% endfor %}
 
-					<h4><a href="/ticket/detail/{{glue.child.pk}}">go to ticket</a></h4>
+							<h4><a href="/ticket/detail/{{grandchild.parent.pk}}">go to ticket</a></h4>
 
-				</br>
-	          </div>
-	        </div>
+						</br>
+			          </div>
+			        </div>
+			        {%endif%}
+			   {%endfor%}    
 	        {%endfor%}
 
 	    </div>

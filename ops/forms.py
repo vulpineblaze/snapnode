@@ -28,7 +28,11 @@ class GenericAssetForm(forms.ModelForm):
         model = Node
         fields = ('name', 'desc','sub_name','sub_desc')
 
-
+class NewAssetForm(forms.ModelForm):
+    """ Creates a Form for a new asset """
+    class Meta:
+        model = Node
+        fields = ('name', 'desc')
 
 
 class NodeForm(forms.ModelForm):

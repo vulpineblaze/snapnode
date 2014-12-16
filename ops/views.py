@@ -243,3 +243,49 @@ def edit(request, node_id):
                                 } )
 
     return render(request, 'ops/detail.html', {'form': form,'action':'edit'})
+
+def new_asset(request, node_id):                         ###
+    """  Log a new event under a ticket. """
+
+    form_action = "/ops/customer/new_asset/" + str(node_id) +"/"
+    if request.method == 'POST':
+        form = NewAssetForm(request.POST)
+        if form.is_valid():
+            # record = form.save(commit = False)
+            # change the stuffs here
+            # node_data = {parent:None, name:"", desc:"" }
+
+            asset_node = Node.objects.create()
+            flags_node = Node.objects.create()
+
+            # record.save()
+
+            asset_node.parent = get_object_or_404(Node, pk=node_id)
+            asset_node.name = form.cleaned_data['name']
+            asset_node.desc = form.cleaned_data['desc']
+
+            asset_node.save()
+
+            flags_node.parent = asset_node
+            flags_node.name = "flags"
+            flags_node.desc = "|ASSETS|"
+
+            flags_node.save()  
+
+
+            #customer_glue = Glue.objects.create(parent=get_object_or_404(Node, pk=node_id),
+            #                                    child=asset_node,
+            #                                    name="CUSTOMER has ASSET")
+
+            #customer_glue.save()
+
+            # form.save()
+            return HttpResponseRedirect('/ops/customer/detail/'+str(node_id)+"/" )
+    else:
+        form = NewAssetForm()
+
+    context = {'form': form,
+                'action':'new_asset',
+                'form_action':form_action}
+
+    return render(request, 'ops/new_asset.html', context)

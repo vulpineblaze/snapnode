@@ -28,6 +28,33 @@ class GenericAssetForm(forms.ModelForm):
         model = Node
         fields = ('name', 'desc','sub_name','sub_desc')
 
+class AttachAssetForm(forms.ModelForm):
+    """ Creates a Form for the generic top-level assets """
+
+    asset_list = []
+    latest_node_list = Node.objects.order_by('-date_updated')
+
+    # template = loader.get_template('core/index.html')    
+    for node in latest_node_list:
+        for child in node.node_set.all():
+            if(child.name == "flags"):
+                  if "|CUSTOMER|" in child.desc:
+                    for child_parent in child.parent.node_set.all():
+                         for grandchild in child_parent.node_set.all():
+                            if(grandchild.name == "flags"):
+                              if "|ASSETS|" in grandchild.desc:
+                                asset_list.append(grandchild.parent.pk)
+
+    asset_queryset = Node.objects.filter(pk__in=asset_list)
+           
+    assets = forms.ModelChoiceField(queryset=asset_queryset,
+                                        empty_label="(Choose One)",
+                                        to_field_name="name")
+
+    class Meta:
+        model = Node
+        fields = ('assets',)
+
 
 
 class NodeForm(forms.ModelForm):

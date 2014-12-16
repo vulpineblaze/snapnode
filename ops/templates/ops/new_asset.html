@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+{% load static %}
+{% load staticfiles %}
+
+
+<form action="{{ form_action }}" method="post">
+
+{% csrf_token %}
+
+{{form.name.label}}{{form.name}}</br>
+{{form.desc.label}}{{form.desc}}</br>
+
+<input type="submit" value="Save" />
+
+</form>
+
+{%endblock%}

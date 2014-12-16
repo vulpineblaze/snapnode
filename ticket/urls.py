@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'^detail/(?P<node_id>\d+)/$', views.detail, name='detail'),
 
 
+    url(r'^attach_asset/(?P<node_id>\d+)/$', views.attach_asset, name='attach_asset'),
+
+
     url(r'^edit/(?P<node_id>\d+)/$', views.edit, name='edit'),
 
     url(r'^new_event/(?P<node_id>\d+)/$', views.new_event, name='new_event'),

@@ -89,44 +89,30 @@
 
 	</div>
 
-	<div class="whole"><br><br><h4>Assets: </h4>
-<!-- 	BEGIN TEST CODE //
- -->		{%for glue in node.node_parent.all%}
-			<!-- {{ glue.name }} ; -->
-        	{% for node in glue.child.node_set.all %}
-        		<!-- {{ node.name }}|{{node.desc}}, -->
-        		{% if node.name == "flags" and "|ASSET|" in node.desc %}
-
-			            <h4>{{ node.parent.name }}</h4>
-			            <p>
-			            	{{ node.parent.desc }} <BR>
-			            	{{ node.desc }} <BR>
-			            	count: {{ iterator.next }}<BR>
-			            	All his babbys are below:<BR>
-			            </p>
-			            {%for asset_child in node.parent.node_set.all %}
-			            	Name: {{asset_child.name}}  --and--
-			            	Desc: {{asset_child.desc}}<BR>
-			            {%endfor%}
-
-        		{% endif %}
-        	{% endfor %}
-		{%endfor%}
-
+	<div class="whole">
+		<br><br>
+		<h1>Creat a <a href="/ops/customer/new_asset/{{node.id}}">Attach Asset</a> to this ticket</h1>
+		<h4>Assets: </h4>
 
 			<div class="tabbed-content">
 		        <ul class="tabs">
-			        {%for asset_child in node.parent.node_set.all %}
-			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
+				        {%for glue in node.node_parent.all%}
+			        	{% for node in glue.child.node_set.all %}
+		        		{% if node.name == "flags" and "|ASSETS|" in node.desc %}
+			        			<li><a href="#{{node.parent.name|slugify}}">{{node.parent.name}}</a></li>
+			        		{%endif%}
+			        	{%endfor%}
 			        {%endfor%}
 		        </ul>
 		        <div class="tab_container">
-		        	{%for asset_child in node.parent.node_set.all %}
-			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
-				        <div style="display: none;" id="{{asset_child.name}}" class="tab_content">
-				        	<h4>{{asset_child.name}}</h4>
-				            <p>{{asset_child.desc}}</p>
-				        </div>
+			        {%for glue in node.node_parent.all%}
+			        	{% for node in glue.child.node_set.all %}
+			        		{% if node.name == "flags" and "|ASSETS|" in node.desc %}
+			        			<div style="display: none;" id="{{node.parent.name|slugify}}" class="tab_content">
+							        <p>{{node.parent.desc}}</p>
+							    </div>
+			        		{%endif%}
+			        	{%endfor%}
 			        {%endfor%}
 		        </div>
 		      </div>
