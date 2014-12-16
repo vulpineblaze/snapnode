@@ -73,6 +73,14 @@ def invoices(request):
     context = {'latest_node_list': latest_node_list, 'due': due}
     return render(request, 'finance/invoices.html', context)
 
+def invoices_detail(request, node_id):
+    """  Page for viewing all aspects of a bank deposit. """
+    iterator=itertools.count() ###
+
+    node = get_object_or_404(Node, pk=node_id)
+    parent = node.parent
+    return render(request, 'finance/detail.html', {'node': node, 'parent': parent, 'iterator':iterator})
+
 def bank_deposit(request):
     node_list = []
     latest_node_list = Node.objects.order_by('-date_updated')

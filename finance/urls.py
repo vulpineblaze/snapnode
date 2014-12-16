@@ -7,6 +7,7 @@ urlpatterns = patterns('',
 
     url(r'^index/$', views.index, name='index'),
     url(r'^invoices/$', views.invoices),
+    url(r'^invoices/detail/(?P<node_id>\d+)/$', views.invoices_detail),
     url(r'^contact/$', views.contact),
     url(r'^contact/thanks$', views.thanks),
     url(r'^bank_deposit/$', views.bank_deposit),

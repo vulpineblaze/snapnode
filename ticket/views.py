@@ -97,9 +97,9 @@ def new_ticket(request):
 
             status_node.save()
 
-            sent_date_node.parent = ticket_node
-            sent_date_node.name = "sent"
-            sent_date_node.desc = "no"
+            sent_node.parent = ticket_node
+            sent_node.name = "sent"
+            sent_node.desc = "no"
 
             if status_node.desc == 'Completed':
                 sent_node.desc = "yes"

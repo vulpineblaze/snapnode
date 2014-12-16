@@ -10,11 +10,11 @@
 
 {% csrf_token %}
 
-<div class="one-side"><h1 class="title">Ticket Info</h1></div>  
+<div class="one-side"><h1 class="title">Invoice Info</h1></div>  
 	
 	<div class="one-side last">
 		{% if node %}
-			<h1> <a href="/finance/bank_deposit_event/edit/{{node.id}}">Edit</a> bank deposit event edit</h1>
+			<h1> <a href="/finance/bank_deposit_event/edit/{{node.id}}">Edit</a> invoice</h1>
 		{% endif %}
 	</div>
 	 
@@ -22,54 +22,20 @@
 
 	<div class="one-side"><h4>ID: </h4>
 		<div class="name-box">
-			{{ ID.name }}
-			{{ ID.name }}
+			{{ node.id }}
 			</div>
 	</div>
 
-<!--	<div class="one-side last"><h4>Priority: </h4>
-		<div class="name-box">
+	<div class="one-side last"><h4>Previous Invoice Sent: </h4>
+		<div class="name-box righthand">
 			{%for child in node.node_set.all%}
-				{% if child.name == "priority" %}
-					{% if child.desc == "1" %}
-						LOW
-					{% elif child.desc == "2" %}
-						MEDIUM
-					{% elif child.desc == "3" %}
-						HIGH
-					{% endif %}
-				{% endif %}
-
-			{%endfor%}
-			{%for choice in form.priority %}
-				{{ choice }}
-			{% endfor %}
+		        {% if child.name == "date" %}
+					{{ child.desc }}
+				{% endif %}    
+		    {%endfor%}   			
 		</div>
-	</div>
+	</div>	
 
-
-	<div class="one-side"><h4>Customer Name: </h4>
-		{%for glue in node.node_child.all%}
-			<div class="name-box"><a href="/ops/customer/detail/{{glue.parent.pk}}">{{glue.parent.name}}</a></div>
-		{%endfor%}
-		{{form.customer}}
-	</div>
-
-	<div class="one-side last"><h4>Status: </h4>
-		<div class="name-box">
-			{%for child in node.node_set.all%}
-				{% if child.name == "status" %}
-					{{child.desc}}
-				{% endif %}
-
-			{% endfor %}
-			{% for choice in form.status %}
-  				{{ choice }}
-			{% endfor %}
-		</div>
-	</div>
-
--->
 	<div class="one-side"><p><h4>Desc:</h4>
 		<div class="desc-box">
 			{{ node.desc }}
@@ -77,91 +43,56 @@
 		</div>
 	</div>
 
-	<div class="one-side last"><h4>Date Created: </h4>
-		<div class="name-box righthand">
-			{{ node.date_created }}
-		</div>
-	
+
 
 	{% if form  %}	
 		<input type="submit" value="Save" />
 	{% endif %}
 
-	</div>
+	
 
-	<div class="whole"><br><br><h4>Assets: </h4>
-<!-- 	BEGIN TEST CODE //
- -->		{%for glue in node.node_parent.all%}
-			<!-- {{ glue.name }} ; -->
-        	{% for node in glue.child.node_set.all %}
-        		<!-- {{ node.name }}|{{node.desc}}, -->
-        		{% if node.name == "flags" and "|ASSET|" in node.desc %}
+	<div class="whole"><br><br><h4>Tickets: </h4>
+		<div class="tabbed-content">
+			<ul class="tabs">
+				{% for glue in parent.node_parent.all %}
+					<li><a href="#{{ forloop.counter }}">{{ glue.child.name }}</a></li>
+				{% endfor %}
+			</ul>
+			<div class="tab_container">
+				{% for glue in parent.node_parent.all %}
+					<div style="display: none;" id="{{ forloop.counter }}" class="tab_content">
+						{{ glue.child.desc }}<br><br>
 
-			            <h4>{{ node.parent.name }}</h4>
-			            <p>
-			            	{{ node.parent.desc }} <BR>
-			            	{{ node.desc }} <BR>
-			            	count: {{ iterator.next }}<BR>
-			            	All his babbys are below:<BR>
-			            </p>
-			            {%for asset_child in node.parent.node_set.all %}
-			            	Name: {{asset_child.name}}  --and--
-			            	Desc: {{asset_child.desc}}<BR>
-			            {%endfor%}
+						<h6><a href="/tickets/detail/{{glue.child.pk}}">go to ticket</a></h6>
 
-        		{% endif %}
-        	{% endfor %}
-		{%endfor%}
+						<h4>Events</h4>
+						<div class="toggle">
+						{% for child in glue.child.node_set.all %}
+				          	{%for grandchild in child.node_set.all%}   
+					          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
+					          	<h2 class="trigger">+{{ child.name }}</h2>
+					          	<div class="togglebox">
+						          	{{ child.desc }}<BR>
+						          	<h5><p>{%for event in grandchild.parent.node_set.all%}
+						          		{% if event.name == "user" %}
+				                        	Tech: {{event.desc}}
+				                        {% endif %}
+						          		{% if event.name == "hours" %}
+				                            Hours spent working: {{event.desc}} hours 
+				                        {% endif %}
+				                        <br>
+						          	{%endfor%}</h5></p>
+						          	<a href="/ticket/edit_event/{{child.id}}">Edit Event<br><br><br></a>
+						        </div>
+					          {%endif%}
+					        {%endfor%}
+						{% endfor %}
+						</div>
+					</div>					
+				{% endfor %}
+			</div>
+		</div>
 
-
-			<div class="tabbed-content">
-		        <ul class="tabs">
-			        {%for asset_child in node.parent.node_set.all %}
-			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
-			        {%endfor%}
-		        </ul>
-		        <div class="tab_container">
-		        	{%for asset_child in node.parent.node_set.all %}
-			        	<li><a href="#{{asset_child.name}}">{{asset_child.name}}</a></li>
-				        <div style="display: none;" id="{{asset_child.name}}" class="tab_content">
-				        	<h4>{{asset_child.name}}</h4>
-				            <p>{{asset_child.desc}}</p>
-				        </div>
-			        {%endfor%}
-		        </div>
-		      </div>
-
-<h1>Create a <a href="/ticket/new_event/{{node.id}}">New Event</a> for this ticket</h1>
-
-	<h4>Events: </h4>
-	    <div class="toggle">
-
-
-	          {%for child in node.node_set.all%}  <!-- {{child.name}}:child<BR> -->
-	          	{%for grandchild in child.node_set.all%}   <!-- {{grandchild.name}}{{grandchild.desc}}:grandchild<BR> -->
-		          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
-		          <h2 class="trigger">+ {{ grandchild.parent.name }}</h2>
-	        <div class="togglebox">
-	          <div>
-		          	{{ grandchild.parent.desc }}<BR>
-		          	{%for event in grandchild.parent.node_set.all%}
-		          		{% if event.name == "hours" %}
-                                        	<h5><p>Hours spent working: {{event.desc}} hours </h5></p>
-                               		{% endif %}
-		          	{%endfor%}
-
-
-	          </div>
-	        </div>
-		          {%endif%}
-		        {%endfor%}
-	          {%endfor%}
-
-
-
-
-	    </div>
-	</div>
 </form>
 
 {%endblock%}

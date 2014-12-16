@@ -66,6 +66,8 @@
 					<tbody>
 					{% for node in latest_node_list %}
 						{%for child in node.node_set.all%}
+		                        {% if child.name == "date" %}
+		                        	{% if due <= child.desc %}
 								        <tr>
 								        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
 								          	<td>{{ node.parent.name }}</td>
@@ -73,6 +75,8 @@
 							                    {{ child.desc }}
 								          	</td>
 								        </tr>
+								    {% endif %}
+								{% endif %}    
 		                {%endfor%}   
 			        {%endfor%}
 					</tbody>
