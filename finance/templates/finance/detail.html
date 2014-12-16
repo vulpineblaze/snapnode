@@ -42,7 +42,13 @@
 		</div>
 	</div>	
 
-	<div class="one-side last"><h4>STATUS: </h4>
+	<div class="one-side last"><h4>Subtotal: </h4>
+		<div class="name-box">
+			${{subtotal}}
+		</div>
+	</div>	
+
+	<div class="one-side"><h4>Status: </h4>
 		<div class="name-box">
 			{%for child in node.node_set.all%}
 		        {% if child.name == "status" %}
@@ -53,16 +59,9 @@
 		</div>
 	</div>
 
-	<div class="one-side"><p><h4>Comments:</h4>
-		<div class="desc-box">
-			{{ node.desc }}
-			{{ form.desc }}
-		</div>
-	</div>
-
 	<div class="one-side last"><h4>Other Costs: </h4>
 		<div class="name-box">
-			{%for child in node.node_set.all%}
+			${%for child in node.node_set.all%}
 		        {% if child.name == "cost_other" %}
 					{{ child.desc }}
 				{% endif %}    
@@ -71,7 +70,20 @@
 
 		    <br><br><h6>Note: For discounts add a "-" before dollar amount.</h6>
 		</div>
+	</div>	
+
+	<div class="one-side"><p><h4>Comments:</h4>
+		<div class="desc-box">
+			{{ node.desc }}
+			{{ form.desc }}
+		</div>
 	</div>
+
+	<div class="one-side last"><h4>Total: </h4>
+		<div class="name-box">
+			${{total}}		
+		</div>
+	</div>	
 
 	{% if form  %}	
 		<input type="submit" value="Save" />

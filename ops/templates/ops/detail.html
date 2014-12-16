@@ -32,7 +32,7 @@
       {% if form %}{{ form.rate }}{% endif %}
 			{%for child in node.node_set.all%}
 				{% if child.name == "rate" %}
-					{{ child.desc }}
+					${{ child.desc }} / hr
 				{% endif %}
 			{%endfor%}
 			</div>

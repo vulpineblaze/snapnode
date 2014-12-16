@@ -59,6 +59,17 @@ def invoices(request):
     queryset = Node.objects.filter(pk__in=node_list) 
     latest_node_list = queryset   
 
+
+    context = {'latest_node_list': latest_node_list}
+    return render(request, 'finance/invoices.html', context)
+
+def invoices_detail(request, node_id):
+    """  Page for viewing all aspects of an invoice. """
+    iterator=itertools.count() ###
+
+    node = get_object_or_404(Node, pk=node_id)
+    parent = node.parent
+
     month = int(time.strftime("%m"))
     if month == 1:
         month = 12
@@ -70,16 +81,55 @@ def invoices(request):
     date = time.mktime(date)
     due = time.strftime("%m/%d/%Y", time.gmtime(date))
 
-    context = {'latest_node_list': latest_node_list, 'due': due, 'day': day, 'month': month, 'year': year}
-    return render(request, 'finance/invoices.html', context)
+    hours = 0
+    rate = 0
+    other = 0
 
-def invoices_detail(request, node_id):
-    """  Page for viewing all aspects of an invoice. """
-    iterator=itertools.count() ###
+    for child in node.parent.node_set.all():
+        if child.name == 'rate':
+            rate = float(child.desc)
 
-    node = get_object_or_404(Node, pk=node_id)
-    parent = node.parent
-    return render(request, 'finance/detail.html', {'node': node, 'parent': parent, 'iterator':iterator})
+    for child in node.node_set.all():
+        if child.name == 'cost_other':
+            other = float(child.desc)
+
+    for glue in parent.node_parent.all():
+        for child in node.node_set.all():
+            if child.name == "status":
+                if child.desc == "Open":
+                    for child in node.node_set.all():
+                        if child.name == "date":
+                            for datecheck in glue.child.node_set.all():
+                                if datecheck.name == "date":
+                                    if datecheck.desc > child.desc:
+                                        for child in glue.child.node_set.all():
+                                            for grandchild in child.node_set.all():   
+                                                if grandchild.name == "flags" and "|EVENT|" in grandchild.desc:
+                                                    for event in grandchild.parent.node_set.all():
+                                                        if event.name == "hours":
+                                                            if event.desc != '0':
+                                                                hours = int(event.desc)
+                elif child.desc == "Printed":  
+                    for child in node.node_set.all():
+                        if child.name == "date":
+                            for datecheck in glue.child.node_set.all():
+                                if datecheck.name == "date":
+                                    if datecheck.desc > child.desc:
+                                        for child in node.node_set.all():
+                                            if child.name == "print_date":  
+                                                if datecheck.desc < child.desc: 
+                                                    for child in glue.child.node_set.all():
+                                                        for grandchild in child.node_set.all():   
+                                                            if grandchild.name == "flags" and "|EVENT|" in grandchild.desc:
+                                                                for event in grandchild.parent.node_set.all():
+                                                                    if event.name == "hours":
+                                                                        if event.desc != ' ':
+                                                                            hours = int(event.desc)                                                                                              
+
+    subtotal = hours * rate
+    total = subtotal + other
+
+    return render(request, 'finance/detail.html', {'node': node, 'parent': parent, 'iterator':iterator, 'due': due, 'subtotal': subtotal, 'total': total})
 
 def edit_invoices(request, node_id):
     """  Page for editing an invoice. """

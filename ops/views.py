@@ -139,7 +139,7 @@ def new_customer(request):
             
             cost_other_node.parent = invoice_node
             cost_other_node.name = "cost_other"
-            cost_other_node.desc = ""
+            cost_other_node.desc = "0"
 
             cost_other_node.save()
 
