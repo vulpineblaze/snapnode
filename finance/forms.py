@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 from core.models import *
 
-class InvoiceForm(forms.Form):
+class ContactForm(forms.Form):
     subject = forms.CharField()
     email = forms.EmailField()
     message = forms.CharField()
@@ -34,6 +34,28 @@ class NodeForm(forms.ModelForm):
     class Meta:
         model = Node
         fields = ('parent', 'name', 'desc')
+
+INVOICE_STATUS_CHOICES = (('Open','Open'),
+                            ('Printed','Printed'))
+
+class InvoiceForm(forms.ModelForm):
+
+    latest_node_list = Node.objects.order_by('-date_updated')
+    latest_glue_list = Glue.objects.order_by('-date_updated')
+
+    cost_other = []
+    status = []
+
+    # template = loader.get_template('core/index.html')
+
+    cost_other = forms.CharField(label="Discounts / Extra Fees")
+
+    status = forms.ChoiceField(label="Status"
+                                ,choices=INVOICE_STATUS_CHOICES)
+
+    class Meta:
+        model = Node
+        fields = ( "desc","cost_other","status")
 
 class NewBankDepositForm(forms.ModelForm):
 

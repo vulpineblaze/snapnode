@@ -14,7 +14,7 @@
 	
 	<div class="one-side last">
 		{% if node %}
-			<h1> <a href="/finance/bank_deposit_event/edit/{{node.id}}">Edit</a> invoice</h1>
+			<h1> <a href="/finance/invoices/edit/{{node.id}}">Edit</a> invoice</h1>
 		{% endif %}
 	</div>
 	 
@@ -26,19 +26,6 @@
 			</div>
 	</div>
 
-	<div class="one-side last"><h4>Customer: </h4>
-		<div class="name-box righthand">
-			{{ node.parent.name }}			
-		</div>
-	</div>	
-
-	<div class="one-side"><p><h4>Desc:</h4>
-		<div class="desc-box">
-			{{ node.desc }}
-			{{ form.desc }}
-		</div>
-	</div>
-
 	<div class="one-side last"><h4>Previous Invoice Sent: </h4>
 		<div class="name-box righthand">
 			{%for child in node.node_set.all%}
@@ -47,7 +34,44 @@
 				{% endif %}    
 		    {%endfor%}   			
 		</div>
+	</div>		
+
+	<div class="one-side"><h4>Customer: </h4>
+		<div class="name-box righthand">
+			{{ node.parent.name }}			
+		</div>
 	</div>	
+
+	<div class="one-side last"><h4>STATUS: </h4>
+		<div class="name-box">
+			{%for child in node.node_set.all%}
+		        {% if child.name == "status" %}
+					{{ child.desc }}
+				{% endif %}    
+		    {%endfor%} 
+		    {{form.status}}
+		</div>
+	</div>
+
+	<div class="one-side"><p><h4>Comments:</h4>
+		<div class="desc-box">
+			{{ node.desc }}
+			{{ form.desc }}
+		</div>
+	</div>
+
+	<div class="one-side last"><h4>Other Costs: </h4>
+		<div class="name-box">
+			{%for child in node.node_set.all%}
+		        {% if child.name == "cost_other" %}
+					{{ child.desc }}
+				{% endif %}    
+		    {%endfor%} 
+		    {{form.cost_other}}
+
+		    <br><br><h6>Note: For discounts add a "-" before dollar amount.</h6>
+		</div>
+	</div>
 
 	{% if form  %}	
 		<input type="submit" value="Save" />
@@ -67,7 +91,7 @@
 					<div style="display: none;" id="{{ forloop.counter }}" class="tab_content">
 						{{ glue.child.desc }}<br><br>
 
-						<h6><a href="/tickets/detail/{{glue.child.pk}}">go to ticket</a></h6>
+						<h6><a href="/ticket/detail/{{glue.child.pk}}">go to ticket</a></h6>
 
 						<h4>Events</h4>
 						<div class="toggle">

@@ -68,8 +68,9 @@ def new_customer(request):
             invoice_node = Node.objects.create()
             in_flag_node = Node.objects.create()
             date_node = Node.objects.create()
+            print_date_node = Node.objects.create()
             cost_other_node = Node.objects.create()
-
+            status_node = Node.objects.create()
 
             # record.save()
             customer_node.name = form.cleaned_data['name']
@@ -128,6 +129,12 @@ def new_customer(request):
             date_node.name = "date"
             date_node.desc = time.strftime("%m/%d/%Y")
 
+            date_node.save()   
+
+            print_date_node.parent = invoice_node
+            print_date_node.name = "print_date"
+            print_date_node.desc = " "
+
             date_node.save()            
             
             cost_other_node.parent = invoice_node
@@ -136,6 +143,11 @@ def new_customer(request):
 
             cost_other_node.save()
 
+            status_node.parent = invoice_node
+            status_node.name = "status"
+            status_node.desc = "Open"
+
+            status_node.save()
 
             #customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
             #                                    child=ticket_node,

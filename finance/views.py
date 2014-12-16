@@ -87,20 +87,19 @@ def edit_invoices(request, node_id):
     form_action = "/finance/invoices/edit/" + str(node_id)
 
     invoice_node = get_object_or_404(Node, pk=node_id)
-    primName_node = Node.objects.get(parent=invoice_node, name='cost_other')
-    primPhone_node = Node.objects.get(parent=invoice_node, name='status')
+    cost_other_node = Node.objects.get(parent=invoice_node, name='cost_other')
+    status_node = Node.objects.get(parent=invoice_node, name='status')
+    print_date_node = Node.objects.get(parent=invoice_node, name='print_date')
 
     if request.method == 'POST':
         form = InvoiceForm(request.POST)
         if form.is_valid():
 
-            invoice_node.desc = form.cleaned_data['invoice']
-            invoice_node.desc = " "
+            invoice_node.desc = form.cleaned_data['desc']
 
             invoice_node.save()         
             
             cost_other_node.desc = form.cleaned_data['cost_other']
-            cost_other_node.desc = ""
 
             cost_other_node.save()
 
@@ -108,8 +107,7 @@ def edit_invoices(request, node_id):
             status_node.save()
 
             if status_node.desc == 'Printed':
-                if print_date.desc == ' ':
-                    print_date_node.desc = form.cleaned_data['print_date']
+                if print_date_node.desc == ' ':
                     print_date_node.desc = time.strftime("%m/%d/%Y")
 
                     print_date_node.save()
@@ -157,7 +155,13 @@ def edit_invoices(request, node_id):
 
                     new_print_date_node.save()
 
-    return render(request, 'finance/detail.html', {'node': node, 'parent': parent, 'iterator':iterator})
+            return HttpResponseRedirect('/finance/invoices/detail/'+str(invoice_node.id))
+    else:
+        form = InvoiceForm( initial = { 'invoice':invoice_node.desc,
+                                            'cost_other':cost_other_node.desc,
+                                            'status':status_node.desc
+                                } )
+    return render(request, 'finance/detail.html', {'form': form,'action':'edit'})
 
 def bank_deposit(request):
     node_list = []
@@ -564,7 +568,7 @@ def pr_pdf(request):
 
 def contact(request):
     if request.method == 'POST':
-        form = InvoiceForm(request.POST)
+        form = ContactForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             send_mail(
