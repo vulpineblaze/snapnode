@@ -83,41 +83,137 @@
 		<div class="tabbed-content">
 			<ul class="tabs">
 				{% for glue in parent.node_parent.all %}
-					<li><a href="#{{ forloop.counter }}">{{ glue.child.name }}</a></li>
+					{% for child in node.node_set.all %}
+						{% if child.name == "status"%}
+							{% if child.desc == "Open"%}
+								{% for child in node.node_set.all %}
+									{% if child.name == "date" %}
+										{% for datecheck in glue.child.node_set.all %}
+											{% if datecheck.name == "date" %}
+												{% if datecheck.desc > child.desc %}
+												<li><a href="#{{ glue.child.name|slugify }}">{{ glue.child.name }}</a></li>
+												{% endif %}			
+											{% endif %}
+										{% endfor %}
+									{%endif%}
+								{%endfor%}
+							{% elif child.desc == "Printed" %}
+								{% for child in node.node_set.all %}
+									{% if child.name == "date"%}
+										{% for datecheck in glue.child.node_set.all %}
+											{% if datecheck.name == "date" %}
+												{% if datecheck.desc > child.desc %}										
+													{% for child in node.node_set.all %}
+														{% if child.name == "print_date"%}	
+															{% if datecheck.desc < child.desc %}		
+															<li><a href="#{{ glue.child.name|slugify }}">{{ glue.child.name }}</a></li>
+															{%endif%}
+														{%endif%}
+													{%endfor%}
+												{% endif %}			
+											{% endif %}
+										{% endfor %}
+									{%endif%}
+								{%endfor%}
+							{%endif%}
+						{%endif%}
+					{% endfor %}
 				{% endfor %}
 			</ul>
 			<div class="tab_container">
 				{% for glue in parent.node_parent.all %}
-					<div style="display: none;" id="{{ forloop.counter }}" class="tab_content">
-						{{ glue.child.desc }}<br><br>
+					{% for child in node.node_set.all %}
+						{% if child.name == "status"%}
+							{% if child.desc == "Open"%}
+								{% for child in node.node_set.all %}
+									{% if child.name == "date" %}
+										{% for datecheck in glue.child.node_set.all %}
+											{% if datecheck.name == "date" %}
+												{% if datecheck.desc > child.desc %}
+													<div style="display: none;" id="{{ glue.child.name|slugify }}" class="tab_content">
+														{{ glue.child.desc }}<br>
+														<h6><a href="/ticket/detail/{{glue.child.pk}}">go to ticket</a></h6>
 
-						<h6><a href="/ticket/detail/{{glue.child.pk}}">go to ticket</a></h6>
+														<h4>Events</h4>
+														<div class="toggle">
+														{% for child in glue.child.node_set.all %}
+												          	{%for grandchild in child.node_set.all%}   
+													          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
+													          	<h2 class="trigger">+{{ child.name }}</h2>
+													          	<div class="togglebox">
+														          	{{ child.desc }}<BR>
+														          	<h5><p>{%for event in grandchild.parent.node_set.all%}
+														          		{% if event.name == "user" %}
+												                        	Tech: {{event.desc}}
+												                        {% endif %}
+														          		{% if event.name == "hours" %}
+												                            Hours spent working: {{event.desc}} hours 
+												                        {% endif %}
+												                        <br>
+														          	{%endfor%}</h5></p>
+														          	<a href="/ticket/edit_event/{{child.id}}">Edit Event<br><br><br></a>
+														        </div>
+													          {%endif%}
+													        {%endfor%}
+														{% endfor %}
+														</div>
+													</div>
+												{% endif %}			
+											{% endif %}
+										{% endfor %}
+									{%endif%}
+								{%endfor%}
+							{% elif child.desc == "Printed" %}
+								{% for child in node.node_set.all %}
+									{% if child.name == "date"%}
+										{% for datecheck in glue.child.node_set.all %}
+											{% if datecheck.name == "date" %}
+												{% if datecheck.desc > child.desc %}										
+													{% for child in node.node_set.all %}
+														{% if child.name == "print_date"%}	
+															{% if datecheck.desc < child.desc %}
+														<div style="display: none;" id="{{ glue.child.name|slugify }}" class="tab_content">
 
-						<h4>Events</h4>
-						<div class="toggle">
-						{% for child in glue.child.node_set.all %}
-				          	{%for grandchild in child.node_set.all%}   
-					          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
-					          	<h2 class="trigger">+{{ child.name }}</h2>
-					          	<div class="togglebox">
-						          	{{ child.desc }}<BR>
-						          	<h5><p>{%for event in grandchild.parent.node_set.all%}
-						          		{% if event.name == "user" %}
-				                        	Tech: {{event.desc}}
-				                        {% endif %}
-						          		{% if event.name == "hours" %}
-				                            Hours spent working: {{event.desc}} hours 
-				                        {% endif %}
-				                        <br>
-						          	{%endfor%}</h5></p>
-						          	<a href="/ticket/edit_event/{{child.id}}">Edit Event<br><br><br></a>
-						        </div>
-					          {%endif%}
-					        {%endfor%}
-						{% endfor %}
-						</div>
-					</div>					
-				{% endfor %}
+															{{ glue.child.desc }}<br><br>
+
+															<h6><a href="/ticket/detail/{{glue.child.pk}}">go to ticket</a></h6>
+
+															<h4>Events</h4>
+															<div class="toggle">
+															{% for child in glue.child.node_set.all %}
+													          	{%for grandchild in child.node_set.all%}   
+														          {%if grandchild.name == "flags" and "|EVENT|" in grandchild.desc %}
+														          	<h2 class="trigger">+{{ child.name }}</h2>
+														          	<div class="togglebox">
+															          	{{ child.desc }}<BR>
+															          	<h5><p>{%for event in grandchild.parent.node_set.all%}
+															          		{% if event.name == "user" %}
+													                        	Tech: {{event.desc}}
+													                        {% endif %}
+															          		{% if event.name == "hours" %}
+													                            Hours spent working: {{event.desc}} hours 
+													                        {% endif %}
+													                        <br>
+															          	{%endfor%}</h5></p>
+															          	<a href="/ticket/edit_event/{{child.id}}">Edit Event<br><br><br></a>
+															        </div>
+														          {%endif%}
+														        {%endfor%}
+															{% endfor %}
+															</div>
+														</div>	
+															{%endif%}
+														{%endif%}
+													{%endfor%}
+												{% endif %}			
+											{% endif %}
+										{% endfor %}
+									{%endif%}
+								{%endfor%}
+							{%endif%}
+						{%endif%}
+					{% endfor %}
+				{% endfor %}																			
 			</div>
 		</div>
 

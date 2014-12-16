@@ -70,7 +70,7 @@ def new_ticket(request):
             priority_node = Node.objects.create()
             flags_node = Node.objects.create()
             status_node = Node.objects.create()
-            sent_node = Node.objects.create()
+            date_node = Node.objects.create()
             # customer_node = Node.objects.create()
 
             # record.save()
@@ -91,17 +91,17 @@ def new_ticket(request):
 
             flags_node.save()
 
+            date_node.parent = ticket_node
+            date_node.name = "date"
+            date_node.desc = time.strftime("%m/%d/%Y")
+
+            date_node.save()
+
             status_node.parent = ticket_node
             status_node.name = "status"
             status_node.desc = form.cleaned_data['status']
 
             status_node.save()
-
-            sent_node.parent = ticket_node
-            sent_node.name = "sent"
-            sent_node.desc = "no"
-
-            sent_node.save()
 
             customer_glue = Glue.objects.create(parent=form.cleaned_data['customer'],
                                                 child=ticket_node,
@@ -145,7 +145,6 @@ def edit(request, node_id):
     ticket_node = get_object_or_404(Node, pk=node_id)
     priority_node = Node.objects.get(parent=ticket_node,name='priority')
     status_node = Node.objects.get(parent=ticket_node,name='status')
-    sent_node = Node.objects.get(parent=ticket_node,name='sent')
 
     customer_node = Glue.objects.get(child=ticket_node,name='CUSTOMER has TICKET').parent
 
@@ -182,8 +181,6 @@ def edit(request, node_id):
             status_node.desc = form.cleaned_data['status']
 
             status_node.save()
-
-            sent_node.save()
 
 
 
