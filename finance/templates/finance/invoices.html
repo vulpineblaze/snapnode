@@ -34,17 +34,23 @@
 					<tbody>
 					{% for node in latest_node_list %}
 						{%for child in node.node_set.all%}
-		                        {% if child.name == "date" %}
-		                        	{% if due <= child.desc %}
-								        <tr>
-								        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
-								          	<td>{{ node.parent.name }}</td>
-								          	<td>
-							                    {{ child.desc }}
-								          	</td>
-								        </tr>
-								    {% endif %}
-								{% endif %}    
+							{% if child.name == "status" %}
+							{% if child.desc == "Open" %}
+								{%for child in node.node_set.all%}
+			                        {% if child.name == "date" %}
+			                        	{% if due >= child.desc %}
+									        <tr>
+									        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
+									          	<td>{{ node.parent.name }}</td>
+									          	<td>
+								                    {{ child.desc }}
+									          	</td>
+									        </tr>
+									    {% endif %}
+									{% endif %}  
+								{%endfor%} 
+							{% endif %} 
+							{% endif %}
 		                {%endfor%}   
 			        {%endfor%}
 					</tbody>
@@ -66,17 +72,21 @@
 					<tbody>
 					{% for node in latest_node_list %}
 						{%for child in node.node_set.all%}
-		                        {% if child.name == "date" %}
-		                        	{% if due <= child.desc %}
-								        <tr>
-								        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
-								          	<td>{{ node.parent.name }}</td>
-								          	<td>
-							                    {{ child.desc }}
-								          	</td>
-								        </tr>
-								    {% endif %}
-								{% endif %}    
+							{% if child.name == "status" %}
+							{% if child.desc == "Open" %}
+								{%for child in node.node_set.all%}
+			                        {% if child.name == "date" %}
+									        <tr>
+									        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
+									          	<td>{{ node.parent.name }}</td>
+									          	<td>
+								                    {{ child.desc }}
+									          	</td>
+									        </tr>
+									{% endif %}  
+								{%endfor%} 
+							{% endif %} 
+							{% endif %}
 		                {%endfor%}   
 			        {%endfor%}
 					</tbody>
@@ -89,17 +99,31 @@
 			    <table id="myTable3" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
 					<thead>
 					<tr>
-			          <th><h4>Customer</h4></th>
-			          <th><h4>Date Sent</h4></th>
+						<th><h4>Invoice ID</h4></th>
+			          	<th><h4>Customer</h4></th>
+			          	<th><h4>Date Sent</h4></th>
 					</tr>
 					</thead>
 					<tbody>
 					{% for node in latest_node_list %}
-			        <tr>
-			          <td>Client 1</td>
-			          <td>MM/DD/YY</td>
-			        </tr>
-			        {% endfor %}
+						{%for child in node.node_set.all%}
+							{% if child.name == "status" %}
+							{% if child.desc == "Printed" %}
+								{%for child in node.node_set.all%}
+			                        {% if child.name == "date" %}
+									        <tr>
+									        	<td><a href="/finance/invoices/detail/{{ node.id }}/">{{ node.id }}</a></td>
+									          	<td>{{ node.parent.name }}</td>
+									          	<td>
+								                    {{ child.desc }}
+									          	</td>
+									        </tr>
+									{% endif %}  
+								{%endfor%} 
+							{% endif %} 
+							{% endif %}
+		                {%endfor%}   
+			        {%endfor%}
 					</tbody>
 				</table>
 

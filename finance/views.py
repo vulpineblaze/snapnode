@@ -66,11 +66,11 @@ def invoices(request):
         month -= 1
     day = int(time.strftime("%d"))
     year = int(time.strftime("%Y"))
-    date = (month, day, year, 0, 0, 0, 0, 0, 0)
+    date = (year, month, day, 0, 0, 0, 0, 0, 0)
     date = time.mktime(date)
     due = time.strftime("%m/%d/%Y", time.gmtime(date))
 
-    context = {'latest_node_list': latest_node_list, 'due': due}
+    context = {'latest_node_list': latest_node_list, 'due': due, 'day': day, 'month': month, 'year': year}
     return render(request, 'finance/invoices.html', context)
 
 def invoices_detail(request, node_id):
